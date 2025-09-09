@@ -2,6 +2,7 @@
 
 import { useState, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { lessons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';

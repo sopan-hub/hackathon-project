@@ -8,6 +8,7 @@ export const navItems: NavItem[] = [
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.messageCircle },
   { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
+  { href: '/badges', label: 'Badges', icon: Icons.award },
   { href: '/profile', label: 'Profile', icon: Icons.user },
 ];
 
@@ -235,4 +236,10 @@ export const userBadges: Badge[] = [
     { id: '4', name: 'Aqua Saver', description: 'Aced the water conservation quiz.', icon: Icons.droplets },
     { id: '5', name: 'First Challenge', description: 'Completed your first real-world challenge.', icon: Icons.star },
     { id: '6', name: 'Green Thumb', description: 'Planted a tree.', icon: Icons.treePine },
+    { id: '7', name: 'Energy Expert', description: 'Completed the renewable energy lesson.', icon: Icons.bolt },
+    { id: '8', name: 'Community Contributor', description: 'Shared an idea in the community forum.', icon: Icons.users },
+    { id: '9', name: 'Eco-Learner', description: 'Completed 5 lessons.', icon: Icons.bookMarked },
+    { id: '10', name: 'Challenge Conqueror', description: 'Completed 3 challenges.', icon: Icons.award },
+    { id: '11', name: 'Wind Whisperer', description: 'Learned about wind power.', icon: Icons.wind },
+    { id: '12', name: 'Climate Conscious', description: 'Finished the carbon cycle lesson.', icon: Icons.shieldCheck },
 ];

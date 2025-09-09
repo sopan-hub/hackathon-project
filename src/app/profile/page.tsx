@@ -11,6 +11,9 @@ import { Separator } from "@/components/ui/separator";
 import { Icons } from "@/components/icons";
 
 export default function ProfilePage() {
+    const earnedBadges = userBadges.slice(0, 6); // Simulate user having earned some badges
+    const unearnedBadges = userBadges.slice(6);
+
   return (
     <div className="space-y-8">
       <div className="eco-card">
@@ -30,7 +33,7 @@ export default function ProfilePage() {
                 </div>
                 <Separator orientation="vertical" className="h-10"/>
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">{userBadges.length}</div>
+                  <div className="text-2xl font-bold text-primary">{earnedBadges.length}</div>
                   <div className="text-xs text-muted-foreground">Badges</div>
                 </div>
               </div>
@@ -44,7 +47,7 @@ export default function ProfilePage() {
           My Badges
         </h2>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {userBadges.map((badge) => (
+          {earnedBadges.map((badge) => (
             <div key={badge.id} className="eco-card text-center p-6">
                 <div className="eco-card-title !text-lg !self-center !text-center col-span-2">{badge.name}</div>
                 <div className="eco-card-content col-span-2 text-center items-center flex flex-col">
@@ -55,15 +58,17 @@ export default function ProfilePage() {
                 </div>
             </div>
           ))}
-           <div className="eco-card text-center p-6">
-                <div className="eco-card-title !text-lg !self-center !text-center col-span-2 text-muted-foreground">Next Badge</div>
+           {unearnedBadges.map((badge) => (
+            <div key={badge.id} className="eco-card text-center p-6 opacity-50">
+                <div className="eco-card-title !text-lg !self-center !text-center col-span-2 text-muted-foreground">{badge.name}</div>
                 <div className="eco-card-content col-span-2 text-center items-center flex flex-col">
                   <div className="p-4 bg-muted rounded-full mb-4">
-                      <Icons.star className="h-10 w-10 text-muted-foreground" />
+                      <badge.icon className="h-10 w-10 text-muted-foreground" />
                   </div>
-                  <p className="text-sm text-muted-foreground">Complete more challenges!</p>
+                  <p className="text-sm text-muted-foreground">{badge.description}</p>
                 </div>
             </div>
+          ))}
         </div>
       </div>
     </div>

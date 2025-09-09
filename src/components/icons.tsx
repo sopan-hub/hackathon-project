@@ -26,6 +26,12 @@ import {
   Zap,
   Calendar,
   Repeat,
+  Award,
+  Bolt,
+  BookMarked,
+  ShieldCheck,
+  Users,
+  Wind
 } from 'lucide-react';
 
 export const Icons = {
@@ -56,4 +62,10 @@ export const Icons = {
   zap: Zap,
   calendar: Calendar,
   repeat: Repeat,
+  award: Award,
+  bolt: Bolt,
+  bookMarked: BookMarked,
+  shieldCheck: ShieldCheck,
+  users: Users,
+  wind: Wind,
 };

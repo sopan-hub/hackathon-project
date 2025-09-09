@@ -11,9 +11,10 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
 
-export default function QuizPage({ params: {id, chapter: chapterParam} }: { params: { id: string; chapter: string } }) {
+export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
   const router = useRouter();
   const { toast } = useToast();
+  const { id, chapter: chapterParam } = params;
   const lesson = lessons.find((l) => l.id === id);
   const chapterIndex = parseInt(chapterParam, 10);
   

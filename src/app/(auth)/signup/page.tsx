@@ -44,7 +44,7 @@ export default function SignupPage() {
       });
       toast({
         title: "Account Created!",
-        description: "You can now log in with your new credentials.",
+        description: "Welcome to EcoChallenge!",
       });
       router.push('/'); // Redirect to dashboard after signup
     }, 1500);

@@ -2,9 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  CardContent,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getPersonalizedLessonSuggestions } from "@/ai/flows/personalized-lesson-suggestions";
@@ -47,12 +44,12 @@ export function DashboardClient() {
   }, []);
 
   return (
-     <div className="eco-card">
-      <div className="eco-card-title">Personalized For You</div>
-      <div className="eco-card-icon">
+     <div className="card">
+      <div className="card-title">Personalized For You</div>
+      <div className="card-icon">
         <Icons.lightbulb className="bg-gradient-to-r from-yellow-400 to-orange-500" />
       </div>
-      <CardContent className="eco-card-content !p-0 space-y-4">
+      <div className="card-content space-y-4">
         <p className="text-muted-foreground">
           Based on your recent activity, we suggest these lessons for you.
         </p>
@@ -81,7 +78,14 @@ export function DashboardClient() {
         {!loading && suggestions?.suggestedLessons.length === 0 && (
             <p className="text-center text-muted-foreground">Great job! No specific suggestions for now.</p>
         )}
-      </CardContent>
+      </div>
+       <div className="card-bar" />
+        <div className="card-footer">
+            <Button variant="outline" className="w-full">
+                <Icons.lightbulb className="mr-2 h-4 w-4" />
+                Ask your Personal Eco-Coach
+            </Button>
+        </div>
     </div>
   );
 }

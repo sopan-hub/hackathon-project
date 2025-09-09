@@ -1,10 +1,6 @@
 import Link from "next/link";
 import {
-  Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -69,18 +65,19 @@ export default function Dashboard() {
         <div className="lg:col-span-2 space-y-6">
           <DashboardClient />
           
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline">Ongoing Challenges</CardTitle>
-              <CardDescription>
+          <div className="eco-card">
+            <div className="eco-card-title">Ongoing Challenges</div>
+            <div className="eco-card-icon">
+              <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+            </div>
+            <CardContent className="eco-card-content !p-0 space-y-4">
+              <p className="text-muted-foreground">
                 Participate and earn bonus eco-points.
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </p>
               {challenges.slice(0, 2).map((challenge) => (
                 <div
                   key={challenge.id}
-                  className="flex items-center gap-4 p-2 rounded-lg hover:bg-secondary/50"
+                  className="flex items-center gap-4 p-2 rounded-lg hover:bg-black/5"
                 >
                   <img
                     alt={challenge.title}
@@ -106,17 +103,18 @@ export default function Dashboard() {
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </div>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="font-headline">Community Spotlight</CardTitle>
-            <CardDescription>
+        <div className="eco-card">
+          <div className="eco-card-title">Community Spotlight</div>
+           <div className="eco-card-icon">
+                <Icons.messageCircle className="bg-gradient-to-r from-blue-400 to-purple-500" />
+            </div>
+          <CardContent className="eco-card-content !p-0 space-y-4">
+            <p className="text-muted-foreground">
               Latest ideas from fellow eco-challengers.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </p>
             {communityPosts.slice(0, 3).map((post) => (
               <div key={post.id} className="flex items-start gap-4">
                 <Avatar>
@@ -141,7 +139,7 @@ export default function Dashboard() {
               </Link>
             </Button>
           </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );

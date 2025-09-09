@@ -4,11 +4,7 @@ import Image from "next/image";
 import { lessons } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/icons";
@@ -47,19 +43,22 @@ export default function LessonPage({ params }: { params: { id: string } }) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <Card>
-        <CardHeader>
-          <div className="mb-4">
-            <Link href="/lessons" className="text-sm text-primary hover:underline">
+      <div className="eco-card">
+         <div className="eco-card-title !normal-case !text-4xl">
+            <Link href="/lessons" className="text-sm text-primary hover:underline block mb-4">
               &larr; Back to Lessons
             </Link>
-          </div>
+            {lesson.title}
+        </div>
+        <div className="eco-card-icon">
+            <Icons.bookOpen className="bg-gradient-to-r from-green-400 to-blue-500" />
+        </div>
+        <CardContent className="eco-card-content !p-0">
           <Badge variant="default" className="w-fit mb-2">{lesson.ecoPoints} Eco-Points</Badge>
-          <CardTitle className="text-4xl font-headline">{lesson.title}</CardTitle>
-          <CardDescription className="text-lg">{lesson.description}</CardDescription>
-        </CardHeader>
-        <CardContent className="prose prose-stone dark:prose-invert max-w-none space-y-4">
-          {renderMarkdown(lesson.content)}
+          <p className="text-lg text-muted-foreground">{lesson.description}</p>
+          <div className="prose prose-stone dark:prose-invert max-w-none space-y-4 mt-4">
+            {renderMarkdown(lesson.content)}
+          </div>
           <div className="mt-8 pt-6 border-t">
             <h3 className="text-xl font-bold mb-4 font-headline">Ready to test your knowledge?</h3>
             <p className="text-muted-foreground mb-4">Complete the quiz to earn your eco-points and solidify your learning.</p>
@@ -70,7 +69,7 @@ export default function LessonPage({ params }: { params: { id: string } }) {
             </Button>
           </div>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

@@ -5,12 +5,8 @@ import { notFound, useRouter } from 'next/navigation';
 import { lessons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import {
-  Card,
   CardContent,
-  CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -54,35 +50,36 @@ export default function QuizPage({ params }: { params: { id: string } }) {
   if (showResults) {
     return (
       <div className="max-w-2xl mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-3xl font-headline text-center">Quiz Results</CardTitle>
-            <CardDescription className="text-center">You scored</CardDescription>
-          </CardHeader>
-          <CardContent className="flex flex-col items-center gap-4">
-             <div className="relative h-32 w-32">
-                <svg className="h-full w-full" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-secondary" strokeWidth="2"></circle>
-                    <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-primary" strokeWidth="2" strokeDasharray={`${(score / quiz.questions.length) * 100}, 100`} strokeDashoffset="0" transform="rotate(-90 18 18)"></circle>
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold">{score}/{quiz.questions.length}</div>
-             </div>
-             <p className="text-lg font-medium">{score / quiz.questions.length > 0.7 ? "Excellent Work!" : "Good Effort!"}</p>
-             <p className="text-muted-foreground text-center">You've earned {lesson.ecoPoints} eco-points!</p>
-          </CardContent>
-          <CardFooter className="flex-col gap-4">
-            <Button onClick={() => router.push('/lessons')} className="w-full">
-              Back to Lessons
-            </Button>
-            <Button onClick={() => {
-                setCurrentQuestionIndex(0);
-                setSelectedAnswers([]);
-                setShowResults(false);
-            }} variant="outline" className="w-full">
-              Retake Quiz
-            </Button>
-          </CardFooter>
-        </Card>
+        <div className="eco-card">
+           <div className="eco-card-title">Quiz Results</div>
+            <div className="eco-card-icon">
+                <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+            </div>
+            <CardContent className="eco-card-content !p-0 flex flex-col items-center gap-4">
+                 <p className="text-muted-foreground text-center">You scored</p>
+                 <div className="relative h-32 w-32">
+                    <svg className="h-full w-full" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-secondary" strokeWidth="2"></circle>
+                        <circle cx="18" cy="18" r="16" fill="none" className="stroke-current text-primary" strokeWidth="2" strokeDasharray={`${(score / quiz.questions.length) * 100}, 100`} strokeDashoffset="0" transform="rotate(-90 18 18)"></circle>
+                    </svg>
+                    <div className="absolute inset-0 flex items-center justify-center text-3xl font-bold">{score}/{quiz.questions.length}</div>
+                 </div>
+                 <p className="text-lg font-medium">{score / quiz.questions.length > 0.7 ? "Excellent Work!" : "Good Effort!"}</p>
+                 <p className="text-muted-foreground text-center">You've earned {lesson.ecoPoints} eco-points!</p>
+            </CardContent>
+            <CardFooter className="eco-card-content !p-0 flex-col gap-4">
+                <Button onClick={() => router.push('/lessons')} className="w-full">
+                Back to Lessons
+                </Button>
+                <Button onClick={() => {
+                    setCurrentQuestionIndex(0);
+                    setSelectedAnswers([]);
+                    setShowResults(false);
+                }} variant="outline" className="w-full">
+                Retake Quiz
+                </Button>
+            </CardFooter>
+        </div>
       </div>
     );
   }
@@ -94,11 +91,9 @@ export default function QuizPage({ params }: { params: { id: string } }) {
         <p className="text-sm text-muted-foreground text-center">Question {currentQuestionIndex + 1} of {quiz.questions.length}</p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl font-headline">{currentQuestion.question}</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <div className="eco-card">
+        <div className="eco-card-title !normal-case !text-2xl">{currentQuestion.question}</div>
+        <CardContent className="eco-card-content !p-0">
           <RadioGroup 
             onValueChange={(value) => handleAnswerSelect(parseInt(value))} 
             value={selectedAnswers[currentQuestionIndex]?.toString()}
@@ -109,8 +104,8 @@ export default function QuizPage({ params }: { params: { id: string } }) {
                 key={index} 
                 htmlFor={`option-${index}`}
                 className={cn(
-                  "flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-secondary/50",
-                  selectedAnswers[currentQuestionIndex] === index && "border-primary bg-secondary"
+                  "flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-black/5",
+                  selectedAnswers[currentQuestionIndex] === index && "border-primary bg-black/10"
                 )}
               >
                 <RadioGroupItem value={index.toString()} id={`option-${index}`} />
@@ -119,13 +114,13 @@ export default function QuizPage({ params }: { params: { id: string } }) {
             ))}
           </RadioGroup>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="eco-card-content !p-0">
           <Button onClick={handleNext} disabled={selectedAnswers[currentQuestionIndex] == null} className="ml-auto">
             {currentQuestionIndex < quiz.questions.length - 1 ? 'Next' : 'Finish'}
             <Icons.chevronRight className="ml-2 h-4 w-4" />
           </Button>
         </CardFooter>
-      </Card>
+      </div>
     </div>
   );
 }

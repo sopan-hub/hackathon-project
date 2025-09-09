@@ -8,7 +8,7 @@ body {
 
 @layer base {
   :root {
-    --background: 140 25% 95%;
+    --background: 205 20% 82%;
     --foreground: 124 20% 15%;
     --card: 0 0% 100%;
     --card-foreground: 124 20% 15%;
@@ -95,14 +95,5 @@ body {
 
   .eco-card-content {
     grid-area: content;
-  }
-
-  .eco-card-bar {
-    grid-area: bar;
-    @apply h-0.5;
-  }
-
-  .eco-card-bar-space {
-     grid-area: bar;
   }
 }

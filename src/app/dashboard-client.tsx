@@ -3,11 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
-  Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -51,17 +47,15 @@ export function DashboardClient() {
   }, []);
 
   return (
-     <Card>
-      <CardHeader>
-        <div className="flex items-center gap-2">
-            <Icons.lightbulb className="text-accent-foreground h-6 w-6 fill-accent"/>
-            <CardTitle className="font-headline">Personalized For You</CardTitle>
-        </div>
-        <CardDescription>
+     <div className="eco-card">
+      <div className="eco-card-title">Personalized For You</div>
+      <div className="eco-card-icon">
+        <Icons.lightbulb className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+      </div>
+      <CardContent className="eco-card-content !p-0 space-y-4">
+        <p className="text-muted-foreground">
           Based on your recent activity, we suggest these lessons for you.
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
+        </p>
         {loading && (
           <>
             <Skeleton className="h-16 w-full" />
@@ -88,6 +82,6 @@ export function DashboardClient() {
             <p className="text-center text-muted-foreground">Great job! No specific suggestions for now.</p>
         )}
       </CardContent>
-    </Card>
+    </div>
   );
 }

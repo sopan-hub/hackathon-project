@@ -6,7 +6,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { leaderboardData } from "@/lib/data";
 import { Icons } from "@/components/icons";
@@ -23,12 +23,13 @@ export default function LeaderboardPage() {
         </p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Top Eco-Teams</CardTitle>
-          <CardDescription>Updated daily</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="eco-card">
+        <div className="eco-card-title">Top Eco-Teams</div>
+        <div className="eco-card-icon">
+            <Icons.barChart className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+        </div>
+        <CardContent className="eco-card-content !p-0">
+          <p className="text-muted-foreground mb-4">Updated daily</p>
           <Table>
             <TableHeader>
               <TableRow>
@@ -64,7 +65,7 @@ export default function LeaderboardPage() {
             </TableBody>
           </Table>
         </CardContent>
-      </Card>
+      </div>
     </div>
   );
 }

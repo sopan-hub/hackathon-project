@@ -66,30 +66,30 @@ export default function Dashboard() {
           <DashboardClient />
           
           <div className="eco-card">
-            <div className="eco-card-title">My Badges</div>
+            <div className="eco-card-title">Available Badges</div>
             <div className="eco-card-icon">
                 <Icons.star className="bg-gradient-to-r from-yellow-400 to-orange-500" />
             </div>
             <div className="eco-card-content">
               <p className="text-muted-foreground mb-4">
-                Keep completing lessons and challenges to earn more!
+                Complete lessons and challenges to earn these badges!
               </p>
                <div className="flex flex-wrap gap-4">
-                {userBadges.slice(0, 5).map((badge) => (
-                  <div key={badge.id} className="flex flex-col items-center gap-2 w-20 text-center">
+                {userBadges.map((badge) => (
+                  <div key={badge.id} className="flex flex-col items-center gap-2 w-20 text-center" title={`${badge.name}: ${badge.description}`}>
                     <div className="p-3 bg-secondary rounded-full">
                        <badge.icon className="h-8 w-8 text-primary" />
                     </div>
                     <span className="text-xs font-medium text-foreground">{badge.name}</span>
                   </div>
                 ))}
-                <Link href="/profile" className="flex flex-col items-center gap-2 w-20 text-center">
-                   <div className="p-3 bg-secondary rounded-full hover:bg-accent">
-                        <Icons.chevronRight className="h-8 w-8 text-primary" />
-                    </div>
-                    <span className="text-xs font-medium text-foreground">View All</span>
-                </Link>
               </div>
+               <Button asChild className="w-full mt-4" variant="outline">
+                    <Link href="/profile">
+                        <Icons.user className="mr-2 h-4 w-4" />
+                        View My Earned Badges
+                    </Link>
+                </Button>
             </div>
           </div>
         </div>

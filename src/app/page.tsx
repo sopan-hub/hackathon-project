@@ -5,7 +5,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { challenges, communityPosts } from "@/lib/data";
+import { challenges, communityPosts, userBadges } from "@/lib/data";
 import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
 
@@ -66,43 +66,31 @@ export default function Dashboard() {
           <DashboardClient />
           
           <div className="eco-card">
-            <div className="eco-card-title">Ongoing Challenges</div>
+            <div className="eco-card-title">My Badges</div>
             <div className="eco-card-icon">
-              <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+                <Icons.star className="bg-gradient-to-r from-yellow-400 to-orange-500" />
             </div>
-            <CardContent className="eco-card-content !p-0 space-y-4">
-              <p className="text-muted-foreground">
-                Participate and earn bonus eco-points.
+            <div className="eco-card-content">
+              <p className="text-muted-foreground mb-4">
+                Keep completing lessons and challenges to earn more!
               </p>
-              {challenges.slice(0, 2).map((challenge) => (
-                <div
-                  key={challenge.id}
-                  className="flex items-center gap-4 p-2 rounded-lg hover:bg-black/5"
-                >
-                  <img
-                    alt={challenge.title}
-                    className="rounded-md"
-                    data-ai-hint="eco challenge"
-                    height={64}
-                    src={challenge.imageUrl}
-                    style={{
-                      aspectRatio: "1/1",
-                      objectFit: "cover",
-                    }}
-                    width={64}
-                  />
-                  <div className="flex-1">
-                    <h3 className="font-semibold">{challenge.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {challenge.ecoPoints} Eco-Points
-                    </p>
+               <div className="flex flex-wrap gap-4">
+                {userBadges.slice(0, 5).map((badge) => (
+                  <div key={badge.id} className="flex flex-col items-center gap-2 w-20 text-center">
+                    <div className="p-3 bg-secondary rounded-full">
+                       <badge.icon className="h-8 w-8 text-primary" />
+                    </div>
+                    <span className="text-xs font-medium text-foreground">{badge.name}</span>
                   </div>
-                  <Button asChild variant="outline" size="sm">
-                    <Link href={`/challenges/${challenge.id}`}>View</Link>
-                  </Button>
-                </div>
-              ))}
-            </CardContent>
+                ))}
+                <Link href="/profile" className="flex flex-col items-center gap-2 w-20 text-center">
+                   <div className="p-3 bg-secondary rounded-full hover:bg-accent">
+                        <Icons.chevronRight className="h-8 w-8 text-primary" />
+                    </div>
+                    <span className="text-xs font-medium text-foreground">View All</span>
+                </Link>
+              </div>
+            </div>
           </div>
         </div>
 

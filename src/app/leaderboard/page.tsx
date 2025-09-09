@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import { CardContent } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { leaderboardData } from "@/lib/data";
+import { leaderboardData, userBadges } from "@/lib/data";
 import { Icons } from "@/components/icons";
 
 export default function LeaderboardPage() {
@@ -35,6 +35,7 @@ export default function LeaderboardPage() {
               <TableRow>
                 <TableHead className="w-[80px]">Rank</TableHead>
                 <TableHead>Team & School</TableHead>
+                <TableHead>Badges</TableHead>
                 <TableHead className="text-right">Eco-Points</TableHead>
               </TableRow>
             </TableHeader>
@@ -57,6 +58,15 @@ export default function LeaderboardPage() {
                         <div className="font-medium text-foreground">{entry.team}</div>
                         <div className="text-sm text-muted-foreground">{entry.school}</div>
                       </div>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-1">
+                      {userBadges.slice(0, entry.rank === 1 ? 4 : entry.rank === 2 ? 3 : 2).map((badge) => (
+                        <div key={badge.id} className="p-1 bg-secondary rounded-full">
+                          <badge.icon className="h-4 w-4 text-primary" />
+                        </div>
+                      ))}
                     </div>
                   </TableCell>
                   <TableCell className="text-right font-bold text-lg text-primary">{entry.points.toLocaleString()}</TableCell>

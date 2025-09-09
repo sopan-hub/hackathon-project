@@ -17,12 +17,12 @@ export default function ChallengesPage() {
       </div>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {challenges.map((challenge) => (
-          <div key={challenge.id} className="card">
-            <div className="card-title">{challenge.title}</div>
-            <div className="card-icon">
+          <div key={challenge.id} className="eco-card">
+            <div className="eco-card-title">{challenge.title}</div>
+            <div className="eco-card-icon">
               <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
             </div>
-            <div className="card-content">
+            <div className="eco-card-content">
               <p className="line-clamp-3">{challenge.description}</p>
               <div className="flex items-center justify-between mt-4">
                 <Badge className="bg-accent text-accent-foreground hover:bg-accent/90">
@@ -35,7 +35,7 @@ export default function ChallengesPage() {
                 </Button>
               </div>
             </div>
-            <div className="card-bar" />
+            <div className="eco-card-bar" />
           </div>
         ))}
       </div>

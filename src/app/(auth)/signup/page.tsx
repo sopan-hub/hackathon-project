@@ -1,3 +1,4 @@
+
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
@@ -52,9 +53,6 @@ export default function SignupPage() {
             </div>
             <Button type="submit" className="w-full">
               Create an account
-            </Button>
-            <Button variant="outline" className="w-full">
-              Sign up with Google
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">

@@ -14,10 +14,10 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">
-          Welcome back, Alex!
+          Welcome!
         </h1>
         <p className="text-muted-foreground">
-          Here's your eco-progress. Keep up the great work!
+          Here's your eco-progress. Let's get started!
         </p>
       </div>
 
@@ -28,8 +28,8 @@ export default function Dashboard() {
                 <Icons.leaf className="bg-gradient-to-r from-green-400 to-blue-500" />
               </div>
             <div className="eco-card-content">
-                <div className="text-2xl font-bold">1,250</div>
-                <p className="text-xs text-muted-foreground">+120 this month</p>
+                <div className="text-2xl font-bold">0</div>
+                <p className="text-xs text-muted-foreground">Complete a lesson to earn points</p>
             </div>
         </div>
         <div className="eco-card p-6">
@@ -38,8 +38,8 @@ export default function Dashboard() {
                 <Icons.bookOpen className="bg-gradient-to-r from-purple-400 to-pink-500" />
             </div>
             <div className="eco-card-content">
-                <div className="text-2xl font-bold">15 / 25</div>
-                <p className="text-xs text-muted-foreground">60% of total lessons</p>
+                <div className="text-2xl font-bold">0 / 25</div>
+                <p className="text-xs text-muted-foreground">0% of total lessons</p>
             </div>
         </div>
          <div className="eco-card p-6 md:col-span-2 lg:col-span-1">
@@ -51,10 +51,10 @@ export default function Dashboard() {
                  <div className="flex items-center gap-4">
                     <div className="w-full">
                         <div className="flex justify-between text-sm font-medium mb-1">
-                        <span>Eco-Warrior</span>
-                        <span>1250/2000</span>
+                        <span>Seedling Starter</span>
+                        <span>0/1 Lesson</span>
                         </div>
-                        <Progress value={(1250 / 2000) * 100} />
+                        <Progress value={0} />
                     </div>
                 </div>
             </div>

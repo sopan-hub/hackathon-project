@@ -11,8 +11,8 @@ import { Separator } from "@/components/ui/separator";
 import { Icons } from "@/components/icons";
 
 export default function ProfilePage() {
-    const earnedBadges = userBadges.slice(0, 6); // Simulate user having earned some badges
-    const unearnedBadges = userBadges.slice(6);
+    const earnedBadges: typeof userBadges = []; // Simulate user having earned no badges
+    const unearnedBadges = userBadges;
 
   return (
     <div className="space-y-8">
@@ -28,7 +28,7 @@ export default function ProfilePage() {
               <p className="text-muted-foreground">Joined December 2023</p>
               <div className="mt-4 flex items-center justify-center sm:justify-start gap-4">
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-primary">1,250</div>
+                  <div className="text-2xl font-bold text-primary">0</div>
                   <div className="text-xs text-muted-foreground">Eco-Points</div>
                 </div>
                 <Separator orientation="vertical" className="h-10"/>
@@ -47,6 +47,13 @@ export default function ProfilePage() {
           My Badges
         </h2>
         <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {earnedBadges.length === 0 && (
+             <div className="eco-card text-center p-6 col-span-full">
+                <div className="eco-card-content col-span-2 text-center items-center flex flex-col">
+                    <p className="text-lg text-muted-foreground">You haven't earned any badges yet. Complete lessons and challenges to get started!</p>
+                </div>
+            </div>
+          )}
           {earnedBadges.map((badge) => (
             <div key={badge.id} className="eco-card text-center p-6">
                 <div className="eco-card-title !text-lg !self-center !text-center col-span-2">{badge.name}</div>

@@ -10,10 +10,10 @@ import type { PersonalizedLessonSuggestionsOutput } from "@/ai/flows/personalize
 import { lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 
-// Mock data to simulate student performance
+// Mock data to simulate new student performance
 const mockQuizResults = [
-  { lessonId: "1", score: 1, totalQuestions: 2 },
-  { lessonId: "2", score: 2, totalQuestions: 2 },
+  { lessonId: "1", score: 0, totalQuestions: 3 },
+  { lessonId: "2", score: 0, totalQuestions: 3 },
 ];
 
 const availableLessons = lessons.map((l) => ({
@@ -76,8 +76,8 @@ export function DashboardClient() {
             </Button>
           </div>
         ))}
-        {!loading && suggestions?.suggestedLessons.length === 0 && (
-            <p className="text-center text-muted-foreground">Great job! No specific suggestions for now.</p>
+        {!loading && (!suggestions || suggestions?.suggestedLessons.length === 0) && (
+            <p className="text-center text-muted-foreground">No specific suggestions for now. Choose any lesson to begin!</p>
         )}
       </div>
        <div className="eco-card-bar" />

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -44,12 +45,12 @@ export function DashboardClient() {
   }, []);
 
   return (
-     <div className="card">
-      <div className="card-title">Personalized For You</div>
-      <div className="card-icon">
+     <div className="eco-card">
+      <div className="eco-card-title">Personalized For You</div>
+      <div className="eco-card-icon">
         <Icons.lightbulb className="bg-gradient-to-r from-yellow-400 to-orange-500" />
       </div>
-      <div className="card-content space-y-4">
+      <div className="eco-card-content space-y-4">
         <p className="text-muted-foreground">
           Based on your recent activity, we suggest these lessons for you.
         </p>
@@ -62,7 +63,7 @@ export function DashboardClient() {
         {!loading && suggestions?.suggestedLessons.map((suggestion) => (
           <div
             key={suggestion.id}
-            className="flex items-start gap-4 p-2 rounded-lg border"
+            className="flex items-start gap-4 p-4 rounded-lg border bg-background/50"
           >
             <div className="flex-1">
               <h3 className="font-semibold">{suggestion.title}</h3>
@@ -79,8 +80,8 @@ export function DashboardClient() {
             <p className="text-center text-muted-foreground">Great job! No specific suggestions for now.</p>
         )}
       </div>
-       <div className="card-bar" />
-        <div className="card-footer">
+       <div className="eco-card-bar" />
+        <div className="eco-card-footer">
             <Button variant="outline" className="w-full">
                 <Icons.lightbulb className="mr-2 h-4 w-4" />
                 Ask your Personal Eco-Coach

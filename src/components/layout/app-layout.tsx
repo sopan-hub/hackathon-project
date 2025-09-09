@@ -1,3 +1,4 @@
+
 import type { ReactNode } from 'react';
 import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
 import { SidebarNav } from '@/components/layout/sidebar-nav';
@@ -11,9 +12,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
       </Sidebar>
       <SidebarInset>
         <Header />
-        <div className="p-4 sm:p-6 lg:p-8">
+        <main className="p-4 sm:p-6 lg:p-8">
           {children}
-        </div>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

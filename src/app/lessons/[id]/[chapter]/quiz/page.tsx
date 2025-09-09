@@ -11,11 +11,11 @@ import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
 
-export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
+export default function QuizPage({ params: {id, chapter: chapterParam} }: { params: { id: string; chapter: string } }) {
   const router = useRouter();
   const { toast } = useToast();
-  const lesson = lessons.find((l) => l.id === params.id);
-  const chapterIndex = parseInt(params.chapter, 10);
+  const lesson = lessons.find((l) => l.id === id);
+  const chapterIndex = parseInt(chapterParam, 10);
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -35,7 +35,7 @@ export default function QuizPage({ params }: { params: { id: string; chapter: st
     if (isCorrect) {
       toast({
         title: "Correct!",
-        description: `You've earned ${lesson.ecoPoints / lesson.chapters.length} eco-points.`,
+        description: `You've earned ${Math.round(lesson.ecoPoints / lesson.chapters.length)} eco-points.`,
       });
     } else {
       toast({

@@ -8,7 +8,7 @@ body {
 
 @layer base {
   :root {
-    --background: 205 20% 82%;
+    --background: 205 20% 93%;
     --foreground: 124 20% 15%;
     --card: 0 0% 100%;
     --card-foreground: 124 20% 15%;
@@ -20,8 +20,8 @@ body {
     --secondary-foreground: 124 20% 15%;
     --muted: 140 15% 90%;
     --muted-foreground: 124 15% 45%;
-    --accent: 50 98% 60%;
-    --accent-foreground: 50 100% 10%;
+    --accent: 130 30% 88%;
+    --accent-foreground: 124 20% 15%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 140 10% 85%;
@@ -48,8 +48,8 @@ body {
     --secondary-foreground: 140 25% 95%;
     --muted: 124 15% 15%;
     --muted-foreground: 140 15% 65%;
-    --accent: 50 98% 60%;
-    --accent-foreground: 50 100% 10%;
+    --accent: 124 15% 25%;
+    --accent-foreground: 140 25% 95%;
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
     --border: 124 15% 20%;
@@ -76,6 +76,16 @@ body {
   .eco-card::before {
     @apply content-[''] absolute top-0 left-0 right-0 bottom-0 shadow-[inset_-2px_2px_hsl(0_0%_100%_/_1)] rounded-3xl pointer-events-none;
   }
+  
+  .eco-card-bar {
+      grid-area: bar;
+      height: 2px;
+      background: linear-gradient(to right, var(--tw-gradient-stops));
+      --tw-gradient-from: theme('colors.green.400') var(--tw-gradient-from-position);
+      --tw-gradient-to: theme('colors.blue.500') var(--tw-gradient-to-position);
+      --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+      margin-top: theme(spacing.4);
+  }
 
   .eco-card-title {
     grid-area: title;
@@ -95,5 +105,14 @@ body {
 
   .eco-card-content {
     grid-area: content;
+  }
+  
+  .eco-card .card-footer {
+    grid-area: content;
+    padding-top: theme(spacing.4);
+    border-top: 2px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(to right, theme('colors.green.400'), theme('colors.blue.500'));
+    margin-top: theme(spacing.4);
   }
 }

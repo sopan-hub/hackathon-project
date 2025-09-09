@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, use } from 'react';
-import { notFound, useRouter } from 'next/navigation';
+import { useState, use, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { lessons } from '@/lib/data';
+import { lessons, userBadges } from '@/lib/data';
 import { Button } from '@/components/ui/button';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,8 @@ import { Progress } from '@/components/ui/progress';
 import { cn } from '@/lib/utils';
 import { Icons } from '@/components/icons';
 import { useToast } from '@/hooks/use-toast';
+import { useUserProgress } from '@/context/user-progress-context';
+import { notFound } from 'next/navigation';
 
 export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
   const router = useRouter();
@@ -19,6 +21,7 @@ export default function QuizPage({ params }: { params: { id: string; chapter: st
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const { addEcoPoints, completeLesson, addBadge, completedLessons } = useUserProgress();
   
   const lesson = lessons.find((l) => l.id === id);
   const chapterIndex = parseInt(chapterParam, 10);
@@ -35,10 +38,22 @@ export default function QuizPage({ params }: { params: { id: string; chapter: st
   const handleCheckAnswer = () => {
     setIsSubmitted(true);
     if (isCorrect) {
+      const points = Math.round(lesson.ecoPoints / lesson.chapters.length);
+      addEcoPoints(points);
       toast({
         title: "Correct!",
-        description: `You've earned ${Math.round(lesson.ecoPoints / lesson.chapters.length)} eco-points.`,
+        description: `You've earned ${points} eco-points.`,
       });
+      if (isLastChapter && !completedLessons.includes(lesson.id)) {
+        completeLesson(lesson.id);
+        const seedlingBadge = userBadges.find(b => b.id === '1');
+        if (seedlingBadge) addBadge(seedlingBadge);
+        toast({
+          title: "Lesson Complete!",
+          description: `You've finished "${lesson.title}" and earned the Seedling Starter badge!`,
+        });
+      }
+
     } else {
       toast({
         variant: "destructive",

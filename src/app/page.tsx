@@ -1,3 +1,5 @@
+
+'use client';
 import Link from "next/link";
 import {
   CardContent,
@@ -5,11 +7,18 @@ import {
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { challenges, communityPosts, userBadges } from "@/lib/data";
+import { challenges, communityPosts, userBadges, lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
+import { useUserProgress } from "@/context/user-progress-context";
+
 
 export default function Dashboard() {
+  const { ecoPoints, completedLessons, badges } = useUserProgress();
+  const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
+  const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
+
+
   return (
     <div className="space-y-8">
       <div className="space-y-2">
@@ -28,7 +37,7 @@ export default function Dashboard() {
                 <Icons.leaf className="bg-gradient-to-r from-green-400 to-blue-500" />
               </div>
             <div className="eco-card-content">
-                <div className="text-2xl font-bold">0</div>
+                <div className="text-2xl font-bold">{ecoPoints}</div>
                 <p className="text-xs text-muted-foreground">Complete a lesson to earn points</p>
             </div>
         </div>
@@ -38,8 +47,8 @@ export default function Dashboard() {
                 <Icons.bookOpen className="bg-gradient-to-r from-purple-400 to-pink-500" />
             </div>
             <div className="eco-card-content">
-                <div className="text-2xl font-bold">0 / 25</div>
-                <p className="text-xs text-muted-foreground">0% of total lessons</p>
+                <div className="text-2xl font-bold">{lessonsCompletedCount} / {lessons.length}</div>
+                <p className="text-xs text-muted-foreground">{(lessonsCompletedCount / lessons.length * 100).toFixed(0)}% of total lessons</p>
             </div>
         </div>
          <div className="eco-card p-6 md:col-span-2 lg:col-span-1">
@@ -50,11 +59,17 @@ export default function Dashboard() {
             <div className="eco-card-content">
                  <div className="flex items-center gap-4">
                     <div className="w-full">
-                        <div className="flex justify-between text-sm font-medium mb-1">
-                        <span>Seedling Starter</span>
-                        <span>0/1 Lesson</span>
-                        </div>
-                        <Progress value={0} />
+                         {nextBadge ? (
+                          <>
+                            <div className="flex justify-between text-sm font-medium mb-1">
+                              <span>{nextBadge.name}</span>
+                              <span>{badges.length}/{userBadges.length}</span>
+                            </div>
+                            <Progress value={(badges.length / userBadges.length) * 100} />
+                          </>
+                        ) : (
+                          <div className="text-center text-muted-foreground">You've collected all badges!</div>
+                        )}
                     </div>
                 </div>
             </div>

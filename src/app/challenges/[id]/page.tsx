@@ -1,24 +1,27 @@
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { challenges } from "@/lib/data";
+import { challenges, userBadges } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/icons";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { useUserProgress } from "@/context/user-progress-context";
+
 
 export default function ChallengeDetailsPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const { id } = params;
+  const { id } = use(params);
   const { toast } = useToast();
+  const { addEcoPoints, addBadge } = useUserProgress();
   const challenge = challenges.find((c) => c.id === id);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
@@ -42,12 +45,15 @@ export default function ChallengeDetailsPage({
 
   const handleSubmit = () => {
     if (selectedFile) {
-      // Here you would typically handle the file upload to a server
       console.log("Uploading file:", selectedFile.name);
+      addEcoPoints(challenge.ecoPoints);
+      const challengeBadge = userBadges.find(b => b.id === '5');
+      if (challengeBadge) addBadge(challengeBadge);
+      
       setIsSubmitted(true);
       toast({
         title: "Challenge Submitted!",
-        description: `You've earned ${challenge.ecoPoints} Eco-Points for completing "${challenge.title}".`,
+        description: `You've earned ${challenge.ecoPoints} Eco-Points and a badge for completing "${challenge.title}".`,
       });
     } else {
       toast({

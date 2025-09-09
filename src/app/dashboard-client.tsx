@@ -82,9 +82,11 @@ export function DashboardClient() {
       </div>
        <div className="eco-card-bar" />
         <div className="eco-card-footer">
-            <Button variant="outline" className="w-full">
+            <Button asChild className="w-full" variant="outline">
+              <Link href="/eco-advisor">
                 <Icons.lightbulb className="mr-2 h-4 w-4" />
                 Ask your Personal Eco-Coach
+              </Link>
             </Button>
         </div>
     </div>

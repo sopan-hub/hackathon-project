@@ -7,6 +7,7 @@ export const navItems: NavItem[] = [
   { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.messageCircle },
+  { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
   { href: '/profile', label: 'Profile', icon: Icons.user },
 ];
 

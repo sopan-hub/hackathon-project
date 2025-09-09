@@ -60,3 +60,8 @@ export type NavItem = {
   icon: LucideIcon;
   active?: boolean;
 };
+
+export interface ChatMessage {
+  role: 'user' | 'model';
+  content: string;
+}

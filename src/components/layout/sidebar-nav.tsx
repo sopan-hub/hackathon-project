@@ -62,6 +62,10 @@ export function SidebarNav() {
                     <Icons.barChart className="h-4 w-4 text-primary" />
                     <span>Advanced Impact Tracking</span>
                 </li>
+                 <li className="flex items-center gap-2">
+                    <Icons.trophy className="h-4 w-4 text-primary" />
+                    <span>Premium Badges & Rewards</span>
+                </li>
             </ul>
             <Button size="sm" className="w-full mt-4 bg-primary hover:bg-primary/90">Upgrade</Button>
          </div>

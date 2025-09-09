@@ -18,6 +18,14 @@ import {
   Sun,
   Moon,
   Lightbulb,
+  Upload,
+  Loader,
+  Sparkles,
+  CheckCircle,
+  AlertCircle,
+  Zap,
+  Calendar,
+  Repeat,
 } from 'lucide-react';
 
 export const Icons = {
@@ -40,4 +48,12 @@ export const Icons = {
   sun: Sun,
   moon: Moon,
   lightbulb: Lightbulb,
+  upload: Upload,
+  loader: Loader,
+  sparkles: Sparkles,
+  checkCircle: CheckCircle,
+  alertCircle: AlertCircle,
+  zap: Zap,
+  calendar: Calendar,
+  repeat: Repeat,
 };

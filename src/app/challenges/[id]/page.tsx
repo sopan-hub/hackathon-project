@@ -17,8 +17,9 @@ export default function ChallengeDetailsPage({
 }: {
   params: { id: string };
 }) {
+  const { id } = params;
   const { toast } = useToast();
-  const challenge = challenges.find((c) => c.id === params.id);
+  const challenge = challenges.find((c) => c.id === id);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);

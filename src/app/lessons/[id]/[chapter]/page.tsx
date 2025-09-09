@@ -7,8 +7,9 @@ import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/icons";
 
 export default function LessonChapterPage({ params }: { params: { id: string, chapter: string } }) {
-  const lesson = lessons.find((l) => l.id === params.id);
-  const chapterIndex = parseInt(params.chapter, 10);
+  const { id, chapter: chapterParam } = params;
+  const lesson = lessons.find((l) => l.id === id);
+  const chapterIndex = parseInt(chapterParam, 10);
   
   if (!lesson || isNaN(chapterIndex) || chapterIndex < 0 || chapterIndex >= lesson.chapters.length) {
     notFound();

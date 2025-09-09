@@ -2,5 +2,6 @@
 import { redirect } from 'next/navigation';
 
 export default function LessonRedirectPage({ params }: { params: { id: string } }) {
-    redirect(`/lessons/${params.id}/0`);
+    const { id } = params;
+    redirect(`/lessons/${id}/0`);
 }

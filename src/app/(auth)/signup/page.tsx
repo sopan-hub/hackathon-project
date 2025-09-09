@@ -16,11 +16,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Icons } from "@/components/icons";
 import { useToast } from "@/hooks/use-toast";
+import { useUser } from "@/context/user-context";
 
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { setUser } = useUser();
   const [loading, setLoading] = useState(false);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [email, setEmail] = useState('');
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -29,11 +35,18 @@ export default function SignupPage() {
     // Simulate API call for account creation
     setTimeout(() => {
       setLoading(false);
+      // Set user in context
+      setUser({
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        isLoggedIn: true,
+      });
       toast({
         title: "Account Created!",
         description: "You can now log in with your new credentials.",
       });
-      router.push('/login');
+      router.push('/'); // Redirect to dashboard after signup
     }, 1500);
   };
 
@@ -54,11 +67,11 @@ export default function SignupPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
                 <Label htmlFor="first-name">First name</Label>
-                <Input id="first-name" placeholder="Max" required />
+                <Input id="first-name" placeholder="Max" required value={firstName} onChange={(e) => setFirstName(e.target.value)} />
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="last-name">Last name</Label>
-                <Input id="last-name" placeholder="Robinson" required />
+                <Input id="last-name" placeholder="Robinson" required value={lastName} onChange={(e) => setLastName(e.target.value)} />
               </div>
             </div>
             <div className="grid gap-2">
@@ -68,6 +81,7 @@ export default function SignupPage() {
                 type="email"
                 placeholder="m@example.com"
                 required
+                 value={email} onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             <div className="grid gap-2">

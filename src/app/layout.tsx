@@ -1,7 +1,9 @@
+
 import type { Metadata } from 'next';
 import './globals.css';
 import { AppLayout } from '@/components/layout/app-layout';
 import { Toaster } from "@/components/ui/toaster";
+import { UserProvider } from '@/context/user-context';
 
 export const metadata: Metadata = {
   title: 'EcoChallenge',
@@ -21,9 +23,11 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Source+Code+Pro&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <AppLayout>
-          {children}
-        </AppLayout>
+        <UserProvider>
+          <AppLayout>
+            {children}
+          </AppLayout>
+        </UserProvider>
         <Toaster />
       </body>
     </html>

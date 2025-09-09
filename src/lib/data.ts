@@ -111,6 +111,56 @@ export const lessons: Lesson[] = [
         },
       },
     ]
+  },
+  {
+    id: '3',
+    title: 'Simple Steps for a Greener Lifestyle',
+    description: 'Learn easy, everyday actions you can take to make a positive impact on the environment.',
+    ecoPoints: 75,
+    chapters: [
+      {
+        id: '3-1',
+        title: 'The 3 R\'s: Reduce, Reuse, Recycle',
+        content: "## The Foundation of Eco-Friendly Living\n\nThe three R's are a simple but powerful guide to minimizing your environmental footprint. They are prioritized in order:\n\n### 1. Reduce\nThis is the most important step. It means consuming less and generating less waste in the first place. Simple ways to reduce include:\n*   Saying no to plastic bags at the store.\n*   Buying products with less packaging.\n*   Turning off lights and electronics when not in use to reduce energy consumption.\n\n### 2. Reuse\nBefore you throw something away, think if it can be used again. Reusing items saves the energy and resources needed to make new ones. Examples include:\n*   Using a reusable water bottle and coffee cup.\n*   Donating old clothes and toys instead of trashing them.\n*   Using empty jars for storage.\n\n### 3. Recycle\nRecycling is the process of converting waste materials into new materials and objects. Check your local guidelines to see what you can recycle. Common recyclables include paper, cardboard, plastic bottles, and metal cans.",
+        quiz: {
+          questions: [
+            {
+              question: 'Which of the "3 R\'s" is the most important for reducing our environmental impact?',
+              options: ['Recycle', 'Reuse', 'Reduce', 'All are equally important'],
+              correctAnswerIndex: 2,
+            },
+          ],
+        },
+      },
+      {
+        id: '3-2',
+        title: 'Conserving Water and Energy at Home',
+        content: "## Small Changes, Big Savings\n\nConserving water and energy at home is easier than you think. Many small habits add up to a significant positive impact on the environment and can even save you money on utility bills.\n\n### Saving Water\n*   Turn off the tap while brushing your teeth.\n*   Take shorter showers. A five-minute shower uses much less water than a full bath.\n*   Fix leaky faucets promptly. A single drip can waste gallons of water per day.\n\n### Saving Energy\n*   Switch to LED light bulbs, which use up to 80% less energy than traditional bulbs.\n*   Unplug chargers and appliances when they are not in use. Many devices draw 'phantom' power even when turned off.\n*   In winter, wear a sweater instead of turning up the heat. In summer, use fans and close blinds to keep cool.",
+        quiz: {
+          questions: [
+            {
+              question: 'What is "phantom power"?',
+              options: ['Energy from ghosts', 'The power used by devices that are plugged in but turned off', 'The power from solar panels at night', 'A type of renewable energy'],
+              correctAnswerIndex: 1,
+            },
+          ],
+        },
+      },
+       {
+        id: '3-3',
+        title: 'Making Eco-Friendly Choices',
+        content: "## You Have the Power\n\nEvery choice you make as a consumer has an impact. By making informed decisions, you can support a healthier planet.\n\n### Think Before You Buy\n*   **Support Sustainable Brands:** Look for companies that are transparent about their supply chains and use eco-friendly materials.\n*   **Eat Local:** Buying food from local farmers reduces the carbon emissions associated with long-distance transportation.\n*   **Choose Reusable over Disposable:** Opt for products that can be used many times, like cloth napkins, reusable shopping bags, and rechargeable batteries.\n\nYour daily habits are powerful. By adopting a greener lifestyle, you contribute to a more sustainable future for everyone.",
+        quiz: {
+          questions: [
+            {
+              question: 'Why is buying local food often a more eco-friendly choice?',
+              options: ['It is always cheaper', 'It tastes better', 'It reduces carbon emissions from transportation', 'It uses more packaging'],
+              correctAnswerIndex: 2,
+            },
+          ],
+        },
+      },
+    ]
   }
 ];
 

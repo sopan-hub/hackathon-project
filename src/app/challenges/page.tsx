@@ -17,22 +17,25 @@ export default function ChallengesPage() {
       </div>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {challenges.map((challenge) => (
-           <div key={challenge.id} className="eco-card">
-              <div className="eco-card-title">{challenge.title}</div>
-              <div className="eco-card-icon">
-                <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+          <div key={challenge.id} className="card">
+            <div className="card-title">{challenge.title}</div>
+            <div className="card-icon">
+              <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+            </div>
+            <div className="card-content">
+              <p className="line-clamp-3">{challenge.description}</p>
+              <div className="flex items-center justify-between mt-4">
+                <Badge className="bg-accent text-accent-foreground hover:bg-accent/90">
+                  {challenge.ecoPoints} Eco-Points
+                </Badge>
+                <Button asChild size="sm">
+                  <Link href={`/challenges/${challenge.id}`}>
+                    Accept <Icons.chevronRight className="ml-1 h-4 w-4" />
+                  </Link>
+                </Button>
               </div>
-              <div className="eco-card-content">
-                  <p className="line-clamp-3">{challenge.description}</p>
-                   <div className="flex items-center justify-between mt-4">
-                      <Badge className="bg-accent text-accent-foreground hover:bg-accent/90">{challenge.ecoPoints} Eco-Points</Badge>
-                      <Button asChild size="sm">
-                        <Link href={`/challenges/${challenge.id}`}>
-                            Accept <Icons.chevronRight className="ml-1 h-4 w-4" />
-                        </Link>
-                    </Button>
-                  </div>
-              </div>
+            </div>
+            <div className="card-bar" />
           </div>
         ))}
       </div>

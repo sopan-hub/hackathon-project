@@ -19,7 +19,7 @@ export default function QuizPage({ params }: { params: { id: string } }) {
   const lesson = lessons.find((l) => l.id === params.id);
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState<(number | null)[]>([]);
+  const [selectedAnswers, setSelectedAnswers] = useState<(string | null)[]>([]);
   const [showResults, setShowResults] = useState(false);
 
   if (!lesson) {
@@ -37,25 +37,25 @@ export default function QuizPage({ params }: { params: { id: string } }) {
     }
   };
 
-  const handleAnswerSelect = (optionIndex: number) => {
+  const handleAnswerSelect = (optionIndex: string) => {
     const newAnswers = [...selectedAnswers];
     newAnswers[currentQuestionIndex] = optionIndex;
     setSelectedAnswers(newAnswers);
   };
   
   const score = selectedAnswers.reduce((acc, answer, index) => {
-    return answer === quiz.questions[index].correctAnswerIndex ? acc + 1 : acc;
+    return (answer !== null && parseInt(answer) === quiz.questions[index].correctAnswerIndex) ? acc + 1 : acc;
   }, 0);
 
   if (showResults) {
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="eco-card">
-           <div className="eco-card-title">Quiz Results</div>
-            <div className="eco-card-icon">
+        <div className="card">
+           <div className="card-title">Quiz Results</div>
+            <div className="card-icon">
                 <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
             </div>
-            <CardContent className="eco-card-content !p-0 flex flex-col items-center gap-4">
+            <div className="card-content flex flex-col items-center gap-4">
                  <p className="text-muted-foreground text-center">You scored</p>
                  <div className="relative h-32 w-32">
                     <svg className="h-full w-full" width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
@@ -66,8 +66,9 @@ export default function QuizPage({ params }: { params: { id: string } }) {
                  </div>
                  <p className="text-lg font-medium">{score / quiz.questions.length > 0.7 ? "Excellent Work!" : "Good Effort!"}</p>
                  <p className="text-muted-foreground text-center">You've earned {lesson.ecoPoints} eco-points!</p>
-            </CardContent>
-            <CardFooter className="eco-card-content !p-0 flex-col gap-4">
+            </div>
+            <div className="card-bar" />
+            <div className="card-footer flex-col gap-4">
                 <Button onClick={() => router.push('/lessons')} className="w-full">
                 Back to Lessons
                 </Button>
@@ -78,7 +79,7 @@ export default function QuizPage({ params }: { params: { id: string } }) {
                 }} variant="outline" className="w-full">
                 Retake Quiz
                 </Button>
-            </CardFooter>
+            </div>
         </div>
       </div>
     );
@@ -91,12 +92,12 @@ export default function QuizPage({ params }: { params: { id: string } }) {
         <p className="text-sm text-muted-foreground text-center">Question {currentQuestionIndex + 1} of {quiz.questions.length}</p>
       </div>
 
-      <div className="eco-card">
-        <div className="eco-card-title !normal-case !text-2xl">{currentQuestion.question}</div>
-        <CardContent className="eco-card-content !p-0">
+      <div className="card">
+        <div className="card-title !normal-case !text-2xl">{currentQuestion.question}</div>
+        <div className="card-content">
           <RadioGroup 
-            onValueChange={(value) => handleAnswerSelect(parseInt(value))} 
-            value={selectedAnswers[currentQuestionIndex]?.toString()}
+            onValueChange={(value) => handleAnswerSelect(value)} 
+            value={selectedAnswers[currentQuestionIndex] ?? undefined}
             className="space-y-4"
           >
             {currentQuestion.options.map((option, index) => (
@@ -105,7 +106,7 @@ export default function QuizPage({ params }: { params: { id: string } }) {
                 htmlFor={`option-${index}`}
                 className={cn(
                   "flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-black/5",
-                  selectedAnswers[currentQuestionIndex] === index && "border-primary bg-black/10"
+                  selectedAnswers[currentQuestionIndex] === index.toString() && "border-primary bg-black/10"
                 )}
               >
                 <RadioGroupItem value={index.toString()} id={`option-${index}`} />
@@ -113,8 +114,9 @@ export default function QuizPage({ params }: { params: { id: string } }) {
               </Label>
             ))}
           </RadioGroup>
-        </CardContent>
-        <CardFooter className="eco-card-content !p-0">
+        </div>
+        <div className="card-bar" />
+        <CardFooter className="card-footer">
           <Button onClick={handleNext} disabled={selectedAnswers[currentQuestionIndex] == null} className="ml-auto">
             {currentQuestionIndex < quiz.questions.length - 1 ? 'Next' : 'Finish'}
             <Icons.chevronRight className="ml-2 h-4 w-4" />

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import { notFound, useRouter } from 'next/navigation';
 import { lessons } from '@/lib/data';
 import { Button } from '@/components/ui/button';
@@ -14,12 +14,13 @@ import { useToast } from '@/hooks/use-toast';
 export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
   const router = useRouter();
   const { toast } = useToast();
-  const { id, chapter: chapterParam } = params;
-  const lesson = lessons.find((l) => l.id === id);
-  const chapterIndex = parseInt(chapterParam, 10);
+  const { id, chapter: chapterParam } = use(params);
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  
+  const lesson = lessons.find((l) => l.id === id);
+  const chapterIndex = parseInt(chapterParam, 10);
 
   if (!lesson || isNaN(chapterIndex) || chapterIndex < 0 || chapterIndex >= lesson.chapters.length) {
     notFound();

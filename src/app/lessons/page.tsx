@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Badge } from "@/components/ui/badge";
 import { lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
@@ -26,11 +25,12 @@ export default function LessonsPage() {
                   <p className="line-clamp-3">{lesson.description}</p>
                   <div className="flex items-center justify-between mt-4">
                       <Badge variant="secondary">{lesson.ecoPoints} Eco-Points</Badge>
-                      <Link href={`/lessons/${lesson.id}`} className="text-primary font-semibold hover:underline">
+                      <Link href={`/lessons/${lesson.id}/0`} className="text-primary font-semibold hover:underline">
                           Start Lesson <Icons.chevronRight className="inline-block ml-1 h-4 w-4" />
                       </Link>
                   </div>
               </div>
+              <div className="eco-card-bar" />
           </div>
         ))}
       </div>

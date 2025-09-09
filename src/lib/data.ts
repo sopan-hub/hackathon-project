@@ -14,87 +14,106 @@ export const navItems: NavItem[] = [
 export const lessons: Lesson[] = [
   {
     id: '1',
-    title: 'Introduction to Waste Segregation',
-    description: 'Learn the basics of sorting waste to help our planet.',
-    content: `## Why Segregate Waste?\n\nWaste segregation is the sorting and separation of waste types to facilitate recycling and correct disposal. When we segregate waste, we reduce the amount of waste that ends up in landfills, which are a major source of pollution.\n\n### Main Categories:\n\n*   **Organic Waste (Wet Waste):** Kitchen waste like fruit and vegetable peels, tea leaves, coffee grounds, and food leftovers.\n*   **Inorganic Waste (Dry Waste):** Paper, plastic, glass, metal, and other non-biodegradable materials.\n*   **Hazardous Waste:** Items like batteries, paint cans, and expired medicines that need special disposal.\n\n![Waste Bins](https://picsum.photos/600/400?random=1 "Waste Bins")\n\nBy sorting your waste at home, you take the first and most crucial step in the recycling process.`,
-    imageUrl: 'https://picsum.photos/400/250?random=1',
-    dataAiHint: 'recycling bins',
-    ecoPoints: 50,
-    quiz: {
-      questions: [
-        {
-          question: 'Which of these is an example of Organic Waste?',
-          options: ['Plastic Bottle', 'Apple Core', 'Used Battery', 'Newspaper'],
-          correctAnswerIndex: 1,
+    title: 'The Carbon Cycle and Climate Change',
+    description: 'Understand how carbon moves through our planet and its impact on the global climate.',
+    ecoPoints: 80,
+    chapters: [
+      {
+        id: '1-1',
+        title: 'What is the Carbon Cycle?',
+        content: "## The Planet's Breathing System\n\nThe carbon cycle is the process by which carbon atoms continuously travel from the atmosphere to the Earth and then back into the atmosphere. Since our planet and its atmosphere are a closed environment, the amount of carbon in this system does not change. Where the carbon is located — in the atmosphere or on Earth — is constantly in flux.\n\n### Key Reservoirs\nCarbon is stored in various 'reservoirs.' The main ones are:\n*   **The Atmosphere:** Carbon exists here as carbon dioxide (CO2).\n*   **The Oceans:** Oceans store a vast amount of carbon, absorbing it from the atmosphere.\n*   **Land:** Stored in soil, plants, and animals. Rocks and fossil fuels are the largest reservoir of Earth's carbon.\n\nThis natural balance is crucial for maintaining a stable climate on Earth. Human activities, however, are disrupting this delicate balance.",
+        quiz: {
+          questions: [
+            {
+              question: 'Which of the following is the largest reservoir of carbon on Earth?',
+              options: ['The atmosphere', 'Oceans', 'Forests', 'Rocks and fossil fuels'],
+              correctAnswerIndex: 3,
+            },
+          ],
         },
-        {
-          question: 'Why is waste segregation important?',
-          options: ['To make trash cans look colorful', 'To facilitate recycling', 'To make more waste', 'It is not important'],
-          correctAnswerIndex: 1,
+      },
+      {
+        id: '1-2',
+        title: 'How Humans Are Disrupting the Cycle',
+        content: "## The Human Factor\n\nFor most of human history, the carbon cycle was in a relatively stable balance. However, the Industrial Revolution changed everything. Humans began burning vast quantities of fossil fuels (coal, oil, and natural gas) to power homes, factories, and vehicles. \n\n### Major Disruptions\n*   **Burning Fossil Fuels:** This process releases enormous amounts of CO2 into the atmosphere, much faster than natural processes can absorb it.\n*   **Deforestation:** Trees are powerful carbon sinks. When we cut down forests, we not only lose the ability to absorb CO2 but also release the carbon stored in those trees back into the atmosphere.\n*   **Industrial Processes:** Manufacturing cement and other industrial activities also contribute significant CO2 emissions.\n\nThis influx of atmospheric CO2 is the primary driver of modern climate change.",
+        quiz: {
+          questions: [
+            {
+              question: 'What is the main way humans have disrupted the carbon cycle?',
+              options: ['Planting more trees', 'Burning fossil fuels', 'Protecting oceans', 'Volcanic eruptions'],
+              correctAnswerIndex: 1,
+            },
+          ],
         },
-      ],
-    },
+      },
+      {
+        id: '1-3',
+        title: 'The Greenhouse Effect and Global Warming',
+        content: "## Earth's Climate Blanket\n\nThe 'greenhouse effect' is a natural process that warms the Earth’s surface. When the Sun’s energy reaches the Earth’s atmosphere, some of it is reflected back to space and the rest is absorbed and re-radiated by greenhouse gases.\n\n### The Problem\nIncreased concentrations of greenhouse gases, like the CO2 from burning fossil fuels, are making this blanket thicker. This traps more heat in the atmosphere, leading to a gradual increase in the planet's average temperature, a phenomenon known as global warming. The consequences include melting ice caps, rising sea levels, more extreme weather events, and disruptions to ecosystems worldwide.",
+        quiz: {
+          questions: [
+            {
+              question: 'What is the direct consequence of an enhanced greenhouse effect?',
+              options: ['Cooler global temperatures', 'A thinner atmosphere', 'Trapping more heat, leading to global warming', 'Increased oxygen levels'],
+              correctAnswerIndex: 2,
+            },
+          ],
+        },
+      },
+    ],
   },
   {
     id: '2',
-    title: 'The Magic of Composting',
-    description: 'Turn your kitchen scraps into black gold for your garden.',
-    content: `## What is Composting?\n\nComposting is a natural process of recycling organic matter, such as leaves and food scraps, into a valuable fertilizer that can enrich soil and plants. Anything that was once living will decompose.\n\n### How to Start:\n\n1.  **Choose a Spot:** Find a dry, shady spot in your yard for your compost pile or bin.\n2.  **Add Layers:** Alternate layers of green materials (like vegetable scraps, grass clippings) and brown materials (like leaves, twigs, paper).\n3.  **Maintain:** Keep the pile moist and turn it every week or two to aerate it.\n\n![Compost Pile](https://picsum.photos/600/400?random=2 "Compost Pile")\n\nIn a few months, you'll have nutrient-rich compost for your plants!`,
-    imageUrl: 'https://picsum.photos/400/250?random=2',
-    dataAiHint: 'compost soil',
-    ecoPoints: 75,
-    quiz: {
-      questions: [
-        {
-          question: 'What are "green materials" in composting?',
-          options: ['Plastic bags', 'Glass bottles', 'Vegetable scraps', 'Aluminum cans'],
-          correctAnswerIndex: 2,
+    title: 'Renewable Energy Sources',
+    description: 'Explore the clean and sustainable energy sources that power our future.',
+    ecoPoints: 90,
+    chapters: [
+      {
+        id: '2-1',
+        title: 'Harnessing the Sun: Solar Power',
+        content: "## The Power of Sunlight\n\nSolar power is energy from the sun that is converted into thermal or electrical energy. Solar energy is the most abundant renewable energy source on the planet. Photovoltaic (PV) panels are the most common way to harness this energy. \n\n### How it Works\nPV panels are made of many solar cells. When sunlight shines on these cells, it creates an electric field across the layers. This flow of electrons is electricity! This electricity can be used to power homes and businesses, or stored in batteries for later use. Solar power is a clean alternative to fossil fuels, producing no greenhouse gas emissions.",
+        quiz: {
+          questions: [
+            {
+              question: 'What do Photovoltaic (PV) panels do?',
+              options: ['Cool down buildings', 'Convert sunlight directly into electricity', 'Create wind', 'Store water'],
+              correctAnswerIndex: 1,
+            },
+          ],
         },
-        {
-          question: 'How often should you turn your compost pile?',
-          options: ['Once a year', 'Every week or two', 'Never', 'Every day'],
-          correctAnswerIndex: 1,
+      },
+      {
+        id: '2-2',
+        title: 'The Force of Nature: Wind Power',
+        content: "## Riding the Wind\n\nWind power, or wind energy, is the use of wind to provide mechanical power through wind turbines to turn electric generators. Wind is a clean fuel source; it doesn't pollute the air like power plants that rely on combustion of fossil fuels.\n\n### Wind Turbines\nModern wind turbines look like giant propellers. The wind pushes against the blades, causing them to spin. This rotation turns a shaft, which is connected to a generator that produces electricity. Wind farms, which are large collections of turbines, are often built in windy locations, such as on hills or offshore.",
+        quiz: {
+          questions: [
+            {
+              question: 'How do wind turbines generate electricity?',
+              options: ['By burning natural gas', 'Through a chemical reaction', 'By using the wind to spin blades connected to a generator', 'By using solar panels'],
+              correctAnswerIndex: 2,
+            },
+          ],
         },
-      ],
-    },
-  },
-  {
-    id: '3',
-    title: 'Water Conservation at Home',
-    description: 'Simple tips and tricks to save water every day.',
-    content: `## Every Drop Counts\n\nWater is a precious resource, and conserving it is vital for our environment. Many simple habits can significantly reduce your water consumption at home.\n\n### Top Tips:\n\n*   **Turn off the tap:** Don't let water run while brushing your teeth or washing dishes.\n*   **Fix leaks:** A small drip can waste gallons of water per day.\n*   **Shorter showers:** Try to limit your shower time to 5 minutes.\n*   **Collect rainwater:** Use a rain barrel to collect water for your garden.\n\n![Water Drop](https://picsum.photos/600/400?random=3 "Water Drop")\n\nSaving water not only helps the planet but also reduces your water bill.`,
-    imageUrl: 'https://picsum.photos/400/250?random=3',
-    dataAiHint: 'water conservation',
-    ecoPoints: 60,
-    quiz: {
-      questions: [
-        {
-          question: 'Which of the following is a good way to save water?',
-          options: ['Letting the tap run while brushing teeth', 'Taking 30-minute showers', 'Fixing a leaky faucet', 'Watering your lawn at noon'],
-          correctAnswerIndex: 2,
+      },
+       {
+        id: '2-3',
+        title: 'Water and Heat: Hydropower and Geothermal',
+        content: "## Earth's Inner and Outer Power\n\n**Hydropower** is one of the oldest and largest sources of renewable energy. It uses the flow of moving water—from rivers or dams—to spin turbines and generate electricity. It's generally reliable and low-cost, but building large dams can have significant environmental and social impacts.\n\n**Geothermal energy** taps into the Earth's internal heat. Water or steam is piped from deep underground reservoirs to the surface, where it is used to drive turbines connected to electricity generators. It's a powerful and consistent energy source, but it is only available in specific geological hotspots around the world.",
+        quiz: {
+          questions: [
+            {
+              question: 'What does geothermal energy use to generate electricity?',
+              options: ['The flow of rivers', 'The heat from within the Earth', 'The movement of the tides', 'Sunlight'],
+              correctAnswerIndex: 1,
+            },
+          ],
         },
-      ],
-    },
-  },
-   {
-    id: '4',
-    title: 'Benefits of Tree Planting',
-    description: 'Discover why planting trees is crucial for a healthy planet.',
-    content: `## Trees: The Lungs of Our Planet\n\nPlanting trees is one of the most effective ways to combat climate change, improve air quality, and support biodiversity.\n\n### Key Benefits:\n\n*   **Carbon Sequestration:** Trees absorb carbon dioxide, a major greenhouse gas, from the atmosphere.\n*   **Improved Air Quality:** They produce oxygen and filter out pollutants.\n*   **Biodiversity:** Trees provide habitats for countless species of animals, insects, and plants.\n*   **Cooling Effect:** They provide shade and can help cool urban areas.\n\n![Forest](https://picsum.photos/600/400?random=4 "Forest")\n\nEven planting one tree can make a difference!`,
-    imageUrl: 'https://picsum.photos/400/250?random=4',
-    dataAiHint: 'forest trees',
-    ecoPoints: 80,
-    quiz: {
-      questions: [
-        {
-          question: 'How do trees help combat climate change?',
-          options: ['By producing more heat', 'By absorbing carbon dioxide', 'By using more water', 'By providing shade'],
-          correctAnswerIndex: 1,
-        },
-      ],
-    },
-  },
+      },
+    ]
+  }
 ];
+
 
 export const challenges: Challenge[] = [
   {

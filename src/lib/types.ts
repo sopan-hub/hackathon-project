@@ -4,12 +4,16 @@ export type Lesson = {
   id: string;
   title: string;
   description: string;
-  content: string; // Markdown content
-  imageUrl: string;
-  dataAiHint: string;
   ecoPoints: number;
-  quiz: Quiz;
+  chapters: Chapter[];
 };
+
+export type Chapter = {
+  id: string;
+  title: string;
+  content: string; // Markdown content
+  quiz: Quiz;
+}
 
 export type Quiz = {
   questions: Question[];

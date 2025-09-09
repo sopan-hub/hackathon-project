@@ -48,7 +48,7 @@ export function SidebarNav() {
       </SidebarContent>
       <SidebarFooter className="p-2">
          <SidebarSeparator />
-         <div className="p-4 rounded-lg bg-secondary/50 mt-2 space-y-4">
+         <div className="p-4 mt-2 space-y-4">
             <div>
                 <h3 className="font-semibold text-foreground">Upgrade to Pro</h3>
                 <p className="text-muted-foreground mt-1">Unlock all features and get access to exclusive content.</p>

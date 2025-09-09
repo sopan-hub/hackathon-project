@@ -1,3 +1,4 @@
+
 import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem } from './types';
 import { Icons } from '@/components/icons';
 
@@ -9,7 +10,6 @@ export const navItems: NavItem[] = [
   { href: '/community', label: 'Community', icon: Icons.messageCircle },
   { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
   { href: '/badges', label: 'Badges', icon: Icons.award },
-  { href: '/profile', label: 'Profile', icon: Icons.user },
 ];
 
 export const lessons: Lesson[] = [

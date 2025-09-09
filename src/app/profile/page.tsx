@@ -41,23 +41,27 @@ export default function ProfilePage() {
         <h2 className="text-2xl font-bold tracking-tight font-headline mb-4">
           My Badges
         </h2>
-        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {userBadges.map((badge) => (
-            <Card key={badge.id} className="text-center flex flex-col items-center p-6">
-                <div className="p-4 bg-secondary rounded-full mb-4">
-                    <badge.icon className="h-10 w-10 text-primary" />
+            <div key={badge.id} className="eco-card text-center p-6">
+                <div className="eco-card-title !text-lg !self-center !text-center col-span-2">{badge.name}</div>
+                <div className="eco-card-content col-span-2 text-center items-center flex flex-col">
+                  <div className="p-4 bg-secondary rounded-full mb-4">
+                      <badge.icon className="h-10 w-10 text-primary" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">{badge.description}</p>
                 </div>
-                <CardTitle className="text-lg mb-1">{badge.name}</CardTitle>
-                <CardDescription className="text-sm">{badge.description}</CardDescription>
-            </Card>
+            </div>
           ))}
-           <Card className="text-center flex flex-col items-center justify-center p-6 border-dashed">
-                <div className="p-4 bg-muted rounded-full mb-4">
-                    <Icons.star className="h-10 w-10 text-muted-foreground" />
+           <div className="eco-card text-center p-6">
+                <div className="eco-card-title !text-lg !self-center !text-center col-span-2 text-muted-foreground">Next Badge</div>
+                <div className="eco-card-content col-span-2 text-center items-center flex flex-col">
+                  <div className="p-4 bg-muted rounded-full mb-4">
+                      <Icons.star className="h-10 w-10 text-muted-foreground" />
+                  </div>
+                  <p className="text-sm text-muted-foreground">Complete more challenges!</p>
                 </div>
-                <CardTitle className="text-lg mb-1 text-muted-foreground">Next Badge</CardTitle>
-                <CardDescription className="text-sm">Complete more challenges!</CardDescription>
-            </Card>
+            </div>
         </div>
       </div>
     </div>

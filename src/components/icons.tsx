@@ -32,7 +32,7 @@ export const Icons = {
   droplets: Droplets,
   star: Star,
   treePine: TreePine,
-  seedling: Sprout,
+  sprout: Sprout,
   chevronRight: ChevronRight,
   logIn: LogIn,
   logOut: LogOut,

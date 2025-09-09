@@ -159,7 +159,7 @@ export const communityPosts: CommunityPost[] = [
 ];
 
 export const userBadges: Badge[] = [
-    { id: '1', name: 'Seedling Starter', description: 'Completed your first lesson!', icon: Icons.seedling },
+    { id: '1', name: 'Seedling Starter', description: 'Completed your first lesson!', icon: Icons.sprout },
     { id: '2', name: 'Waste Warrior', description: 'Mastered the waste segregation lesson.', icon: Icons.recycle },
     { id: '3', name: 'Compost Champion', description: 'Became an expert in composting.', icon: Icons.leaf },
     { id: '4', name: 'Aqua Saver', description: 'Aced the water conservation quiz.', icon: Icons.droplets },

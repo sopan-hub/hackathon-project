@@ -66,3 +66,43 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .eco-card {
+    @apply p-10 bg-gradient-to-bl from-[#e0e4e5] to-[#f2f6f9] rounded-3xl grid gap-6 text-[#444447] shadow-[-20px_20px_40px_hsl(0_0%_0%_/_0.25)] relative;
+    grid-template: 'title icon' 'content content' / 1fr auto;
+  }
+
+  .eco-card::before {
+    @apply content-[''] absolute top-0 left-0 right-0 bottom-0 shadow-[inset_-2px_2px_hsl(0_0%_100%_/_1)] rounded-3xl pointer-events-none;
+  }
+
+  .eco-card-title {
+    grid-area: title;
+    @apply text-2xl uppercase font-medium self-end break-words;
+  }
+
+  .eco-card-icon {
+    grid-area: icon;
+    @apply text-5xl;
+  }
+  
+  .eco-card-icon > svg {
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+  }
+
+  .eco-card-content {
+    grid-area: content;
+  }
+
+  .eco-card-bar {
+    grid-area: bar;
+    @apply h-0.5;
+  }
+
+  .eco-card-bar-space {
+     grid-area: bar;
+  }
+}

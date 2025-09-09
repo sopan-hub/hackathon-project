@@ -26,47 +26,43 @@ export default function Dashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Eco-Points</CardTitle>
-            <Icons.leaf className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,250</div>
-            <p className="text-xs text-muted-foreground">+120 this month</p>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">
-              Lessons Completed
-            </CardTitle>
-            <Icons.bookOpen className="h-4 w-4 text-primary" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">15 / 25</div>
-            <p className="text-xs text-muted-foreground">60% of total lessons</p>
-          </CardContent>
-        </Card>
-        <Card className="md:col-span-2 lg:col-span-1">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium">
-              Next Badge Progress
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Icons.seedling className="h-8 w-8 text-primary" />
-              <div className="w-full">
-                <div className="flex justify-between text-sm font-medium mb-1">
-                  <span>Eco-Warrior</span>
-                  <span>1250/2000</span>
-                </div>
-                <Progress value={(1250 / 2000) * 100} />
+        <div className="eco-card p-6">
+            <div className="eco-card-title !text-sm !uppercase !font-medium">Eco-Points</div>
+             <div className="eco-card-icon !text-3xl">
+                <Icons.leaf className="bg-gradient-to-r from-green-400 to-blue-500" />
               </div>
+            <div className="eco-card-content">
+                <div className="text-2xl font-bold">1,250</div>
+                <p className="text-xs text-muted-foreground">+120 this month</p>
             </div>
-          </CardContent>
-        </Card>
+        </div>
+        <div className="eco-card p-6">
+            <div className="eco-card-title !text-sm !uppercase !font-medium">Lessons Completed</div>
+            <div className="eco-card-icon !text-3xl">
+                <Icons.bookOpen className="bg-gradient-to-r from-purple-400 to-pink-500" />
+            </div>
+            <div className="eco-card-content">
+                <div className="text-2xl font-bold">15 / 25</div>
+                <p className="text-xs text-muted-foreground">60% of total lessons</p>
+            </div>
+        </div>
+         <div className="eco-card p-6 md:col-span-2 lg:col-span-1">
+            <div className="eco-card-title !text-sm !uppercase !font-medium">Next Badge Progress</div>
+            <div className="eco-card-icon !text-3xl">
+                <Icons.sprout className="bg-gradient-to-r from-lime-400 to-green-500" />
+            </div>
+            <div className="eco-card-content">
+                 <div className="flex items-center gap-4">
+                    <div className="w-full">
+                        <div className="flex justify-between text-sm font-medium mb-1">
+                        <span>Eco-Warrior</span>
+                        <span>1250/2000</span>
+                        </div>
+                        <Progress value={(1250 / 2000) * 100} />
+                    </div>
+                </div>
+            </div>
+        </div>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">

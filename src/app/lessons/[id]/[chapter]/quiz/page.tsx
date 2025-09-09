@@ -26,7 +26,6 @@ export default function QuizPage({ params }: { params: { id: string; chapter: st
   }
 
   const chapter = lesson.chapters[chapterIndex];
-  // The quiz logic was assuming a single question, which is not what the data structure supports.
   const question = chapter.quiz.questions[0]; 
   const isCorrect = selectedAnswer !== null && parseInt(selectedAnswer) === question.correctAnswerIndex;
   const isLastChapter = chapterIndex === lesson.chapters.length - 1;

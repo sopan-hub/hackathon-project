@@ -84,7 +84,7 @@ export function DashboardClient() {
                 )}
             </div>
             <div className="hidden lg:flex items-center justify-center relative min-h-[300px]">
-                <div className="absolute bottom-0 w-full h-full scale-90">
+                <div className="absolute bottom-0 w-full h-full scale-[0.6]">
                     <FlowerAnimation />
                 </div>
             </div>

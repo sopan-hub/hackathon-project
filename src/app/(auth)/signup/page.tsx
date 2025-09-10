@@ -66,13 +66,6 @@ export default function SignupPage() {
                     </Button>
                 </div>
             </div>
-            <Alert>
-                <Icons.alertCircle className="h-4 w-4" />
-                <AlertTitle>Can't click the link?</AlertTitle>
-                <AlertDescription>
-                    If the verification link in the email takes you to a `localhost` address that won't load, you need to set your website's public URL in your Supabase project under `Authentication > URL Configuration > Site URL`.
-                </AlertDescription>
-            </Alert>
         </div>
     )
   }

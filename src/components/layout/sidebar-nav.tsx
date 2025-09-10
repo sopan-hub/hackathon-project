@@ -10,15 +10,16 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { navItems } from '@/lib/data';
 import { Icons } from '@/components/icons';
-import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
+import { useUserProgress } from '@/context/user-progress-context';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export function SidebarNav() {
   const pathname = usePathname();
+  const { userProfile, logout } = useUserProgress();
 
   return (
     <>
@@ -48,6 +49,32 @@ export function SidebarNav() {
           ))}
         </SidebarMenu>
       </SidebarContent>
+      <SidebarFooter className='p-2'>
+        {userProfile ? (
+          <div className="flex items-center gap-3 p-2 rounded-md bg-secondary/50">
+             <Avatar className="h-8 w-8">
+                <AvatarImage src={userProfile.avatar_url} alt={userProfile.full_name} />
+                <AvatarFallback>{userProfile.full_name?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className='flex-1 overflow-hidden'>
+                <p className='text-sm font-semibold truncate'>{userProfile.full_name}</p>
+                <Link href="/profile" className='text-xs text-primary hover:underline'>View Profile</Link>
+            </div>
+            <Button variant="ghost" size="icon" onClick={logout} className="h-8 w-8">
+                <Icons.logOut className='h-4 w-4' />
+            </Button>
+          </div>
+        ) : (
+            <div className='flex items-center gap-2'>
+                <Button asChild className='flex-1'>
+                    <Link href="/login">Login</Link>
+                </Button>
+                 <Button asChild variant="secondary" className='flex-1'>
+                    <Link href="/signup">Sign Up</Link>
+                </Button>
+            </div>
+        )}
+      </SidebarFooter>
     </>
   );
 }

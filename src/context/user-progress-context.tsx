@@ -17,7 +17,6 @@ interface UserProgressContextType {
   addEcoPoints: (points: number) => void;
   completeLesson: (lessonId: string) => void;
   addBadge: (badge: Badge) => void;
-  fetchUserProfile: (user: User) => Promise<void>;
   logout: () => Promise<void>;
   resetProgress: () => void;
 }
@@ -33,19 +32,15 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   const resetProgress = useCallback(() => {
+    setUser(null);
+    setUserProfile(null);
     setEcoPoints(0);
     setCompletedLessons([]);
     setBadges([]);
-    setUserProfile(null);
+    setLoading(true);
   }, []);
 
-  const fetchUserProfile = useCallback(async (user: User | null) => {
-    if (!user) {
-      setUserProfile(null);
-      setLoading(false);
-      return;
-    }
-    
+  const fetchUserProfile = useCallback(async (user: User) => {
     setLoading(true);
     try {
       let { data: profile, error } = await supabase
@@ -56,7 +51,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
       if (error && error.code === 'PGRST116') {
         // Profile not found, create it
-        console.log('Profile not found for user, creating one.');
         const { data: newProfile, error: createError } = await supabase
             .from('profiles')
             .insert({ 
@@ -68,16 +62,10 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             .select()
             .single();
         
-        if(createError) {
-            console.error('Error creating profile:', createError);
-            setUserProfile(null);
-        } else {
-            console.log('Profile created successfully.');
-            profile = newProfile;
-        }
+        if (createError) throw createError;
+        profile = newProfile;
       } else if (error) {
-        console.error('Error fetching profile:', error);
-        setUserProfile(null);
+        throw error;
       }
 
       if (profile) {
@@ -88,7 +76,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         setBadges(userWithEmail.badges || []);
       }
     } catch (e) {
-        console.error("An unexpected error occurred in fetchUserProfile:", e);
+        console.error('Error fetching or creating profile:', e);
         setUserProfile(null);
     } finally {
         setLoading(false);
@@ -96,34 +84,24 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const getInitialUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      await fetchUserProfile(currentUser);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
 
-      const { data: { subscription } } = supabase.auth.onAuthStateChange(
-        async (_event, session) => {
-          const newCurrentUser = session?.user ?? null;
-          setUser(newCurrentUser);
-          if (newCurrentUser && newCurrentUser.id !== user?.id) {
-            await fetchUserProfile(newCurrentUser);
-          } else if (!newCurrentUser) {
-            resetProgress();
-            setLoading(false);
-          }
+        if (currentUser) {
+          await fetchUserProfile(currentUser);
+        } else {
+          resetProgress();
+          setLoading(false);
         }
-      );
+      }
+    );
 
-      return () => {
-        subscription.unsubscribe();
-      };
-    }
-    
-    getInitialUser();
-
-  }, [fetchUserProfile, resetProgress, user?.id]);
-
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, [fetchUserProfile, resetProgress]);
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     if(!user) return;
@@ -132,7 +110,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       console.error('Error updating profile', error);
     }
   }
-
 
   const addEcoPoints = (points: number) => {
     setEcoPoints((prevPoints) => {
@@ -166,11 +143,10 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   const logout = async () => {
     await supabase.auth.signOut();
-    setUser(null);
     resetProgress();
   };
 
-  const value = {
+  const value: UserProgressContextType = {
     user,
     userProfile,
     ecoPoints,
@@ -180,7 +156,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     addEcoPoints,
     completeLesson,
     addBadge,
-    fetchUserProfile: fetchUserProfile as (user: User) => Promise<void>,
     logout,
     resetProgress,
   };

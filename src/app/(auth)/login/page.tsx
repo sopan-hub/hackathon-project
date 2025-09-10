@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -9,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
-import { useUserProgress } from '@/context/user-progress-context';
 import type { User } from '@supabase/supabase-js';
 
 export default function LoginPage() {
@@ -18,7 +18,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { fetchUserProfile } = useUserProgress();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,15 +34,16 @@ export default function LoginPage() {
         title: 'Login Failed',
         description: error.message,
       });
+      setLoading(false);
     } else if (data.user) {
-      await fetchUserProfile(data.user as User);
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',
       });
       router.push('/');
+    } else {
+        setLoading(false);
     }
-    setLoading(false);
   };
 
   return (

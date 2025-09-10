@@ -14,7 +14,7 @@ import { useUserProgress } from "@/context/user-progress-context";
 
 
 export default function Dashboard() {
-  const { ecoPoints, completedLessons, badges } = useUserProgress();
+  const { userProfile, ecoPoints, completedLessons, badges } = useUserProgress();
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
   const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
 
@@ -23,7 +23,7 @@ export default function Dashboard() {
     <div className="space-y-8">
       <div className="space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">
-          Welcome!
+          Welcome{userProfile ? `, ${userProfile.full_name}` : ''}!
         </h1>
         <p className="text-muted-foreground">
           Here's your eco-progress. Let's get started!

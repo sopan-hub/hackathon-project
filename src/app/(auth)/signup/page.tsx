@@ -10,7 +10,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
-import { useUserProgress } from '@/context/user-progress-context';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -19,7 +18,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const { fetchUserProfile } = useUserProgress();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();

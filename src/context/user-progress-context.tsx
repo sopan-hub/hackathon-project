@@ -39,46 +39,84 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       return;
     }
     setLoading(true);
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', user.id)
+        .single();
 
-    if (error) {
-      console.error('Error fetching profile:', error);
-      setUserProfile(null);
-    } else if (data) {
-      setUserProfile({ ...data, email: user.email });
-      setEcoPoints(data.eco_points || 0);
-      setCompletedLessons(data.completed_lessons || []);
-      setBadges(data.badges || []);
+      if (error) {
+        console.error('Error fetching profile:', error);
+        // This might happen if the profile is not yet created. Let's create it.
+        if (error.code === 'PGRST116') {
+            const { data: newProfile, error: createError } = await supabase
+                .from('profiles')
+                .insert({ 
+                    id: user.id, 
+                    full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User',
+                    avatar_url: user.user_metadata?.avatar_url || `https://api.dicebear.com/8.x/bottts/svg?seed=${user.email}`,
+                    email: user.email
+                })
+                .select()
+                .single();
+            
+            if(createError) {
+                console.error('Error creating profile:', createError);
+                setUserProfile(null);
+            } else if (newProfile) {
+                setUserProfile({ ...newProfile, email: user.email });
+                setEcoPoints(newProfile.eco_points || 0);
+                setCompletedLessons(newProfile.completed_lessons || []);
+                setBadges(newProfile.badges || []);
+            }
+        } else {
+            setUserProfile(null);
+        }
+      } else if (data) {
+        setUserProfile({ ...data, email: user.email });
+        setEcoPoints(data.eco_points || 0);
+        setCompletedLessons(data.completed_lessons || []);
+        setBadges(data.badges || []);
+      }
+    } catch (e) {
+        console.error("An unexpected error occurred in fetchUserProfile:", e);
+        setUserProfile(null);
+    } finally {
+        setLoading(false);
     }
-    setLoading(false);
   }, []);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      setUser(user);
-      await fetchUserProfile(user);
-      setLoading(false);
-    }
-    checkUser();
-
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      if (currentUser) {
-        await fetchUserProfile(currentUser);
-      } else {
-        setUserProfile(null);
-        resetProgress();
+    setLoading(true);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (_event, session) => {
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        if (currentUser) {
+          await fetchUserProfile(currentUser);
+        } else {
+          setUserProfile(null);
+          resetProgress();
+        }
+        setLoading(false);
       }
-    });
+    );
+
+    // Also check for initial user
+    const checkInitialUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+            setUser(user);
+            await fetchUserProfile(user);
+        }
+        setLoading(false);
+    }
+    checkInitialUser();
+
 
     return () => {
-      authListener.subscription.unsubscribe();
+      subscription.unsubscribe();
     };
   }, [fetchUserProfile]);
 
@@ -115,7 +153,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         const newBadges = [...prevBadges, badge];
-        updateProfile({ badges: newBadges });
+        updateProfile({ badges: newBadges as any[] }); // Cast to any to handle Supabase type
         return newBadges;
       }
       return prevBadges;
@@ -152,7 +190,14 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   return (
     <UserProgressContext.Provider value={value}>
-      {loading ? null : children}
+      {loading ? (
+           <div className="flex h-screen items-center justify-center">
+                <div className="text-center">
+                    <p className="text-lg font-semibold">Loading EcoChallenge...</p>
+                    <p className="text-muted-foreground">Please wait a moment.</p>
+                </div>
+            </div>
+      ) : children}
     </UserProgressContext.Provider>
   );
 }

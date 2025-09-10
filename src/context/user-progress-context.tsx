@@ -35,57 +35,68 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const fetchUserProfile = useCallback(async (user: User | null) => {
     if (!user) {
       setUserProfile(null);
+      setLoading(false);
       return;
     }
     
+    setLoading(true);
     try {
-      const { data, error } = await supabase
+      let { data: profile, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
 
-      if (error) {
-        console.error('Error fetching profile:', error);
-        if (error.code === 'PGRST116') { // "Not found" error, profile doesn't exist
-            console.log('Profile not found for user, creating one.');
-            const { data: newProfile, error: createError } = await supabase
-                .from('profiles')
-                .insert({ 
-                    id: user.id, 
-                    full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User',
-                    avatar_url: user.user_metadata?.avatar_url || `https://api.dicebear.com/8.x/bottts/svg?seed=${user.email}`,
-                    email: user.email
-                })
-                .select()
-                .single();
-            
-            if(createError) {
-                console.error('Error creating profile:', createError);
-                setUserProfile(null);
-            } else if (newProfile) {
-                setUserProfile({ ...newProfile, email: user.email });
-                setEcoPoints(newProfile.eco_points || 0);
-                setCompletedLessons(newProfile.completed_lessons || []);
-                setBadges(newProfile.badges || []);
-            }
-        } else {
+      if (error && error.code === 'PGRST116') {
+        // Profile not found, create it
+        console.log('Profile not found for user, creating one.');
+        const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({ 
+                id: user.id, 
+                full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User',
+                avatar_url: user.user_metadata?.avatar_url || `https://api.dicebear.com/8.x/bottts/svg?seed=${user.email}`,
+                email: user.email
+            })
+            .select()
+            .single();
+        
+        if(createError) {
+            console.error('Error creating profile:', createError);
             setUserProfile(null);
+        } else {
+            profile = newProfile;
         }
-      } else if (data) {
-        setUserProfile({ ...data, email: user.email });
-        setEcoPoints(data.eco_points || 0);
-        setCompletedLessons(data.completed_lessons || []);
-        setBadges(data.badges || []);
+      } else if (error) {
+        console.error('Error fetching profile:', error);
+        setUserProfile(null);
+      }
+
+      if (profile) {
+        const userWithEmail = { ...profile, email: user.email };
+        setUserProfile(userWithEmail);
+        setEcoPoints(userWithEmail.eco_points || 0);
+        setCompletedLessons(userWithEmail.completed_lessons || []);
+        setBadges(userWithEmail.badges || []);
       }
     } catch (e) {
         console.error("An unexpected error occurred in fetchUserProfile:", e);
         setUserProfile(null);
+    } finally {
+        setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    setLoading(true);
+    const getSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setUser(session?.user ?? null);
+      await fetchUserProfile(session?.user ?? null);
+      setLoading(false);
+    };
+
+    getSession();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         const currentUser = session?.user ?? null;
@@ -93,26 +104,12 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         if (currentUser) {
           await fetchUserProfile(currentUser);
         } else {
+          // User logged out
           setUserProfile(null);
           resetProgress();
         }
-        setLoading(false);
       }
     );
-
-    // Initial check for user session on component mount
-    const checkInitialSession = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        if (currentUser) {
-            await fetchUserProfile(currentUser);
-        }
-        setLoading(false);
-    };
-
-    checkInitialSession();
-
 
     return () => {
       subscription.unsubscribe();

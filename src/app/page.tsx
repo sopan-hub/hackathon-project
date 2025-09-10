@@ -11,13 +11,22 @@ import { challenges, communityPosts, userBadges, lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
 import { useUserProgress } from "@/context/user-progress-context";
+import { FlowerAnimation } from "@/components/ui/flower-animation";
+import { useEffect } from "react";
 
 
 export default function Dashboard() {
   const { userProfile, ecoPoints, completedLessons, badges } = useUserProgress();
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
   const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
-
+  
+  useEffect(() => {
+    // This is for the flower animation
+    const timeout = setTimeout(() => {
+      document.body.classList.remove("not-loaded");
+      clearTimeout(timeout);
+    }, 1000);
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -76,44 +85,15 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-3">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid gap-6 lg:grid-cols-5">
+        <div className="lg:col-span-3 space-y-6">
           <DashboardClient />
         </div>
-
-        <div className="eco-card">
-          <div className="eco-card-title">Community Spotlight</div>
-           <div className="eco-card-icon">
-                <Icons.messageCircle className="bg-gradient-to-r from-blue-400 to-purple-500" />
-            </div>
-          <CardContent className="eco-card-content !p-0 space-y-4">
-            <p className="text-muted-foreground">
-              Latest ideas from fellow eco-challengers.
-            </p>
-            {communityPosts.slice(0, 3).map((post) => (
-              <div key={post.id} className="flex items-start gap-4">
-                <Avatar>
-                  <AvatarImage src={post.authorAvatarUrl} />
-                  <AvatarFallback>
-                    {post.author.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1">
-                  <p className="text-sm font-semibold hover:underline">
-                    <Link href="/community">{post.title}</Link>
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    by {post.author}
-                  </p>
-                </div>
-              </div>
-            ))}
-             <Button asChild className="w-full mt-2" variant="outline">
-              <Link href="/community">
-                <Icons.messageCircle className="mr-2 h-4 w-4" /> Go to Community
-              </Link>
-            </Button>
-          </CardContent>
+        
+        <div className="lg:col-span-2 hidden lg:flex items-center justify-center relative">
+          <div className="absolute bottom-0 w-full h-full">
+            <FlowerAnimation />
+          </div>
         </div>
       </div>
     </div>

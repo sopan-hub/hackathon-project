@@ -215,6 +215,7 @@ export const communityPosts: CommunityPost[] = [
     content: 'I think we should start a community garden in the unused plot behind the library. We can grow our own organic vegetables and share them. It would be a great way to learn about farming and also provide fresh produce for everyone. We can use compost from our own homes to fertilize the soil. This would reduce waste and promote healthy eating.',
     timestamp: '2 days ago',
     likes: 42,
+    imageUrl: 'https://s2.loli.net/2024/01/17/OvnAc8ePKrh5dmX.jpg',
   },
   {
     id: '2',
@@ -224,6 +225,7 @@ export const communityPosts: CommunityPost[] = [
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
     likes: 31,
+    imageUrl: 'https://s2.loli.net/2024/01/17/IZnXM3SLeThbGH2.jpg',
   },
    {
     id: '3',
@@ -233,6 +235,7 @@ export const communityPosts: CommunityPost[] = [
     content: 'Let\'s organize a drive to collect old clothes. Instead of throwing them away, we can teach students how to upcycle them into useful items like bags, rugs, or decorative pieces. We can hold workshops and even sell the finished products to raise funds for other eco-projects.',
     timestamp: '1 week ago',
     likes: 58,
+    imageUrl: 'https://s2.loli.net/2024/01/17/bFK6PBoe8n7T1Q4.jpg',
   },
 ];
 

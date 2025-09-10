@@ -51,6 +51,7 @@ export type CommunityPost = {
   content: string;
   timestamp: string;
   likes?: number;
+  imageUrl?: string;
 };
 
 export type Badge = {

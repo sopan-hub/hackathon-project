@@ -37,7 +37,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setEcoPoints(0);
     setCompletedLessons([]);
     setBadges([]);
-    setLoading(true);
   }, []);
 
   const fetchUserProfile = useCallback(async (user: User) => {
@@ -84,6 +83,20 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
+    const checkUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+
+      if (currentUser) {
+        await fetchUserProfile(currentUser);
+      } else {
+        setLoading(false);
+      }
+    };
+    
+    checkUser();
+
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         const currentUser = session?.user ?? null;
@@ -93,7 +106,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
           await fetchUserProfile(currentUser);
         } else {
           resetProgress();
-          setLoading(false);
         }
       }
     );
@@ -160,16 +172,20 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     resetProgress,
   };
 
-  return (
-    <UserProgressContext.Provider value={value}>
-      {loading && !userProfile ? (
+  if (loading) {
+     return (
            <div className="flex h-screen items-center justify-center">
                 <div className="text-center">
                     <p className="text-lg font-semibold">Loading EcoChallenge...</p>
                     <p className="text-muted-foreground">Please wait a moment.</p>
                 </div>
             </div>
-      ) : children}
+      );
+  }
+
+  return (
+    <UserProgressContext.Provider value={value}>
+      {children}
     </UserProgressContext.Provider>
   );
 }

@@ -10,6 +10,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -28,12 +29,6 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-       options: {
-        data: {
-          full_name: name,
-          avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=${email}`
-        },
-      },
     });
     
     if (error) {
@@ -50,7 +45,7 @@ export default function SignupPage() {
   
   if (isSubmitted) {
     return (
-        <div className="mx-auto max-w-md">
+        <div className="mx-auto max-w-md space-y-6">
             <div className="eco-card">
                 <div className="eco-card-title">Check Your Email</div>
                  <div className="eco-card-icon">
@@ -71,6 +66,13 @@ export default function SignupPage() {
                     </Button>
                 </div>
             </div>
+            <Alert>
+                <Icons.alertCircle className="h-4 w-4" />
+                <AlertTitle>Can't click the link?</AlertTitle>
+                <AlertDescription>
+                    If the verification link in the email takes you to a `localhost` address that won't load, you need to set your website's public URL in your Supabase project under `Authentication > URL Configuration > Site URL`.
+                </AlertDescription>
+            </Alert>
         </div>
     )
   }

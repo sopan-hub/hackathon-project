@@ -1,3 +1,4 @@
+
 import {
   Table,
   TableBody,
@@ -6,12 +7,17 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { leaderboardData, userBadges } from "@/lib/data";
+import { leaderboardData, userBadges, communityPosts } from "@/lib/data";
 import { Icons } from "@/components/icons";
 
 export default function LeaderboardPage() {
+    const topSchool = leaderboardData.reduce((prev, current) => (prev.points > current.points) ? prev : current);
+    const mostActiveUser = leaderboardData[3]; // Mock data for example
+    const bestCommunityIdea = communityPosts.sort((a,b) => (b.likes || 0) - (a.likes || 0))[0];
+
+
   return (
     <div className="space-y-8">
       <div className="space-y-2">
@@ -21,6 +27,39 @@ export default function LeaderboardPage() {
         <p className="text-muted-foreground">
           See who's leading the charge for a greener planet.
         </p>
+      </div>
+
+       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="eco-card p-6">
+                <div className="eco-card-title !text-sm !uppercase !font-medium">Top School of the Week</div>
+                <div className="eco-card-icon !text-3xl">
+                    <Icons.school className="bg-gradient-to-r from-green-400 to-blue-500" />
+                </div>
+                <div className="eco-card-content">
+                    <div className="text-xl font-bold">{topSchool.school}</div>
+                    <p className="text-xs text-muted-foreground">{topSchool.points.toLocaleString()} total points</p>
+                </div>
+            </div>
+            <div className="eco-card p-6">
+                <div className="eco-card-title !text-sm !uppercase !font-medium">Most Active New User</div>
+                <div className="eco-card-icon !text-3xl">
+                    <Icons.user className="bg-gradient-to-r from-purple-400 to-pink-500" />
+                </div>
+                <div className="eco-card-content">
+                    <div className="text-xl font-bold">{mostActiveUser.team}</div>
+                    <p className="text-xs text-muted-foreground">from {mostActiveUser.school}</p>
+                </div>
+            </div>
+            <div className="eco-card p-6">
+                <div className="eco-card-title !text-sm !uppercase !font-medium">Best Community Idea</div>
+                <div className="eco-card-icon !text-3xl">
+                    <Icons.lightbulb className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+                </div>
+                <div className="eco-card-content">
+                    <div className="text-xl font-bold truncate">{bestCommunityIdea.title}</div>
+                    <p className="text-xs text-muted-foreground">by {bestCommunityIdea.author}</p>
+                </div>
+            </div>
       </div>
 
       <div className="eco-card">

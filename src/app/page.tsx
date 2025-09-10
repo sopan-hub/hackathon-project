@@ -19,6 +19,9 @@ export default function Dashboard() {
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
   const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
   
+  // Mock data for global impact
+  const totalTreesPlanted = 1245;
+  const totalWaterSaved = 89000;
 
   return (
     <div className="space-y-8">
@@ -72,6 +75,29 @@ export default function Dashboard() {
                           <div className="text-center text-muted-foreground">You've collected all badges!</div>
                         )}
                     </div>
+                </div>
+            </div>
+        </div>
+      </div>
+      
+      <div className="eco-card">
+         <div className="eco-card-title">Global Impact</div>
+         <div className="eco-card-icon">
+            <Icons.globe className="bg-gradient-to-r from-blue-400 to-purple-500" />
+        </div>
+        <div className="eco-card-content grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="flex items-center gap-4 p-6 rounded-lg bg-background/50">
+                <Icons.treePine className="h-10 w-10 text-primary" />
+                <div>
+                    <p className="text-muted-foreground">Total Trees Planted by All Users</p>
+                    <p className="text-2xl font-bold">{totalTreesPlanted.toLocaleString()}</p>
+                </div>
+            </div>
+             <div className="flex items-center gap-4 p-6 rounded-lg bg-background/50">
+                <Icons.droplets className="h-10 w-10 text-primary" />
+                <div>
+                    <p className="text-muted-foreground">Liters of Water Saved</p>
+                    <p className="text-2xl font-bold">{totalWaterSaved.toLocaleString()}</p>
                 </div>
             </div>
         </div>

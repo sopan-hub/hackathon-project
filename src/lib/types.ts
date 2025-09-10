@@ -1,3 +1,4 @@
+
 import type { LucideIcon } from "lucide-react";
 
 export type Lesson = {
@@ -49,6 +50,7 @@ export type CommunityPost = {
   title: string;
   content: string;
   timestamp: string;
+  likes?: number;
 };
 
 export type Badge = {
@@ -78,4 +80,26 @@ export interface UserProfile {
     completed_lessons: string[];
     badges: Badge[];
     email?: string;
+}
+
+export type Reward = {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  icon: LucideIcon;
+}
+
+export type EcoVillageScenario = {
+  title: string;
+  description: string;
+  choices: {
+    text: string;
+    consequence: string;
+    effects: {
+      environment: number;
+      community: number;
+      economy: number;
+    }
+  }[];
 }

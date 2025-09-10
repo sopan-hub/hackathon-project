@@ -1,3 +1,4 @@
+
 import {
   LayoutDashboard,
   BookOpen,
@@ -32,7 +33,19 @@ import {
   ShieldCheck,
   Users,
   Wind,
-  Mail
+  Mail,
+  Gift,
+  School,
+  ThumbsUp,
+  Globe,
+  Wallet,
+  Book,
+  Briefcase,
+  Home,
+  Mountain,
+  HardHat,
+  Heart,
+  DollarSign,
 } from 'lucide-react';
 
 export const Icons = {
@@ -70,4 +83,18 @@ export const Icons = {
   users: Users,
   wind: Wind,
   mail: Mail,
+  gift: Gift,
+  school: School,
+  thumbsUp: ThumbsUp,
+  globe: Globe,
+  wallet: Wallet,
+  book: Book,
+  briefcase: Briefcase,
+  home: Home,
+  mountain: Mountain,
+  ecoVillage: Home, // Alias for home
+  teacherAssistant: HardHat,
+  community: Users,
+  economy: DollarSign,
+  heart: Heart,
 };

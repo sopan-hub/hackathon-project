@@ -32,7 +32,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchUserProfile = useCallback(async (user: User) => {
+  const fetchUserProfile = useCallback(async (user: User | null) => {
+    if (!user) {
+      setUserProfile(null);
+      return;
+    }
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -52,24 +56,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        await fetchUserProfile(session.user);
-      }
-      setLoading(false);
-    };
-
-    getSession();
-
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
-       if (session?.user) {
-        await fetchUserProfile(session.user);
-      } else {
-        setUserProfile(null);
-      }
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      await fetchUserProfile(currentUser);
+      setLoading(false);
     });
 
     return () => {
@@ -129,7 +120,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     addEcoPoints,
     completeLesson,
     addBadge,
-    fetchUserProfile,
+    fetchUserProfile: fetchUserProfile as (user: User) => Promise<void>,
     logout,
     resetProgress,
   };

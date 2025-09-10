@@ -42,35 +42,12 @@ export default function SignupPage() {
         title: 'Signup Failed',
         description: error.message,
       });
-      setLoading(false);
-      return;
-    } 
-    
-    if (data.user) {
-        // The user object is available, but the session might not be active until email confirmation.
-        // The onAuthStateChange listener in the context will handle fetching the profile once the user is logged in.
-
-        // Also insert into public.profiles. This is now handled by a trigger in Supabase usually.
-        // If not, it should be done in a server-side function for security.
-        // For this client-side example, we'll proceed but be aware of RLS policies.
-        const { error: profileError } = await supabase
-            .from('profiles')
-            .insert({ id: data.user.id, full_name: name, eco_points: 0, avatar_url: `https://picsum.photos/seed/${email}/40/40` });
-
-        if (profileError) {
-             toast({
-                variant: 'destructive',
-                title: 'Could not save profile',
-                description: profileError.message,
-            });
-        } else {
-             toast({
-                title: 'Account Created!',
-                description: 'Please check your email to verify your account and then log in.',
-            });
-            // Don't auto-login, redirect to login page after signup success.
-            router.push('/login');
-        }
+    } else {
+        toast({
+            title: 'Account Created!',
+            description: 'Please check your email to verify your account and then log in.',
+        });
+        router.push('/login');
     }
     setLoading(false);
   };

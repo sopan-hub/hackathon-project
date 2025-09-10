@@ -1,8 +1,8 @@
 
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import * as THREE from 'three';
+import { useState } from "react";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,146 +22,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { CardDescription } from "@/components/ui/card";
 
-const vertexShader = `
-uniform vec2 uHoverUv;
-uniform float uHoverState;
-varying vec2 vUv;
-varying float vOffset;
-
-const float PI = 3.14159265359;
-
-float gaussian(float mu, float sigma) {
-  return (1.0 / (sigma * sqrt(2.0 * PI))) * exp(-0.5 * (pow(mu, 2.0) / pow(sigma, 2.0)));
-}
-
-void main() {
-  vUv = uv;
-  vec3 pos = position;
-  float aspect = 1.0; 
-  vec2 uv1 = uv;
-  vec2 uv2 = uHoverUv;
-  uv1.x *= aspect;
-  uv2.x *= aspect;
-
-  float d = distance(uv1, uv2);
-  float offset = gaussian(d * 3.0, 0.6);
-  pos *= (1.0 + offset * 0.6 * uHoverState);
-  vOffset = offset;
-  
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-}
-`;
-
-const fragmentShader = `
-varying vec2 vUv;
-uniform sampler2D uTexture;
-
-void main() {
-  vec4 color = texture2D(uTexture, vUv);
-  gl_FragColor = color;
-}
-`;
-
 function PostCard({ post }: { post: CommunityPost }) {
   const [summary, setSummary] = useState("");
   const [loading, setLoading] = useState(false);
   const [likes, setLikes] = useState(post.likes || 0);
-
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    if (!canvasRef.current || !imageRef.current) return;
-    
-    const image = imageRef.current;
-    
-    const scene = new THREE.Scene();
-    const camera = new THREE.OrthographicCamera(-0.5, 0.5, 0.5, -0.5, 0.1, 1000);
-    camera.position.z = 1;
-
-    const renderer = new THREE.WebGLRenderer({ canvas: canvasRef.current, alpha: true });
-
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(image.src, () => {
-      if (imageRef.current) {
-        renderer.setSize(imageRef.current.clientWidth, imageRef.current.clientHeight);
-      }
-      renderer.setPixelRatio(window.devicePixelRatio);
-    });
-
-    const geometry = new THREE.PlaneGeometry(1, 1);
-    const material = new THREE.ShaderMaterial({
-      vertexShader,
-      fragmentShader,
-      uniforms: {
-        uTexture: { value: texture },
-        uHoverUv: { value: new THREE.Vector2(0.5, 0.5) },
-        uHoverState: { value: 0.0 },
-      },
-      transparent: true,
-    });
-    
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
-    
-    let isHovering = false;
-    let animationFrameId: number;
-
-    const onMouseMove = (e: MouseEvent) => {
-      const rect = canvasRef.current!.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width;
-      const y = 1.0 - (e.clientY - rect.top) / rect.height;
-      material.uniforms.uHoverUv.value.set(x, y);
-    };
-
-    const onMouseEnter = () => {
-        isHovering = true;
-    };
-
-    const onMouseLeave = () => {
-        isHovering = false;
-    };
-    
-    const currentCanvas = canvasRef.current;
-    currentCanvas.addEventListener('mousemove', onMouseMove);
-    currentCanvas.addEventListener('mouseenter', onMouseEnter);
-    currentCanvas.addEventListener('mouseleave', onMouseLeave);
-
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
-      
-      // Smoothly update hover state
-      const targetHoverState = isHovering ? 1.0 : 0.0;
-      material.uniforms.uHoverState.value += (targetHoverState - material.uniforms.uHoverState.value) * 0.05;
-
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const handleResize = () => {
-        if(imageRef.current) {
-            renderer.setSize(imageRef.current.clientWidth, imageRef.current.clientHeight);
-            camera.updateProjectionMatrix();
-        }
-    }
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      if (currentCanvas) {
-        currentCanvas.removeEventListener('mousemove', onMouseMove);
-        currentCanvas.removeEventListener('mouseenter', onMouseEnter);
-        currentCanvas.removeEventListener('mouseleave', onMouseLeave);
-      }
-      window.removeEventListener('resize', handleResize);
-      geometry.dispose();
-      material.dispose();
-      texture.dispose();
-      renderer.dispose();
-    };
-
-  }, [post.imageUrl]);
-
 
   const handleSummarize = async () => {
     setLoading(true);
@@ -224,10 +88,11 @@ function PostCard({ post }: { post: CommunityPost }) {
             </Dialog>
           </div>
         </div>
-        <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-             <img ref={imageRef} src={post.imageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover opacity-0" crossOrigin="anonymous" />
-            <canvas ref={canvasRef} className="w-full h-full"></canvas>
-        </div>
+        {post.imageUrl && (
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden">
+                <Image src={post.imageUrl} alt={post.title} layout="fill" className="object-cover" />
+            </div>
+        )}
       </div>
     </div>
   );

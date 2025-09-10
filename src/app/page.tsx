@@ -11,7 +11,6 @@ import { challenges, communityPosts, userBadges, lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
 import { useUserProgress } from "@/context/user-progress-context";
-import { FlowerAnimation } from "@/components/ui/flower-animation";
 import { useEffect } from "react";
 
 
@@ -20,13 +19,6 @@ export default function Dashboard() {
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
   const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
   
-  useEffect(() => {
-    // This is for the flower animation
-    const timeout = setTimeout(() => {
-      document.body.classList.remove("not-loaded");
-      clearTimeout(timeout);
-    }, 1000);
-  }, []);
 
   return (
     <div className="space-y-8">

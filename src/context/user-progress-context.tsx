@@ -17,7 +17,6 @@ interface UserProgressContextType {
   completeLesson: (lessonId: string) => void;
   addBadge: (badge: Badge) => void;
   logout: () => Promise<void>;
-  resetProgress: () => void;
 }
 
 const UserProgressContext = createContext<UserProgressContextType | undefined>(undefined);
@@ -59,6 +58,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
                 setCompletedLessons(userWithEmail.completed_lessons || []);
                 setBadges(userWithEmail.badges || []);
             } else {
+                 // This case should ideally not be hit if signup creates a profile,
+                 // but it's a good fallback.
                  const { data: newProfile, error: createError } = await supabase
                     .from('profiles')
                     .insert({ 
@@ -71,7 +72,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
                     .single();
 
                 if (createError) {
-                    console.error('Error creating profile:', createError);
+                    console.error('Error creating profile on-the-fly:', createError);
                     resetProgress();
                 } else if (newProfile) {
                     const userWithEmail: UserProfile = { ...newProfile, email: currentUser.email };
@@ -148,7 +149,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     completeLesson,
     addBadge,
     logout,
-    resetProgress,
   };
   
 

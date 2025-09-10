@@ -1,7 +1,8 @@
 
+
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -10,14 +11,23 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
+import { useUserProgress } from '@/context/user-progress-context';
 
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useUserProgress();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Redirect if user is already logged in
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +58,7 @@ export default function SignupPage() {
         title: 'Account Created!',
         description: 'Welcome to EcoChallenge!',
       });
-      router.push('/');
+      // The onAuthStateChange listener will redirect.
     } else {
         // This case might happen if email confirmation is still enabled in Supabase
          toast({

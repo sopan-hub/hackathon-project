@@ -2,7 +2,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -11,14 +11,23 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
-import type { User } from '@supabase/supabase-js';
+import { useUserProgress } from '@/context/user-progress-context';
 
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
+  const { user } = useUserProgress();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Redirect if user is already logged in
+    if (user) {
+      router.push('/');
+    }
+  }, [user, router]);
+
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +50,7 @@ export default function LoginPage() {
         title: 'Login Successful',
         description: 'Welcome back!',
       });
-      router.push('/');
+      // The onAuthStateChange listener in the context will handle the redirect
     } else {
         setLoading(false);
     }

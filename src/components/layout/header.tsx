@@ -18,9 +18,10 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Icons } from '@/components/icons';
 import { useRouter } from 'next/navigation';
+import { Skeleton } from '../ui/skeleton';
 
 export function Header({className}: {className?: string}) {
-  const { userProfile, logout } = useUserProgress();
+  const { userProfile, loading, logout } = useUserProgress();
   const router = useRouter();
 
   const handleLogout = async () => {
@@ -33,7 +34,13 @@ export function Header({className}: {className?: string}) {
       <SidebarTrigger className="md:hidden" />
       <div className="flex-1" />
        <div className="flex items-center gap-4">
-        {userProfile ? (
+        {loading && (
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-8 w-16" />
+            <Skeleton className="h-8 w-20" />
+          </div>
+        )}
+        {!loading && userProfile ? (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -68,7 +75,7 @@ export function Header({className}: {className?: string}) {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : (
+        ) : !loading && (
           <div className="flex items-center gap-2">
             <Button asChild variant="ghost">
               <Link href="/login">Log In</Link>

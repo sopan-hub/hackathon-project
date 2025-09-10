@@ -55,12 +55,6 @@ export function Header({className}: {className?: string}) {
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                 <Link href="/profile">
-                    <Icons.user className="mr-2 h-4 w-4" />
-                    Profile
-                </Link>
-              </DropdownMenuItem>
               <DropdownMenuItem onClick={handleLogout}>
                  <Icons.logOut className="mr-2 h-4 w-4" />
                 Log out

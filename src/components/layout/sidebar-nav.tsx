@@ -67,7 +67,6 @@ export function SidebarNav() {
             </Avatar>
             <div className='flex-1 overflow-hidden'>
                 <p className='text-sm font-semibold truncate'>{userProfile.full_name}</p>
-                <Link href="/profile" className='text-xs text-primary hover:underline'>View Profile</Link>
             </div>
             <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8">
                 <Icons.logOut className='h-4 w-4' />

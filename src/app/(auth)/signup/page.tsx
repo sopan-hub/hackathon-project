@@ -10,7 +10,8 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import type { User } from '@supabase/supabase-js';
+import { useUserProgress } from '@/context/user-progress-context';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -19,7 +20,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const { fetchUserProfile } = useUserProgress();
 
 
   const handleSignup = async (e: React.FormEvent) => {
@@ -29,6 +30,12 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          full_name: name,
+          avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=${email}`
+        }
+      }
     });
     
     if (error) {
@@ -38,38 +45,25 @@ export default function SignupPage() {
         description: error.message,
       });
       setLoading(false);
+    } else if (data.user) {
+      // Since email confirmation is disabled, user is logged in.
+      // Now, ensure their profile is created and fetched.
+      await fetchUserProfile(data.user as User);
+      toast({
+        title: 'Account Created!',
+        description: 'Welcome to EcoChallenge!',
+      });
+      router.push('/');
     } else {
-        setIsSubmitted(true);
+        // This case might happen if email confirmation is still enabled in Supabase
+         toast({
+            variant: 'destructive',
+            title: 'Please check your Supabase settings',
+            description: 'Email confirmation might still be enabled in your Supabase project. Please disable it to log in directly.',
+        });
+        setLoading(false);
     }
   };
-  
-  if (isSubmitted) {
-    return (
-        <div className="mx-auto max-w-md space-y-6">
-            <div className="eco-card">
-                <div className="eco-card-title">Check Your Email</div>
-                 <div className="eco-card-icon">
-                    <Icons.mail className="bg-gradient-to-r from-green-400 to-blue-500" />
-                </div>
-                <div className="eco-card-content text-center">
-                    <p className="text-lg">
-                        Thank you for signing up!
-                    </p>
-                    <p className="text-muted-foreground mt-2">
-                        We have sent a verification link to <strong>{email}</strong>. Please click the link in the email to activate your account.
-                    </p>
-                </div>
-                 <div className="eco-card-bar" />
-                 <div className="eco-card-footer justify-center">
-                    <Button asChild>
-                        <Link href="/login">Back to Login</Link>
-                    </Button>
-                </div>
-            </div>
-        </div>
-    )
-  }
-
 
   return (
     <div className="mx-auto max-w-md">

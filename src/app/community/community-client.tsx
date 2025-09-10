@@ -148,13 +148,16 @@ function PostCard({ post }: { post: CommunityPost }) {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
-      currentCanvas.removeEventListener('mousemove', onMouseMove);
-      currentCanvas.removeEventListener('mouseenter', onMouseEnter);
-      currentCanvas.removeEventListener('mouseleave', onMouseLeave);
+      if (currentCanvas) {
+        currentCanvas.removeEventListener('mousemove', onMouseMove);
+        currentCanvas.removeEventListener('mouseenter', onMouseEnter);
+        currentCanvas.removeEventListener('mouseleave', onMouseLeave);
+      }
       window.removeEventListener('resize', handleResize);
       geometry.dispose();
       material.dispose();
       texture.dispose();
+      renderer.dispose();
     };
 
   }, [post.imageUrl]);

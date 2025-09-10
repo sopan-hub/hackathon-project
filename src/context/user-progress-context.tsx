@@ -70,7 +70,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        setLoading(true);
         const currentUser = session?.user ?? null;
         setUser(currentUser);
 
@@ -183,7 +182,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     resetProgress,
   };
 
-  if (loading && !userProfile) {
+  if (loading) {
      return (
            <div className="flex h-screen items-center justify-center">
                 <div className="text-center">

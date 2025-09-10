@@ -41,30 +41,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   const fetchUserProfile = useCallback(async (user: User) => {
     try {
-      let { data: profile, error } = await supabase
+      const { data: profile, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', user.id)
         .single();
-
-      if (error && error.code === 'PGRST116') {
-        // Profile not found, create it
-        const { data: newProfile, error: createError } = await supabase
-            .from('profiles')
-            .insert({ 
-                id: user.id, 
-                full_name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'New User',
-                avatar_url: user.user_metadata?.avatar_url || `https://api.dicebear.com/8.x/bottts/svg?seed=${user.email}`,
-                email: user.email
-            })
-            .select()
-            .single();
-        
-        if (createError) throw createError;
-        profile = newProfile;
-      } else if (error) {
-        throw error;
-      }
 
       if (profile) {
         const userWithEmail: UserProfile = { ...profile, email: user.email };
@@ -72,22 +53,68 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         setEcoPoints(userWithEmail.eco_points || 0);
         setCompletedLessons(userWithEmail.completed_lessons || []);
         setBadges(userWithEmail.badges || []);
+      } else if (error && error.code === 'PGRST116') {
+        // Profile not found, this case is handled by onAuthStateChange creating it
+        // This is not an error state, just means profile creation is pending or just happened
+      } else if (error) {
+        console.error('Error fetching profile:', error);
+        setUserProfile(null); // Clear profile on error
       }
     } catch (e) {
-        console.error('Error fetching or creating profile:', e);
+        console.error('Exception fetching profile:', e);
         setUserProfile(null);
     }
   }, []);
 
+
   useEffect(() => {
-    setLoading(true);
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        setLoading(true);
         const currentUser = session?.user ?? null;
         setUser(currentUser);
 
         if (currentUser) {
-          await fetchUserProfile(currentUser);
+            // First, try to fetch the profile.
+            const { data: profile } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', currentUser.id)
+                .single();
+
+            if (profile) {
+                // Profile exists, set it.
+                const userWithEmail: UserProfile = { ...profile, email: currentUser.email };
+                setUserProfile(userWithEmail);
+                setEcoPoints(userWithEmail.eco_points || 0);
+                setCompletedLessons(userWithEmail.completed_lessons || []);
+                setBadges(userWithEmail.badges || []);
+            } else {
+                // Profile does not exist, so create it.
+                 const { data: newProfile, error: createError } = await supabase
+                    .from('profiles')
+                    .insert({ 
+                        id: currentUser.id, 
+                        full_name: currentUser.user_metadata?.full_name || currentUser.email?.split('@')[0] || 'New User',
+                        avatar_url: currentUser.user_metadata?.avatar_url || `https://api.dicebear.com/8.x/bottts/svg?seed=${currentUser.email}`,
+                        email: currentUser.email
+                    })
+                    .select()
+                    .single();
+
+                if (createError) {
+                    console.error('Error creating profile:', createError);
+                    resetProgress();
+                } else if (newProfile) {
+                    const userWithEmail: UserProfile = { ...newProfile, email: currentUser.email };
+                    setUserProfile(userWithEmail);
+                    setEcoPoints(userWithEmail.eco_points || 0);
+                    setCompletedLessons(userWithEmail.completed_lessons || []);
+                    setBadges(userWithEmail.badges || []);
+                }
+            }
+        } else {
+            resetProgress();
         }
         setLoading(false);
       }
@@ -96,7 +123,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchUserProfile]);
+  }, [resetProgress]);
+
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     if(!user) return;
@@ -155,7 +183,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     resetProgress,
   };
 
-  if (loading) {
+  if (loading && !userProfile) {
      return (
            <div className="flex h-screen items-center justify-center">
                 <div className="text-center">

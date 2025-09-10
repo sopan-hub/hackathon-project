@@ -9,6 +9,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
+import { useUserProgress } from '@/context/user-progress-context';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { fetchUserProfile } = useUserProgress();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,7 +57,9 @@ export default function SignupPage() {
                 title: 'Account Created!',
                 description: 'Please check your email to verify your account and then log in.',
             });
-            router.push('/login');
+            // Auto-login the user by fetching their profile
+            await fetchUserProfile(data.user);
+            router.push('/');
         }
     }
     setLoading(false);

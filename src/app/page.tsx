@@ -85,17 +85,8 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-5">
-        <div className="lg:col-span-3 space-y-6">
-          <DashboardClient />
-        </div>
-        
-        <div className="lg:col-span-2 hidden lg:flex items-center justify-center relative">
-          <div className="absolute bottom-0 w-full h-full">
-            <FlowerAnimation />
-          </div>
-        </div>
-      </div>
+      <DashboardClient />
+
     </div>
   );
 }

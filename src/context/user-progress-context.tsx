@@ -151,17 +151,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     resetProgress,
   };
   
-  if (loading) {
-     return (
-           <div className="flex h-screen items-center justify-center">
-                <div className="text-center">
-                    <p className="text-lg font-semibold">Loading EcoChallenge...</p>
-                    <p className="text-muted-foreground">Please wait a moment.</p>
-                </div>
-            </div>
-      );
-  }
-
 
   return (
     <UserProgressContext.Provider value={value}>

@@ -65,6 +65,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             console.error('Error creating profile:', createError);
             setUserProfile(null);
         } else {
+            console.log('Profile created successfully.');
             profile = newProfile;
         }
       } else if (error) {

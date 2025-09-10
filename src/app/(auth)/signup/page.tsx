@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -30,6 +31,7 @@ export default function SignupPage() {
       options: {
         data: {
           full_name: name,
+          avatar_url: `https://picsum.photos/seed/${email}/40/40`
         },
       },
     });
@@ -40,11 +42,20 @@ export default function SignupPage() {
         title: 'Signup Failed',
         description: error.message,
       });
-    } else if (data.user) {
-        // Also insert into public.profiles
+      setLoading(false);
+      return;
+    } 
+    
+    if (data.user) {
+        // The user object is available, but the session might not be active until email confirmation.
+        // The onAuthStateChange listener in the context will handle fetching the profile once the user is logged in.
+
+        // Also insert into public.profiles. This is now handled by a trigger in Supabase usually.
+        // If not, it should be done in a server-side function for security.
+        // For this client-side example, we'll proceed but be aware of RLS policies.
         const { error: profileError } = await supabase
             .from('profiles')
-            .insert({ id: data.user.id, full_name: name, eco_points: 0, avatar_url: `https://picsum.photos/seed/${data.user.id}/40/40` });
+            .insert({ id: data.user.id, full_name: name, eco_points: 0, avatar_url: `https://picsum.photos/seed/${email}/40/40` });
 
         if (profileError) {
              toast({
@@ -53,13 +64,12 @@ export default function SignupPage() {
                 description: profileError.message,
             });
         } else {
-            toast({
+             toast({
                 title: 'Account Created!',
                 description: 'Please check your email to verify your account and then log in.',
             });
-            // Auto-login the user by fetching their profile
-            await fetchUserProfile(data.user);
-            router.push('/');
+            // Don't auto-login, redirect to login page after signup success.
+            router.push('/login');
         }
     }
     setLoading(false);

@@ -18,6 +18,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,7 +28,7 @@ export default function SignupPage() {
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
+       options: {
         data: {
           full_name: name,
           avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=${email}`
@@ -40,16 +42,39 @@ export default function SignupPage() {
         title: 'Signup Failed',
         description: error.message,
       });
+      setLoading(false);
     } else {
-        toast({
-            title: 'Account Created!',
-            description: "We've sent a verification link to your email. Please click the link to activate your account and then log in.",
-            duration: 10000, // Make toast last longer
-        });
-        router.push('/login');
+        setIsSubmitted(true);
     }
-    setLoading(false);
   };
+  
+  if (isSubmitted) {
+    return (
+        <div className="mx-auto max-w-md">
+            <div className="eco-card">
+                <div className="eco-card-title">Check Your Email</div>
+                 <div className="eco-card-icon">
+                    <Icons.mail className="bg-gradient-to-r from-green-400 to-blue-500" />
+                </div>
+                <div className="eco-card-content text-center">
+                    <p className="text-lg">
+                        Thank you for signing up!
+                    </p>
+                    <p className="text-muted-foreground mt-2">
+                        We have sent a verification link to <strong>{email}</strong>. Please click the link in the email to activate your account.
+                    </p>
+                </div>
+                 <div className="eco-card-bar" />
+                 <div className="eco-card-footer justify-center">
+                    <Button asChild>
+                        <Link href="/login">Back to Login</Link>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+  }
+
 
   return (
     <div className="mx-auto max-w-md">

@@ -31,7 +31,8 @@ import {
   BookMarked,
   ShieldCheck,
   Users,
-  Wind
+  Wind,
+  Mail
 } from 'lucide-react';
 
 export const Icons = {
@@ -68,4 +69,5 @@ export const Icons = {
   shieldCheck: ShieldCheck,
   users: Users,
   wind: Wind,
+  mail: Mail,
 };

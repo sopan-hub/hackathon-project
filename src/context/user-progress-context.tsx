@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
@@ -39,42 +38,14 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges([]);
   }, []);
 
-  const fetchUserProfile = useCallback(async (user: User) => {
-    try {
-      const { data: profile, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single();
-
-      if (profile) {
-        const userWithEmail: UserProfile = { ...profile, email: user.email };
-        setUserProfile(userWithEmail);
-        setEcoPoints(userWithEmail.eco_points || 0);
-        setCompletedLessons(userWithEmail.completed_lessons || []);
-        setBadges(userWithEmail.badges || []);
-      } else if (error && error.code === 'PGRST116') {
-        // Profile not found, this case is handled by onAuthStateChange creating it
-        // This is not an error state, just means profile creation is pending or just happened
-      } else if (error) {
-        console.error('Error fetching profile:', error);
-        setUserProfile(null); // Clear profile on error
-      }
-    } catch (e) {
-        console.error('Exception fetching profile:', e);
-        setUserProfile(null);
-    }
-  }, []);
-
-
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
+        setLoading(true);
         const currentUser = session?.user ?? null;
         setUser(currentUser);
 
         if (currentUser) {
-            // First, try to fetch the profile.
             const { data: profile } = await supabase
                 .from('profiles')
                 .select('*')
@@ -82,14 +53,12 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
                 .single();
 
             if (profile) {
-                // Profile exists, set it.
                 const userWithEmail: UserProfile = { ...profile, email: currentUser.email };
                 setUserProfile(userWithEmail);
                 setEcoPoints(userWithEmail.eco_points || 0);
                 setCompletedLessons(userWithEmail.completed_lessons || []);
                 setBadges(userWithEmail.badges || []);
             } else {
-                // Profile does not exist, so create it.
                  const { data: newProfile, error: createError } = await supabase
                     .from('profiles')
                     .insert({ 
@@ -156,7 +125,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         const newBadges = [...prevBadges, badge];
-        updateProfile({ badges: newBadges as any[] }); // Cast to any to handle Supabase type
+        updateProfile({ badges: newBadges as any[] });
         return newBadges;
       }
       return prevBadges;
@@ -181,7 +150,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     logout,
     resetProgress,
   };
-
+  
   if (loading) {
      return (
            <div className="flex h-screen items-center justify-center">
@@ -192,6 +161,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             </div>
       );
   }
+
 
   return (
     <UserProgressContext.Provider value={value}>

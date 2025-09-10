@@ -83,7 +83,9 @@ function PostCard({ post }: { post: CommunityPost }) {
 
     const textureLoader = new THREE.TextureLoader();
     const texture = textureLoader.load(image.src, () => {
-      renderer.setSize(image.clientWidth, image.clientHeight);
+      if (imageRef.current) {
+        renderer.setSize(imageRef.current.clientWidth, imageRef.current.clientHeight);
+      }
       renderer.setPixelRatio(window.devicePixelRatio);
     });
 
@@ -101,6 +103,9 @@ function PostCard({ post }: { post: CommunityPost }) {
     
     const mesh = new THREE.Mesh(geometry, material);
     scene.add(mesh);
+    
+    let isHovering = false;
+    let animationFrameId: number;
 
     const onMouseMove = (e: MouseEvent) => {
       const rect = canvasRef.current!.getBoundingClientRect();
@@ -110,11 +115,11 @@ function PostCard({ post }: { post: CommunityPost }) {
     };
 
     const onMouseEnter = () => {
-        material.uniforms.uHoverState.value = 1.0;
+        isHovering = true;
     };
 
     const onMouseLeave = () => {
-        material.uniforms.uHoverState.value = 0.0;
+        isHovering = false;
     };
     
     const currentCanvas = canvasRef.current;
@@ -123,7 +128,12 @@ function PostCard({ post }: { post: CommunityPost }) {
     currentCanvas.addEventListener('mouseleave', onMouseLeave);
 
     const animate = () => {
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
+      
+      // Smoothly update hover state
+      const targetHoverState = isHovering ? 1.0 : 0.0;
+      material.uniforms.uHoverState.value += (targetHoverState - material.uniforms.uHoverState.value) * 0.05;
+
       renderer.render(scene, camera);
     };
     animate();
@@ -131,11 +141,13 @@ function PostCard({ post }: { post: CommunityPost }) {
     const handleResize = () => {
         if(imageRef.current) {
             renderer.setSize(imageRef.current.clientWidth, imageRef.current.clientHeight);
+            camera.updateProjectionMatrix();
         }
     }
     window.addEventListener('resize', handleResize);
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       currentCanvas.removeEventListener('mousemove', onMouseMove);
       currentCanvas.removeEventListener('mouseenter', onMouseEnter);
       currentCanvas.removeEventListener('mouseleave', onMouseLeave);
@@ -145,7 +157,7 @@ function PostCard({ post }: { post: CommunityPost }) {
       texture.dispose();
     };
 
-  }, [post.authorAvatarUrl]);
+  }, [post.imageUrl]);
 
 
   const handleSummarize = async () => {
@@ -210,7 +222,7 @@ function PostCard({ post }: { post: CommunityPost }) {
           </div>
         </div>
         <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-             <img ref={imageRef} src={post.imageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover opacity-0" />
+             <img ref={imageRef} src={post.imageUrl} alt={post.title} className="absolute inset-0 w-full h-full object-cover opacity-0" crossOrigin="anonymous" />
             <canvas ref={canvasRef} className="w-full h-full"></canvas>
         </div>
       </div>

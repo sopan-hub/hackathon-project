@@ -35,10 +35,9 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const fetchUserProfile = useCallback(async (user: User | null) => {
     if (!user) {
       setUserProfile(null);
-      setLoading(false);
       return;
     }
-    setLoading(true);
+    
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -48,8 +47,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
       if (error) {
         console.error('Error fetching profile:', error);
-        // This might happen if the profile is not yet created. Let's create it.
-        if (error.code === 'PGRST116') {
+        if (error.code === 'PGRST116') { // "Not found" error, profile doesn't exist
+            console.log('Profile not found for user, creating one.');
             const { data: newProfile, error: createError } = await supabase
                 .from('profiles')
                 .insert({ 
@@ -82,8 +81,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     } catch (e) {
         console.error("An unexpected error occurred in fetchUserProfile:", e);
         setUserProfile(null);
-    } finally {
-        setLoading(false);
     }
   }, []);
 
@@ -103,16 +100,18 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // Also check for initial user
-    const checkInitialUser = async () => {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (user) {
-            setUser(user);
-            await fetchUserProfile(user);
+    // Initial check for user session on component mount
+    const checkInitialSession = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        if (currentUser) {
+            await fetchUserProfile(currentUser);
         }
         setLoading(false);
-    }
-    checkInitialUser();
+    };
+
+    checkInitialSession();
 
 
     return () => {

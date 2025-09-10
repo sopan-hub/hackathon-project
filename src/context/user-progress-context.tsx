@@ -40,7 +40,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const fetchUserProfile = useCallback(async (user: User) => {
-    setLoading(true);
     try {
       let { data: profile, error } = await supabase
         .from('profiles')
@@ -77,26 +76,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     } catch (e) {
         console.error('Error fetching or creating profile:', e);
         setUserProfile(null);
-    } finally {
-        setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    const checkUser = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-
-      if (currentUser) {
-        await fetchUserProfile(currentUser);
-      } else {
-        setLoading(false);
-      }
-    };
-    
-    checkUser();
-
+    setLoading(true);
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         const currentUser = session?.user ?? null;
@@ -104,16 +88,15 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
         if (currentUser) {
           await fetchUserProfile(currentUser);
-        } else {
-          resetProgress();
         }
+        setLoading(false);
       }
     );
 
     return () => {
       subscription.unsubscribe();
     };
-  }, [fetchUserProfile, resetProgress]);
+  }, [fetchUserProfile]);
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
     if(!user) return;

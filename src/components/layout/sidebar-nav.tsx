@@ -59,7 +59,7 @@ export function SidebarNav() {
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className='p-2'>
-        {userProfile ? (
+        {userProfile && (
           <div className="flex items-center gap-3 p-2 rounded-md bg-secondary/50">
              <Avatar className="h-8 w-8">
                 <AvatarImage src={userProfile.avatar_url} alt={userProfile.full_name} />
@@ -73,8 +73,6 @@ export function SidebarNav() {
                 <Icons.logOut className='h-4 w-4' />
             </Button>
           </div>
-        ) : (
-           null
         )}
       </SidebarFooter>
     </>

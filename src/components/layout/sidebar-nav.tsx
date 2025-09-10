@@ -60,18 +60,19 @@ export function SidebarNav() {
       </SidebarContent>
       <SidebarFooter className='p-2'>
         {userProfile && (
-          <div className="flex items-center gap-3 p-2 rounded-md bg-secondary/50">
+          <Link href="/profile" className="flex items-center gap-3 p-2 rounded-md bg-secondary/50 hover:bg-secondary transition-colors">
              <Avatar className="h-8 w-8">
                 <AvatarImage src={userProfile.avatar_url} alt={userProfile.full_name} />
                 <AvatarFallback>{userProfile.full_name?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className='flex-1 overflow-hidden'>
                 <p className='text-sm font-semibold truncate'>{userProfile.full_name}</p>
+                 <p className="text-xs text-muted-foreground truncate">{userProfile.email}</p>
             </div>
-            <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8">
+            <Button variant="ghost" size="icon" onClick={(e) => { e.preventDefault(); handleLogout(); }} className="h-8 w-8">
                 <Icons.logOut className='h-4 w-4' />
             </Button>
-          </div>
+          </Link>
         )}
       </SidebarFooter>
     </>

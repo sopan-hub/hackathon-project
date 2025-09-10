@@ -32,6 +32,13 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const resetProgress = useCallback(() => {
+    setEcoPoints(0);
+    setCompletedLessons([]);
+    setBadges([]);
+    setUserProfile(null);
+  }, []);
+
   const fetchUserProfile = useCallback(async (user: User | null) => {
     if (!user) {
       setUserProfile(null);
@@ -74,7 +81,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       }
 
       if (profile) {
-        const userWithEmail = { ...profile, email: user.email };
+        const userWithEmail: UserProfile = { ...profile, email: user.email };
         setUserProfile(userWithEmail);
         setEcoPoints(userWithEmail.eco_points || 0);
         setCompletedLessons(userWithEmail.completed_lessons || []);
@@ -89,38 +96,33 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (_event, session) => {
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        if (currentUser) {
-          await fetchUserProfile(currentUser);
-        } else {
-          setUserProfile(null);
-          resetProgress();
-          setLoading(false);
-        }
-      }
-    );
+    const getInitialUser = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      const currentUser = session?.user ?? null;
+      setUser(currentUser);
+      await fetchUserProfile(currentUser);
 
-    // Also check for initial session on load
-    const checkInitialSession = async () => {
-        const { data: { session } } = await supabase.auth.getSession();
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        if (currentUser) {
-            await fetchUserProfile(currentUser);
-        } else {
+      const { data: { subscription } } = supabase.auth.onAuthStateChange(
+        async (_event, session) => {
+          const newCurrentUser = session?.user ?? null;
+          setUser(newCurrentUser);
+          if (newCurrentUser && newCurrentUser.id !== user?.id) {
+            await fetchUserProfile(newCurrentUser);
+          } else if (!newCurrentUser) {
+            resetProgress();
             setLoading(false);
+          }
         }
-    };
-    checkInitialSession();
+      );
 
+      return () => {
+        subscription.unsubscribe();
+      };
+    }
+    
+    getInitialUser();
 
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, [fetchUserProfile]);
+  }, [fetchUserProfile, resetProgress, user?.id]);
 
 
   const updateProfile = async (updates: Partial<UserProfile>) => {
@@ -165,15 +167,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const logout = async () => {
     await supabase.auth.signOut();
     setUser(null);
-    setUserProfile(null);
     resetProgress();
   };
-
-  const resetProgress = () => {
-    setEcoPoints(0);
-    setCompletedLessons([]);
-    setBadges([]);
-  }
 
   const value = {
     user,
@@ -192,7 +187,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   return (
     <UserProgressContext.Provider value={value}>
-      {loading ? (
+      {loading && !userProfile ? (
            <div className="flex h-screen items-center justify-center">
                 <div className="text-center">
                     <p className="text-lg font-semibold">Loading EcoChallenge...</p>

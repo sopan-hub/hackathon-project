@@ -88,15 +88,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const getSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      await fetchUserProfile(session?.user ?? null);
-      setLoading(false);
-    };
-
-    getSession();
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (_event, session) => {
         const currentUser = session?.user ?? null;
@@ -104,12 +95,26 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         if (currentUser) {
           await fetchUserProfile(currentUser);
         } else {
-          // User logged out
           setUserProfile(null);
           resetProgress();
+          setLoading(false);
         }
       }
     );
+
+    // Also check for initial session on load
+    const checkInitialSession = async () => {
+        const { data: { session } } = await supabase.auth.getSession();
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        if (currentUser) {
+            await fetchUserProfile(currentUser);
+        } else {
+            setLoading(false);
+        }
+    };
+    checkInitialSession();
+
 
     return () => {
       subscription.unsubscribe();

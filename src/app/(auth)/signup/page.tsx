@@ -43,7 +43,8 @@ export default function SignupPage() {
     } else {
         toast({
             title: 'Account Created!',
-            description: 'Please check your email to verify your account and then log in.',
+            description: "We've sent a verification link to your email. Please click the link to activate your account and then log in.",
+            duration: 10000, // Make toast last longer
         });
         router.push('/login');
     }

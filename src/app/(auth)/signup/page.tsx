@@ -31,6 +31,7 @@ export default function SignupPage() {
       options: {
         data: {
           full_name: name,
+          avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=${email}`
         },
       },
     });

@@ -75,5 +75,7 @@ export interface UserProfile {
     full_name: string;
     avatar_url: string;
     eco_points: number;
+    completed_lessons: string[];
+    badges: Badge[];
     email?: string;
 }

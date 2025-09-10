@@ -35,8 +35,10 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const fetchUserProfile = useCallback(async (user: User | null) => {
     if (!user) {
       setUserProfile(null);
+      setLoading(false);
       return;
     }
+    setLoading(true);
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -49,18 +51,30 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     } else if (data) {
       setUserProfile({ ...data, email: user.email });
       setEcoPoints(data.eco_points || 0);
-      // Assuming completed_lessons and badges are stored as JSONB or Array fields in your profiles table
-      // setCompletedLessons(data.completed_lessons || []);
-      // setBadges(data.badges || []);
+      setCompletedLessons(data.completed_lessons || []);
+      setBadges(data.badges || []);
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
+    const checkUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      await fetchUserProfile(user);
+      setLoading(false);
+    }
+    checkUser();
+
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       const currentUser = session?.user ?? null;
       setUser(currentUser);
-      await fetchUserProfile(currentUser);
-      setLoading(false);
+      if (currentUser) {
+        await fetchUserProfile(currentUser);
+      } else {
+        setUserProfile(null);
+        resetProgress();
+      }
     });
 
     return () => {
@@ -69,19 +83,29 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   }, [fetchUserProfile]);
 
 
-  const addEcoPoints = async (points: number) => {
-    const newPoints = ecoPoints + points;
-    setEcoPoints(newPoints);
-    if(user) {
-        await supabase.from('profiles').update({ eco_points: newPoints }).eq('id', user.id);
+  const updateProfile = async (updates: Partial<UserProfile>) => {
+    if(!user) return;
+    const { error } = await supabase.from('profiles').update(updates).eq('id', user.id);
+    if (error) {
+      console.error('Error updating profile', error);
     }
+  }
+
+
+  const addEcoPoints = (points: number) => {
+    setEcoPoints((prevPoints) => {
+      const newPoints = prevPoints + points;
+      updateProfile({ eco_points: newPoints });
+      return newPoints;
+    });
   };
 
   const completeLesson = (lessonId: string) => {
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
-        // Here you would also update the database
-        return [...prevLessons, lessonId];
+        const newLessons = [...prevLessons, lessonId];
+        updateProfile({ completed_lessons: newLessons });
+        return newLessons;
       }
       return prevLessons;
     });
@@ -90,8 +114,9 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const addBadge = (badge: Badge) => {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
-        // Here you would also update the database
-        return [...prevBadges, badge];
+        const newBadges = [...prevBadges, badge];
+        updateProfile({ badges: newBadges });
+        return newBadges;
       }
       return prevBadges;
     });

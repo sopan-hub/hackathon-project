@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import Link from 'next/link';
@@ -16,10 +17,18 @@ import { Icons } from '@/components/icons';
 import { Button } from '../ui/button';
 import { useUserProgress } from '@/context/user-progress-context';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { useRouter } from 'next/navigation';
 
 export function SidebarNav() {
   const pathname = usePathname();
   const { userProfile, logout } = useUserProgress();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/login');
+  };
+
 
   return (
     <>
@@ -60,19 +69,12 @@ export function SidebarNav() {
                 <p className='text-sm font-semibold truncate'>{userProfile.full_name}</p>
                 <Link href="/profile" className='text-xs text-primary hover:underline'>View Profile</Link>
             </div>
-            <Button variant="ghost" size="icon" onClick={logout} className="h-8 w-8">
+            <Button variant="ghost" size="icon" onClick={handleLogout} className="h-8 w-8">
                 <Icons.logOut className='h-4 w-4' />
             </Button>
           </div>
         ) : (
-            <div className='flex items-center gap-2'>
-                <Button asChild className='flex-1'>
-                    <Link href="/login">Login</Link>
-                </Button>
-                 <Button asChild variant="secondary" className='flex-1'>
-                    <Link href="/signup">Sign Up</Link>
-                </Button>
-            </div>
+           null
         )}
       </SidebarFooter>
     </>

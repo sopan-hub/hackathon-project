@@ -10,6 +10,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Icons } from '@/components/icons';
 import { supabase } from '@/lib/supabase';
 import { useUserProgress } from '@/context/user-progress-context';
+import type { User } from '@supabase/supabase-js';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -35,7 +36,7 @@ export default function LoginPage() {
         description: error.message,
       });
     } else if (data.user) {
-      await fetchUserProfile(data.user.id);
+      await fetchUserProfile(data.user as User);
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',

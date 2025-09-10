@@ -75,4 +75,5 @@ export interface UserProfile {
     full_name: string;
     avatar_url: string;
     eco_points: number;
+    email?: string;
 }

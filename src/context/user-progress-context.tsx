@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect, useCallback } from 'react';
@@ -16,7 +17,7 @@ interface UserProgressContextType {
   addEcoPoints: (points: number) => void;
   completeLesson: (lessonId: string) => void;
   addBadge: (badge: Badge) => void;
-  fetchUserProfile: (userId: string) => Promise<void>;
+  fetchUserProfile: (user: User) => Promise<void>;
   logout: () => Promise<void>;
   resetProgress: () => void;
 }
@@ -31,18 +32,18 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [badges, setBadges] = useState<Badge[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const fetchUserProfile = useCallback(async (userId: string) => {
+  const fetchUserProfile = useCallback(async (user: User) => {
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', userId)
+      .eq('id', user.id)
       .single();
 
     if (error) {
       console.error('Error fetching profile:', error);
       setUserProfile(null);
     } else if (data) {
-      setUserProfile(data);
+      setUserProfile({ ...data, email: user.email });
       setEcoPoints(data.eco_points || 0);
       // Assuming completed_lessons and badges are stored as JSONB or Array fields in your profiles table
       // setCompletedLessons(data.completed_lessons || []);
@@ -55,7 +56,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
       if (session?.user) {
-        await fetchUserProfile(session.user.id);
+        await fetchUserProfile(session.user);
       }
       setLoading(false);
     };
@@ -65,7 +66,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
        if (session?.user) {
-        await fetchUserProfile(session.user.id);
+        await fetchUserProfile(session.user);
       } else {
         setUserProfile(null);
       }

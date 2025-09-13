@@ -46,6 +46,10 @@ import {
   HardHat,
   Heart,
   DollarSign,
+  Bot,
+  X,
+  Send,
+  Move,
 } from 'lucide-react';
 
 export const Icons = {
@@ -97,4 +101,8 @@ export const Icons = {
   community: Users,
   economy: DollarSign,
   heart: Heart,
+  bot: Bot,
+  x: X,
+  send: Send,
+  move: Move,
 };

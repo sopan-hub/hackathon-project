@@ -8,11 +8,9 @@ export const navItems: NavItem[] = [
   { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.community },
-  { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
   { href: '/rewards', label: 'Rewards', icon: Icons.gift },
   { href: '/badges', label: 'Badges', icon: Icons.award },
   { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage },
-  { href: '/teacher-assistant', label: 'Teacher Assistant', icon: Icons.teacherAssistant },
   { href: '/profile', label: 'Your Profile', icon: Icons.user },
 ];
 

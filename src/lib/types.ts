@@ -71,6 +71,7 @@ export type NavItem = {
 export interface ChatMessage {
   role: 'user' | 'model';
   content: string;
+  imageUrl?: string;
 }
 
 export interface UserProfile {

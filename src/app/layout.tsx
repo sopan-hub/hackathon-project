@@ -4,6 +4,7 @@ import './globals.css';
 import { AppLayout } from '@/components/layout/app-layout';
 import { Toaster } from "@/components/ui/toaster";
 import { UserProgressProvider } from '@/context/user-progress-context';
+import { EcoBuddy } from '@/components/eco-buddy';
 
 export const metadata: Metadata = {
   title: 'EcoChallenge',
@@ -27,6 +28,7 @@ export default function RootLayout({
           <AppLayout>
             {children}
           </AppLayout>
+          <EcoBuddy />
         </UserProgressProvider>
         <Toaster />
       </body>

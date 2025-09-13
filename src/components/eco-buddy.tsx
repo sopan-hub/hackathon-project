@@ -8,11 +8,10 @@ import { ecoBuddyFlow } from '@/ai/flows/eco-buddy';
 import type { ChatMessage } from '@/lib/types';
 import { Textarea } from '@/components/ui/textarea';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { useUserProgress } from '@/context/user-progress-context';
-import { Label } from './ui/label';
 import { Input } from './ui/input';
 import Image from 'next/image';
 
@@ -215,7 +214,7 @@ export function EcoBuddy() {
                         )}
                         <p className="whitespace-pre-wrap">{message.content}</p>
                       </div>
-                      {message.role === 'user' && (
+                      {message.role === 'user' && userProfile && (
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={userProfile?.avatar_url} />
                           <AvatarFallback>{userProfile.full_name.charAt(0)}</AvatarFallback>

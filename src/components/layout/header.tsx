@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -17,17 +16,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Icons } from '@/components/icons';
-import { useRouter } from 'next/navigation';
 import { Skeleton } from '../ui/skeleton';
 
 export function Header({className}: {className?: string}) {
-  const { userProfile, loading, logout } = useUserProgress();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push('/login');
-  };
+  const { userProfile, loading } = useUserProgress();
   
   return (
     <header className={cn("sticky top-0 z-10 flex h-16 shrink-0 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm sm:px-6", className)}>
@@ -36,11 +28,11 @@ export function Header({className}: {className?: string}) {
        <div className="flex items-center gap-4">
         {loading && (
           <div className="flex items-center gap-2">
-            <Skeleton className="h-8 w-16" />
             <Skeleton className="h-8 w-20" />
+            <Skeleton className="h-10 w-10 rounded-full" />
           </div>
         )}
-        {!loading && userProfile ? (
+        {!loading && userProfile && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -69,21 +61,8 @@ export function Header({className}: {className?: string}) {
                   Profile
                 </Link>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleLogout}>
-                 <Icons.logOut className="mr-2 h-4 w-4" />
-                Log out
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        ) : !loading && (
-          <div className="flex items-center gap-2">
-            <Button asChild variant="ghost">
-              <Link href="/login">Log In</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/signup">Sign Up</Link>
-            </Button>
-          </div>
         )}
       </div>
     </header>

@@ -2,21 +2,13 @@
 'use client';
 
 import { useUserProgress } from '@/context/user-progress-context';
-import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icons } from '@/components/icons';
-import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { userBadges } from '@/lib/data';
 
 export default function ProfilePage() {
-  const { userProfile, ecoPoints, badges: earnedBadges, logout } = useUserProgress();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push('/login');
-  };
+  const { userProfile, ecoPoints, badges: earnedBadges } = useUserProgress();
 
   if (!userProfile) {
     return (
@@ -41,10 +33,6 @@ export default function ProfilePage() {
           <h1 className="text-4xl font-bold font-headline">{userProfile.full_name}</h1>
           <p className="text-muted-foreground">{userProfile.email}</p>
         </div>
-        <Button onClick={handleLogout} variant="outline">
-          <Icons.logOut className="mr-2 h-4 w-4" />
-          Logout
-        </Button>
       </div>
 
       <div className="eco-card">

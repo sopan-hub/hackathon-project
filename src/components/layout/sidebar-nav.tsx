@@ -1,5 +1,4 @@
 
-
 'use client';
 
 import Link from 'next/link';
@@ -14,21 +13,12 @@ import {
 } from '@/components/ui/sidebar';
 import { navItems } from '@/lib/data';
 import { Icons } from '@/components/icons';
-import { Button } from '../ui/button';
 import { useUserProgress } from '@/context/user-progress-context';
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
-import { useRouter } from 'next/navigation';
 
 export function SidebarNav() {
   const pathname = usePathname();
-  const { userProfile, logout } = useUserProgress();
-  const router = useRouter();
-
-  const handleLogout = async () => {
-    await logout();
-    router.push('/login');
-  };
-
+  const { userProfile } = useUserProgress();
 
   return (
     <>
@@ -69,9 +59,6 @@ export function SidebarNav() {
                 <p className='text-sm font-semibold truncate'>{userProfile.full_name}</p>
                  <p className="text-xs text-muted-foreground truncate">{userProfile.email}</p>
             </div>
-            <Button variant="ghost" size="icon" onClick={(e) => { e.preventDefault(); handleLogout(); }} className="h-8 w-8">
-                <Icons.logOut className='h-4 w-4' />
-            </Button>
           </Link>
         )}
       </SidebarFooter>

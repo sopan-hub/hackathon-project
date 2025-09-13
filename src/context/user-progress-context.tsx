@@ -3,7 +3,7 @@
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { db, auth } from '@/lib/firebase';
 import type { Badge, UserProfile } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
@@ -36,26 +36,16 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       if (firebaseUser) {
         setUser(firebaseUser);
-        const userDocRef = doc(db, 'users', firebaseUser.uid);
-        const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists()) {
-          const profileData = userDoc.data() as UserProfile;
-          setUserProfile(profileData);
-          setEcoPoints(profileData.eco_points || 0);
-          setCompletedLessons(profileData.completed_lessons || []);
-          setBadges(profileData.badges || []);
-        } else {
-          // Handle case where user is authenticated but has no profile document
-          setUserProfile({
-            id: firebaseUser.uid,
-            full_name: firebaseUser.displayName || 'New User',
-            email: firebaseUser.email || '',
-            avatar_url: firebaseUser.photoURL || `https://api.dicebear.com/8.x/bottts/svg?seed=${firebaseUser.uid}`,
-            eco_points: 0,
-            completed_lessons: [],
-            badges: [],
-            role: 'Student',
-          });
+        if (!userProfile || userProfile.id !== firebaseUser.uid) {
+            const userDocRef = doc(db, 'users', firebaseUser.uid);
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+              const profileData = userDoc.data() as UserProfile;
+              setUserProfile(profileData);
+              setEcoPoints(profileData.eco_points || 0);
+              setCompletedLessons(profileData.completed_lessons || []);
+              setBadges(profileData.badges || []);
+            }
         }
       } else {
         setUser(null);
@@ -68,28 +58,49 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [userProfile]);
+
+  const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
+    if (user) {
+      const userDocRef = doc(db, 'users', user.uid);
+      try {
+        await setDoc(userDocRef, updatedProfile, { merge: true });
+      } catch (error) {
+        console.error("Error updating user profile:", error);
+        toast({
+            variant: "destructive",
+            title: "Sync Error",
+            description: "Could not save your progress to the cloud."
+        });
+      }
+    }
+  };
 
   const addEcoPoints = (points: number) => {
-    // This will be updated later to write to Firestore
-    setEcoPoints((prevPoints) => prevPoints + points);
+    setEcoPoints((prevPoints) => {
+        const newPoints = prevPoints + points;
+        if(userProfile) updateUserProfileInFirestore({ ...userProfile, eco_points: newPoints, badges, completed_lessons: completedLessons });
+        return newPoints;
+    });
   };
 
   const completeLesson = (lessonId: string) => {
-    // This will be updated later to write to Firestore
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
-        return [...prevLessons, lessonId];
+        const newLessons = [...prevLessons, lessonId];
+        if(userProfile) updateUserProfileInFirestore({ ...userProfile, completed_lessons: newLessons, eco_points: ecoPoints, badges });
+        return newLessons;
       }
       return prevLessons;
     });
   };
 
   const addBadge = (badge: Badge) => {
-     // This will be updated later to write to Firestore
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
-        return [...prevBadges, badge];
+        const newBadges = [...prevBadges, badge];
+        if(userProfile) updateUserProfileFirestore({ ...userProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
+        return newBadges;
       }
       return prevBadges;
     });

@@ -11,23 +11,12 @@ import { challenges, communityPosts, userBadges, lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
 import { useUserProgress } from "@/context/user-progress-context";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const dynamic = 'force-dynamic';
 
 export default function Dashboard() {
-  const { user, userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
-  const router = useRouter();
-
-  useEffect(() => {
-    // Only redirect if loading is finished and there's no user.
-    if (!loading && !user) {
-      router.push('/login');
-    }
-  }, [user, loading, router]);
-
+  const { userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
 
   if (loading || !userProfile) {
     return (

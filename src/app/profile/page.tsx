@@ -23,7 +23,7 @@ export default function ProfilePage() {
   return (
     <div className="space-y-8 max-w-4xl mx-auto">
       <div className="flex flex-col sm:flex-row items-center gap-6">
-        <Avatar className="h-24 w-24 border-4 border-primary/50">
+        <Avatar className="h-24 w-24">
           <AvatarImage src={userProfile.avatar_url} alt={userProfile.full_name} />
           <AvatarFallback className="text-3xl">
             {userProfile.full_name?.charAt(0)}

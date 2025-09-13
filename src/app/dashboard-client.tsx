@@ -12,8 +12,8 @@ import { Icons } from "@/components/icons";
 
 // Mock data to simulate new student performance
 const mockQuizResults = [
-  { lessonId: "1", score: 0, totalQuestions: 3 },
-  { lessonId: "2", score: 0, totalQuestions: 3 },
+  { lessonId: "1", score: 3, totalQuestions: 3 }, // Completed successfully
+  { lessonId: "2", score: 1, totalQuestions: 3 }, // Struggled
 ];
 
 const availableLessons = lessons.map((l) => ({

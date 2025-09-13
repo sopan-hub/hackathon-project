@@ -1,7 +1,7 @@
 
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, enableIndexedDbPersistence, initializeFirestore } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -17,20 +17,6 @@ const firebaseConfig = {
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 const auth = getAuth(app);
 const storage = getStorage(app);
-let db = getFirestore(app);
-
-// Enable offline persistence
-if (typeof window !== 'undefined') {
-  try {
-     db = initializeFirestore(app, {
-      localCache: {
-        kind: 'indexeddb',
-      },
-    });
-  } catch (e) {
-    console.error("Could not enable Firestore offline persistence", e);
-  }
-}
-
+const db = getFirestore(app);
 
 export { app, auth, db, storage };

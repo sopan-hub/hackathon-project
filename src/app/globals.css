@@ -70,7 +70,7 @@ body {
 @layer components {
   .eco-card {
     @apply p-10 bg-gradient-to-bl from-[#e0e4e5] to-[#f2f6f9] rounded-3xl grid gap-6 text-[#444447] shadow-[-20px_20px_40px_hsl(0_0%_0%_/_0.25)] relative;
-    grid-template: 'title icon' 'content content' / 1fr auto;
+    grid-template: 'title icon' auto 'content content' auto 'footer footer' auto / 1fr auto;
   }
 
   .eco-card::before {
@@ -107,12 +107,10 @@ body {
     grid-area: content;
   }
   
-  .eco-card .card-footer {
-    grid-area: content;
-    padding-top: theme(spacing.4);
-    border-top: 2px solid;
+  .eco-card-footer {
+    grid-area: footer;
+    @apply pt-6 border-t;
     border-image-slice: 1;
     border-image-source: linear-gradient(to right, theme('colors.green.400'), theme('colors.blue.500'));
-    margin-top: theme(spacing.4);
   }
 }

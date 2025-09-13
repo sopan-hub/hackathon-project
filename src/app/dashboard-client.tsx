@@ -87,8 +87,7 @@ export function DashboardClient() {
             )}
         </div>
       </div>
-       <div className="eco-card-bar" />
-        <div className="card-footer p-6">
+       <div className="eco-card-footer">
             <Button asChild className="w-full" variant="outline">
               <Link href="/eco-advisor">
                 <Icons.lightbulb className="mr-2 h-4 w-4" />
@@ -99,3 +98,4 @@ export function DashboardClient() {
     </div>
   );
 }
+

@@ -34,22 +34,21 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        // Only fetch profile if it's not already loaded for the current user
-        if (!userProfile || userProfile.id !== firebaseUser.uid) {
-          setUser(firebaseUser);
-          const userDocRef = doc(db, 'users', firebaseUser.uid);
-          try {
-            const userDoc = await getDoc(userDocRef);
-            if (userDoc.exists()) {
-              const profileData = userDoc.data() as UserProfile;
-              setUserProfile(profileData);
-              setEcoPoints(profileData.eco_points || 0);
-              setCompletedLessons(profileData.completed_lessons || []);
-              setBadges(profileData.badges || []);
-            }
-          } catch (error) {
-             console.error("Error fetching user document:", error);
+        setUser(firebaseUser);
+        const userDocRef = doc(db, 'users', firebaseUser.uid);
+        try {
+          const userDoc = await getDoc(userDocRef);
+          if (userDoc.exists()) {
+            const profileData = userDoc.data() as UserProfile;
+            setUserProfile(profileData);
+            setEcoPoints(profileData.eco_points || 0);
+            setCompletedLessons(profileData.completed_lessons || []);
+            setBadges(profileData.badges || []);
           }
+        } catch (error) {
+           console.error("Error fetching user document:", error);
+        } finally {
+          setLoading(false);
         }
       } else {
         // User is signed out
@@ -58,14 +57,13 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         setEcoPoints(0);
         setCompletedLessons([]);
         setBadges([]);
+        setLoading(false);
       }
-      // This is the key change: setLoading to false after the check is complete.
-      setLoading(false);
     });
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [userProfile]);
+  }, []);
 
   const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
     if (user) {

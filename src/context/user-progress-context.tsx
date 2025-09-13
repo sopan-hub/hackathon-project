@@ -58,7 +58,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, [userProfile]);
+  }, []);
 
   const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
     if (user) {
@@ -99,7 +99,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         const newBadges = [...prevBadges, badge];
-        if(userProfile) updateUserProfileFirestore({ ...userProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
+        if(userProfile) updateUserProfileInFirestore({ ...userProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
         return newBadges;
       }
       return prevBadges;

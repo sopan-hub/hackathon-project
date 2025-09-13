@@ -17,7 +17,7 @@ import Image from 'next/image';
 
 export function EcoBuddy() {
   const { toast } = useToast();
-  const { userProfile } = useUserProgress();
+  const { userProfile, user } = useUserProgress();
 
   const [isOpen, setIsOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -142,7 +142,7 @@ export function EcoBuddy() {
   }, [isDragging]);
 
 
-  if (!userProfile) return null;
+  if (!user) return null;
 
 
   return (
@@ -180,7 +180,7 @@ export function EcoBuddy() {
                 {chatHistory.length === 0 ? (
                    <div className="h-full flex flex-col items-center justify-center text-center text-muted-foreground p-8">
                         <Icons.bot className="h-12 w-12 mb-4 text-primary" />
-                        <p className="font-medium mb-1">Hello {userProfile.full_name}!</p>
+                        <p className="font-medium mb-1">Hello {userProfile?.full_name}!</p>
                         <p className="text-sm">I'm EcoBuddy, your personal AI assistant. How can I help you today? You can ask me for lesson ideas, analyze an image, or get advice on an environmental topic.</p>
                     </div>
                 ) : (
@@ -217,7 +217,7 @@ export function EcoBuddy() {
                       {message.role === 'user' && userProfile && (
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={userProfile?.avatar_url} />
-                          <AvatarFallback>{userProfile.full_name.charAt(0)}</AvatarFallback>
+                          <AvatarFallback>{userProfile.full_name?.charAt(0)}</AvatarFallback>
                         </Avatar>
                       )}
                     </div>

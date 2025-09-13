@@ -12,10 +12,26 @@ import { Icons } from "@/components/icons";
 import { DashboardClient } from "./dashboard-client";
 import { useUserProgress } from "@/context/user-progress-context";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 
 export default function Dashboard() {
-  const { userProfile, ecoPoints, completedLessons, badges } = useUserProgress();
+  const { user, userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/login');
+    }
+  }, [user, loading, router]);
+
+
+  if (loading || !userProfile) {
+    return <div className="flex justify-center items-center h-full">
+      <Icons.loader className="h-10 w-10 animate-spin" />
+    </div>;
+  }
+  
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
   const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
   

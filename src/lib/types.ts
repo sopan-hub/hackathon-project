@@ -66,6 +66,7 @@ export type NavItem = {
   label: string;
   icon: LucideIcon;
   active?: boolean;
+  auth?: boolean;
 };
 
 export interface ChatMessage {
@@ -82,6 +83,7 @@ export interface UserProfile {
     completed_lessons: string[];
     badges: Badge[];
     email?: string;
+    role?: 'Student' | 'Teacher' | 'Admin';
 }
 
 export type Reward = {

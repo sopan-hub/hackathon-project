@@ -3,15 +3,15 @@ import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem
 import { Icons } from '@/components/icons';
 
 export const navItems: NavItem[] = [
-  { href: '/', label: 'Dashboard', icon: Icons.layoutDashboard },
-  { href: '/lessons', label: 'Lessons', icon: Icons.bookOpen },
-  { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
-  { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
-  { href: '/community', label: 'Community', icon: Icons.community },
-  { href: '/rewards', label: 'Rewards', icon: Icons.gift },
-  { href: '/badges', label: 'Badges', icon: Icons.award },
-  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage },
-  { href: '/profile', label: 'Your Profile', icon: Icons.user },
+  { href: '/', label: 'Dashboard', icon: Icons.layoutDashboard, auth: true },
+  { href: '/lessons', label: 'Lessons', icon: Icons.bookOpen, auth: true },
+  { href: '/challenges', label: 'Challenges', icon: Icons.trophy, auth: true },
+  { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart, auth: true },
+  { href: '/community', label: 'Community', icon: Icons.community, auth: true },
+  { href: '/rewards', label: 'Rewards', icon: Icons.gift, auth: true },
+  { href: '/badges', label: 'Badges', icon: Icons.award, auth: true },
+  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage, auth: true },
+  { href: '/profile', label: 'Your Profile', icon: Icons.user, auth: true },
 ];
 
 export const lessons: Lesson[] = [
@@ -174,7 +174,7 @@ export const challenges: Challenge[] = [
     title: 'Plant a Sapling',
     description: 'Plant a native tree in your community or backyard. Submit a geo-tagged photo of you with the newly planted sapling.',
     ecoPoints: 150,
-    imageUrl: 'https://picsum.photos/400/250?random=5',
+    imageUrl: 'https://picsum.photos/seed/5/400/250',
     dataAiHint: 'tree sapling',
   },
   {
@@ -182,7 +182,7 @@ export const challenges: Challenge[] = [
     title: 'DIY Compost Bin',
     description: 'Create your own compost bin from recycled materials. Submit a photo of your bin and the first layer of compost.',
     ecoPoints: 120,
-    imageUrl: 'https://picsum.photos/400/250?random=6',
+    imageUrl: 'https://picsum.photos/seed/6/400/250',
     dataAiHint: 'compost bin',
   },
   {
@@ -190,7 +190,7 @@ export const challenges: Challenge[] = [
     title: 'Zero-Waste Week',
     description: 'Try to produce as little waste as possible for one week. Submit a photo of your weekly trash (or lack thereof!).',
     ecoPoints: 200,
-    imageUrl: 'https://picsum.photos/400/250?random=7',
+    imageUrl: 'https://picsum.photos/seed/7/400/250',
     dataAiHint: 'waste reduction',
   },
 ];
@@ -208,7 +208,7 @@ export const communityPosts: CommunityPost[] = [
   {
     id: '1',
     author: 'Priya Sharma',
-    authorAvatarUrl: 'https://picsum.photos/40/40?random=7',
+    authorAvatarUrl: 'https://picsum.photos/seed/7/40/40',
     title: 'Idea: Community Garden Project',
     content: 'I think we should start a community garden in the unused plot behind the library. We can grow our own organic vegetables and share them. It would be a great way to learn about farming and also provide fresh produce for everyone. We can use compost from our own homes to fertilize the soil. This would reduce waste and promote healthy eating.',
     timestamp: '2 days ago',
@@ -218,7 +218,7 @@ export const communityPosts: CommunityPost[] = [
   {
     id: '2',
     author: 'Rohan Verma',
-    authorAvatarUrl: 'https://picsum.photos/40/40?random=8',
+    authorAvatarUrl: 'https://picsum.photos/seed/8/40/40',
     title: 'Rainwater Harvesting in our School',
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
@@ -228,7 +228,7 @@ export const communityPosts: CommunityPost[] = [
    {
     id: '3',
     author: 'Anika Reddy',
-    authorAvatarUrl: 'https://picsum.photos/40/40?random=9',
+    authorAvatarUrl: 'https://picsum.photos/seed/9/40/40',
     title: 'Upcycling old clothes drive',
     content: 'Let\'s organize a drive to collect old clothes. Instead of throwing them away, we can teach students how to upcycle them into useful items like bags, rugs, or decorative pieces. We can hold workshops and even sell the finished products to raise funds for other eco-projects.',
     timestamp: '1 week ago',

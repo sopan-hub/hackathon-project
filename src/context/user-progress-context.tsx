@@ -2,10 +2,14 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
+import { db, auth } from '@/lib/firebase';
 import type { Badge, UserProfile } from '@/lib/types';
-import { userBadges } from '@/lib/data';
+import { useToast } from '@/hooks/use-toast';
 
 interface UserProgressContextType {
+  user: User | null;
   userProfile: UserProfile | null;
   ecoPoints: number;
   completedLessons: string[];
@@ -14,24 +18,13 @@ interface UserProgressContextType {
   addEcoPoints: (points: number) => void;
   completeLesson: (lessonId: string) => void;
   addBadge: (badge: Badge) => void;
-  logout: () => Promise<void>; // Kept for type consistency, but will be a no-op
 }
 
 const UserProgressContext = createContext<UserProgressContextType | undefined>(undefined);
 
-// Mock data for a static user experience
-const mockUserProfile: UserProfile = {
-  id: 'mock-user-123',
-  full_name: 'Alex Doe',
-  avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=alexdoe`,
-  eco_points: 125,
-  completed_lessons: ['1'],
-  badges: userBadges.slice(0, 2),
-  email: 'alex.doe@example.com',
-};
-
-
 export function UserProgressProvider({ children }: { children: ReactNode }) {
+  const { toast } = useToast();
+  const [user, setUser] = useState<User | null>(null);
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [ecoPoints, setEcoPoints] = useState(0);
   const [completedLessons, setCompletedLessons] = useState<string[]>([]);
@@ -39,22 +32,50 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading user data
-    setLoading(true);
-    setTimeout(() => {
-      setUserProfile(mockUserProfile);
-      setEcoPoints(mockUserProfile.eco_points);
-      setCompletedLessons(mockUserProfile.completed_lessons);
-      setBadges(mockUserProfile.badges);
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setLoading(true);
+      if (firebaseUser) {
+        setUser(firebaseUser);
+        const userDocRef = doc(db, 'users', firebaseUser.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          const profileData = userDoc.data() as UserProfile;
+          setUserProfile(profileData);
+          setEcoPoints(profileData.eco_points || 0);
+          setCompletedLessons(profileData.completed_lessons || []);
+          setBadges(profileData.badges || []);
+        } else {
+          // Handle case where user is authenticated but has no profile document
+          setUserProfile({
+            id: firebaseUser.uid,
+            full_name: firebaseUser.displayName || 'New User',
+            email: firebaseUser.email || '',
+            avatar_url: firebaseUser.photoURL || `https://api.dicebear.com/8.x/bottts/svg?seed=${firebaseUser.uid}`,
+            eco_points: 0,
+            completed_lessons: [],
+            badges: [],
+          });
+        }
+      } else {
+        setUser(null);
+        setUserProfile(null);
+        setEcoPoints(0);
+        setCompletedLessons([]);
+        setBadges([]);
+      }
       setLoading(false);
-    }, 500);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const addEcoPoints = (points: number) => {
+    // This will be updated later to write to Firestore
     setEcoPoints((prevPoints) => prevPoints + points);
   };
 
   const completeLesson = (lessonId: string) => {
+    // This will be updated later to write to Firestore
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
         return [...prevLessons, lessonId];
@@ -64,6 +85,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   };
 
   const addBadge = (badge: Badge) => {
+     // This will be updated later to write to Firestore
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         return [...prevBadges, badge];
@@ -72,12 +94,9 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  const logout = async () => {
-    // No-op since authentication is removed
-    console.log("Logout function called, but authentication is removed.");
-  };
 
   const value: UserProgressContextType = {
+    user,
     userProfile,
     ecoPoints,
     completedLessons,
@@ -86,7 +105,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     addEcoPoints,
     completeLesson,
     addBadge,
-    logout,
   };
   
   return (

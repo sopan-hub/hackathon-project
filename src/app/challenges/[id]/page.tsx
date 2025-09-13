@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState } from "react";
+import { useState, use } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -17,9 +18,9 @@ import { useUserProgress } from "@/context/user-progress-context";
 export default function ChallengeDetailsPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const { id } = params;
+  const { id } = use(params);
   const { toast } = useToast();
   const { addEcoPoints, addBadge } = useUserProgress();
   const challenge = challenges.find((c) => c.id === id);

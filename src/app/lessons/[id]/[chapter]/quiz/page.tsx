@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { lessons, userBadges } from '@/lib/data';
@@ -14,10 +15,10 @@ import { useToast } from '@/hooks/use-toast';
 import { useUserProgress } from '@/context/user-progress-context';
 import { notFound } from 'next/navigation';
 
-export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
+export default function QuizPage({ params }: { params: Promise<{ id: string; chapter: string }> }) {
   const router = useRouter();
   const { toast } = useToast();
-  const { id, chapter: chapterParam } = params;
+  const { id, chapter: chapterParam } = use(params);
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);

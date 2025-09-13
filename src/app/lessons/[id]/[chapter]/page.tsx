@@ -1,3 +1,5 @@
+
+'use client';
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -5,9 +7,10 @@ import { lessons } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Icons } from "@/components/icons";
+import { use } from 'react';
 
-export default function LessonChapterPage({ params }: { params: { id: string, chapter: string } }) {
-  const { id, chapter: chapterParam } = params;
+export default function LessonChapterPage({ params }: { params: Promise<{ id: string, chapter: string }> }) {
+  const { id, chapter: chapterParam } = use(params);
   const lesson = lessons.find((l) => l.id === id);
   const chapterIndex = parseInt(chapterParam, 10);
   
@@ -55,15 +58,15 @@ export default function LessonChapterPage({ params }: { params: { id: string, ch
             <Icons.bookOpen className="bg-gradient-to-r from-green-400 to-blue-500" />
         </div>
         <div className="eco-card-content !p-0">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between p-6 pb-0">
             <Badge variant="default" className="w-fit mb-2">{lesson.ecoPoints} Eco-Points Total</Badge>
             <p className="text-sm text-muted-foreground font-medium">Chapter {chapterIndex + 1} of {lesson.chapters.length}</p>
           </div>
-          <div className="prose prose-stone dark:prose-invert max-w-none space-y-4 mt-4">
+          <div className="prose prose-stone dark:prose-invert max-w-none space-y-4 p-6">
             <h1 className="text-3xl font-bold font-headline">{chapter.title}</h1>
             {renderMarkdown(chapter.content)}
           </div>
-          <div className="mt-8 pt-6 border-t">
+          <div className="mt-8 p-6 pt-6 border-t">
             <h3 className="text-xl font-bold mb-4 font-headline">Ready to test your knowledge?</h3>
             <p className="text-muted-foreground mb-4">Complete the quiz to earn eco-points and unlock the next chapter.</p>
             <Button asChild size="lg">

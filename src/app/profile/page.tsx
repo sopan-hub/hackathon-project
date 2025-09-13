@@ -7,6 +7,8 @@ import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { userBadges } from '@/lib/data';
 
+export const dynamic = 'force-dynamic';
+
 export default function ProfilePage() {
   const { userProfile, ecoPoints, badges: earnedBadges } = useUserProgress();
 

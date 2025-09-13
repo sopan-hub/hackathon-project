@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { lessons } from "@/lib/data";
 import { Icons } from "@/components/icons";
 
+export const dynamic = 'force-dynamic';
+
 export default function LessonsPage() {
   return (
     <div className="space-y-8">

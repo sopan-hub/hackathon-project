@@ -12,6 +12,8 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { leaderboardData, userBadges, communityPosts } from "@/lib/data";
 import { Icons } from "@/components/icons";
 
+export const dynamic = 'force-dynamic';
+
 export default function LeaderboardPage() {
     const topSchool = leaderboardData.reduce((prev, current) => (prev.points > current.points) ? prev : current);
     const mostActiveUser = leaderboardData[3]; // Mock data for example

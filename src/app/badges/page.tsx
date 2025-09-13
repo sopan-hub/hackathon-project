@@ -4,6 +4,8 @@ import { Icons } from "@/components/icons";
 import { useUserProgress } from "@/context/user-progress-context";
 import { cn } from "@/lib/utils";
 
+export const dynamic = 'force-dynamic';
+
 export default function BadgesPage() {
   const { badges: earnedBadges } = useUserProgress();
   const earnedBadgeIds = new Set(earnedBadges.map(b => b.id));

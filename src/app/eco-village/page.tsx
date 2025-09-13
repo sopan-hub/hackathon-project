@@ -18,6 +18,8 @@ import { useToast } from '@/hooks/use-toast';
 
 type Stat = 'environment' | 'community' | 'economy';
 
+export const dynamic = 'force-dynamic';
+
 export default function EcoVillagePage() {
   const { toast } = useToast();
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState(0);

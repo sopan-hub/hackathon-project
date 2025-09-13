@@ -6,6 +6,8 @@ import { useUserProgress } from "@/context/user-progress-context";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
+export const dynamic = 'force-dynamic';
+
 export default function RewardsPage() {
     const { ecoPoints, addEcoPoints } = useUserProgress();
     const { toast } = useToast();

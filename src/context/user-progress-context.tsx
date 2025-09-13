@@ -54,6 +54,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             eco_points: 0,
             completed_lessons: [],
             badges: [],
+            role: 'Student',
           });
         }
       } else {

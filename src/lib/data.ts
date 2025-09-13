@@ -196,12 +196,12 @@ export const challenges: Challenge[] = [
 ];
 
 export const leaderboardData: LeaderboardEntry[] = [
-  { rank: 1, team: 'Green Warriors', school: 'Oakridge International', points: 12500, avatarUrl: 'https://picsum.photos/40/40?random=1' },
-  { rank: 2, team: 'Eco Avengers', school: 'Maplewood High', points: 11800, avatarUrl: 'https://picsum.photos/40/40?random=2' },
-  { rank: 3, team: 'Planet Protectors', school: 'Riverdale School', points: 11250, avatarUrl: 'https://picsum.photos/40/40?random=3' },
-  { rank: 4, team: 'Nature Ninjas', school: 'Hilltop Academy', points: 10500, avatarUrl: 'https://picsum.photos/40/40?random=4' },
-  { rank: 5, team: 'Earth Heroes', school: 'Sunshine Public School', points: 9800, avatarUrl: 'https://picsum.photos/40/40?random=5' },
-  { rank: 6, team: 'Recycle Rangers', school: 'Banyan Tree School', points: 9200, avatarUrl: 'https://picsum.photos/40/40?random=6' },
+  { rank: 1, team: 'Green Warriors', school: 'Oakridge International', points: 12500, avatarUrl: 'https://picsum.photos/seed/1/40/40' },
+  { rank: 2, team: 'Eco Avengers', school: 'Maplewood High', points: 11800, avatarUrl: 'https://picsum.photos/seed/2/40/40' },
+  { rank: 3, team: 'Planet Protectors', school: 'Riverdale School', points: 11250, avatarUrl: 'https://picsum.photos/seed/3/40/40' },
+  { rank: 4, team: 'Nature Ninjas', school: 'Hilltop Academy', points: 10500, avatarUrl: 'https://picsum.photos/seed/4/40/40' },
+  { rank: 5, team: 'Earth Heroes', school: 'Sunshine Public School', points: 9800, avatarUrl: 'https://picsum.photos/seed/5/40/40' },
+  { rank: 6, team: 'Recycle Rangers', school: 'Banyan Tree School', points: 9200, avatarUrl: 'https://picsum.photos/seed/6/40/40' },
 ];
 
 export const communityPosts: CommunityPost[] = [
@@ -294,3 +294,5 @@ export const ecoVillageScenarios: EcoVillageScenario[] = [
     ]
   }
 ];
+
+    

@@ -23,7 +23,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
 export function Header({className}: {className?: string}) {
-  const { userProfile, loading } = useUserProgress();
+  const { user, userProfile, loading } = useUserProgress();
   const { toast } = useToast();
   const router = useRouter();
 
@@ -44,7 +44,7 @@ export function Header({className}: {className?: string}) {
             <Skeleton className="h-10 w-10 rounded-full" />
           </div>
         )}
-        {!loading && userProfile && (
+        {!loading && user && userProfile && (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -81,7 +81,7 @@ export function Header({className}: {className?: string}) {
             </DropdownMenuContent>
           </DropdownMenu>
         )}
-         {!loading && !userProfile && (
+         {!loading && !user && (
             <Button asChild>
                 <Link href="/login">Get Started</Link>
             </Button>

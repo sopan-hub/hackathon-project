@@ -27,7 +27,7 @@ export default function Dashboard() {
 
 
   if (loading || !userProfile) {
-    return <div className="flex justify-center items-center h-full">
+    return <div className="flex justify-center items-center h-screen">
       <Icons.loader className="h-10 w-10 animate-spin" />
     </div>;
   }

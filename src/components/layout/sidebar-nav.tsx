@@ -33,6 +33,8 @@ export function SidebarNav() {
     router.push('/login');
   };
 
+  const filteredNavItems = navItems.filter(item => !item.auth || (item.auth && user));
+
   return (
     <>
       <SidebarHeader>
@@ -45,9 +47,7 @@ export function SidebarNav() {
       </SidebarHeader>
       <SidebarContent className="p-2">
         <SidebarMenu>
-          {navItems.map((item) => {
-            if (item.auth && !user) return null;
-            return (
+          {filteredNavItems.map((item) => (
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
@@ -61,7 +61,7 @@ export function SidebarNav() {
                 </SidebarMenuButton>
               </SidebarMenuItem>
             )
-           })}
+           )}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className='p-2'>

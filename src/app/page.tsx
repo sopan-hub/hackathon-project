@@ -14,6 +14,7 @@ import { useUserProgress } from "@/context/user-progress-context";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 
+export const dynamic = 'force-dynamic';
 
 export default function Dashboard() {
   const { user, userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
@@ -27,9 +28,7 @@ export default function Dashboard() {
 
 
   if (loading || !userProfile) {
-    return <div className="flex justify-center items-center h-screen">
-      <Icons.loader className="h-10 w-10 animate-spin" />
-    </div>;
+    return null;
   }
   
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));

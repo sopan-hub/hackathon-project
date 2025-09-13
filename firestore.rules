@@ -3,14 +3,40 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-    // By default, deny all reads and writes
+
+    // Default deny all
     match /{document=**} {
       allow read, write: if false;
     }
 
-    // Allow users to read, create, and update their own profile document
+    // Users can read, create and update their own profile.
+    // No one can delete a profile or see other users' profiles (for privacy).
     match /users/{userId} {
-      allow read, create, update: if request.auth != null && request.auth.uid == userId;
+      allow read, update: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+
+    // Anyone can read public content like lessons, challenges, etc.
+    match /lessons/{lessonId} {
+      allow read: if true;
+    }
+    match /challenges/{challengeId} {
+        allow read: if true;
+    }
+    match /rewards/{rewardId} {
+        allow read: if true;
+    }
+     match /leaderboard/{entryId} {
+        allow read: if true;
+    }
+     match /badges/{badgeId} {
+        allow read: if true;
+    }
+
+    // Authenticated users can create and read community posts.
+    // Allow updates for liking posts.
+    match /community_posts/{postId} {
+      allow read, create, update: if request.auth != null;
     }
   }
 }

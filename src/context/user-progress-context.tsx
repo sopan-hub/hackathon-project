@@ -34,8 +34,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
+        // Only fetch profile if it's not already loaded for the current user
         if (!userProfile || userProfile.id !== firebaseUser.uid) {
-          setLoading(true);
           setUser(firebaseUser);
           const userDocRef = doc(db, 'users', firebaseUser.uid);
           try {
@@ -49,22 +49,23 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             }
           } catch (error) {
              console.error("Error fetching user document:", error);
-          } finally {
-            setLoading(false);
           }
         }
       } else {
+        // User is signed out
         setUser(null);
         setUserProfile(null);
         setEcoPoints(0);
         setCompletedLessons([]);
         setBadges([]);
-        setLoading(false);
       }
+      // This is the key change: setLoading to false after the check is complete.
+      setLoading(false);
     });
 
+    // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, [userProfile]);
+  }, []); // Empty dependency array ensures this runs only once on mount
 
   const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
     if (user) {

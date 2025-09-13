@@ -1,130 +1,211 @@
 
 'use client';
-import Link from "next/link";
-import {
-  CardContent,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { challenges, communityPosts, userBadges, lessons } from "@/lib/data";
-import { Icons } from "@/components/icons";
-import { DashboardClient } from "./dashboard-client";
-import { useUserProgress } from "@/context/user-progress-context";
-import { Skeleton } from "@/components/ui/skeleton";
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { Progress } from '@/components/ui/progress';
+import { challenges, communityPosts, userBadges, lessons, leaderboardData } from '@/lib/data';
+import { Icons } from '@/components/icons';
+import { useUserProgress } from '@/context/user-progress-context';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
 
 export default function Dashboard() {
   const { userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
-
+  
   if (loading || !userProfile) {
     return (
-        <div className="space-y-8">
-            <div className="space-y-2">
-                <Skeleton className="h-10 w-1/3" />
-                <Skeleton className="h-6 w-1/2" />
-            </div>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                <Skeleton className="h-24" />
-                <Skeleton className="h-24" />
-                <Skeleton className="h-24" />
-            </div>
-            <Skeleton className="h-48" />
-            <Skeleton className="h-64" />
+      <div className="space-y-8">
+        <div className="space-y-2">
+          <Skeleton className="h-10 w-1/3" />
+          <Skeleton className="h-6 w-1/2" />
         </div>
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+          <Skeleton className="h-24" />
+        </div>
+        <Skeleton className="h-48" />
+        <Skeleton className="h-64" />
+      </div>
     );
   }
-  
+
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));
-  const lessonsCompletedCount = lessons.filter(l => completedLessons.includes(l.id)).length;
-  
-  // Mock data for global impact
+  const lessonsCompletedCount = completedLessons.length;
+  const totalLessons = lessons.length;
+  const recentCommunityPosts = communityPosts.slice(0, 3);
+  const topStudents = leaderboardData.slice(0, 3);
+  const latestBadge = badges.length > 0 ? badges[badges.length - 1] : null;
+
+  // Mock global impact stats
   const totalTreesPlanted = 1245;
-  const totalWaterSaved = 89000;
+  const totalWasteRecycled = 5678; // in kg
+  const totalWaterSaved = 89000; // in liters
 
   return (
     <div className="space-y-8">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight font-headline">
-          Welcome{userProfile ? `, ${userProfile.full_name}` : ''}!
+      {/* 1. Welcome & Mission Section */}
+      <div className="text-center p-8 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/50 dark:to-blue-900/50 rounded-xl">
+        <h1 className="text-3xl font-bold tracking-tight font-headline text-foreground">
+          Hi {userProfile.full_name}, ready to make a difference?
         </h1>
-        <p className="text-muted-foreground">
-          Here's your eco-progress. Let's get started!
+        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+          Learn. Act. Earn Eco-Points. Become a Sustainability Hero!
         </p>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {/* 2. User Progress Snapshot */}
+      <div className="grid gap-6 md:grid-cols-3">
         <div className="eco-card p-6">
-            <div className="eco-card-title !text-sm !uppercase !font-medium">Eco-Points</div>
-             <div className="eco-card-icon !text-3xl">
-                <Icons.leaf className="bg-gradient-to-r from-green-400 to-blue-500" />
-              </div>
-            <div className="eco-card-content">
-                <div className="text-2xl font-bold">{ecoPoints}</div>
-                <p className="text-xs text-muted-foreground">Complete a lesson to earn points</p>
-            </div>
+          <div className="eco-card-title !text-sm !uppercase !font-medium">Eco-Points</div>
+          <div className="eco-card-icon !text-3xl">
+            <Icons.sprout className="bg-gradient-to-r from-lime-400 to-green-500" />
+          </div>
+          <div className="eco-card-content">
+            <div className="text-4xl font-bold">{ecoPoints.toLocaleString()}</div>
+          </div>
         </div>
         <div className="eco-card p-6">
-            <div className="eco-card-title !text-sm !uppercase !font-medium">Lessons Completed</div>
-            <div className="eco-card-icon !text-3xl">
-                <Icons.bookOpen className="bg-gradient-to-r from-purple-400 to-pink-500" />
-            </div>
-            <div className="eco-card-content">
-                <div className="text-2xl font-bold">{lessonsCompletedCount} / {lessons.length}</div>
-                <p className="text-xs text-muted-foreground">{(lessonsCompletedCount / lessons.length * 100).toFixed(0)}% of total lessons</p>
-            </div>
+          <div className="eco-card-title !text-sm !uppercase !font-medium">Lessons Completed</div>
+          <div className="eco-card-icon !text-3xl">
+            <Icons.bookOpen className="bg-gradient-to-r from-purple-400 to-pink-500" />
+          </div>
+          <div className="eco-card-content">
+            <div className="text-4xl font-bold">{lessonsCompletedCount}/{totalLessons}</div>
+            <Progress value={(lessonsCompletedCount / totalLessons) * 100} className="mt-2 h-2" />
+          </div>
         </div>
-         <div className="eco-card p-6 md:col-span-2 lg:col-span-1">
-            <div className="eco-card-title !text-sm !uppercase !font-medium">Next Badge Progress</div>
-            <div className="eco-card-icon !text-3xl">
-                <Icons.sprout className="bg-gradient-to-r from-lime-400 to-green-500" />
-            </div>
-            <div className="eco-card-content">
-                 <div className="flex items-center gap-4">
-                    <div className="w-full">
-                         {nextBadge ? (
-                          <>
-                            <div className="flex justify-between text-sm font-medium mb-1">
-                              <span>{nextBadge.name}</span>
-                              <span>{badges.length}/{userBadges.length}</span>
-                            </div>
-                            <Progress value={(badges.length / userBadges.length) * 100} />
-                          </>
-                        ) : (
-                          <div className="text-center text-muted-foreground">You've collected all badges!</div>
-                        )}
-                    </div>
-                </div>
-            </div>
+        <div className="eco-card p-6">
+          <div className="eco-card-title !text-sm !uppercase !font-medium">Next Badge</div>
+          <div className="eco-card-icon !text-3xl">
+            <Icons.award className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+          </div>
+          <div className="eco-card-content">
+             {nextBadge ? (
+                <>
+                    <div className="text-lg font-bold">{nextBadge.name}</div>
+                    <Progress value={(badges.length / userBadges.length) * 100} className="mt-2 h-2" />
+                </>
+             ) : (
+                <p className="text-muted-foreground">You've collected all badges!</p>
+             )}
+          </div>
         </div>
+      </div>
+
+      {/* 3. Clear Call-to-Action */}
+      <div className="text-center">
+        {lessonsCompletedCount === 0 ? (
+          <Button asChild size="lg">
+            <Link href="/lessons">Take Your First Lesson</Link>
+          </Button>
+        ) : (
+          <Button asChild size="lg">
+            <Link href="/challenges">Join a Challenge</Link>
+          </Button>
+        )}
       </div>
       
-      <div className="eco-card">
-         <div className="eco-card-title">Global Impact</div>
-         <div className="eco-card-icon">
-            <Icons.globe className="bg-gradient-to-r from-blue-400 to-purple-500" />
-        </div>
-        <div className="eco-card-content grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="flex items-center gap-4 p-6 rounded-lg bg-background/50">
-                <Icons.treePine className="h-10 w-10 text-primary" />
-                <div>
-                    <p className="text-muted-foreground">Total Trees Planted by All Users</p>
-                    <p className="text-2xl font-bold">{totalTreesPlanted.toLocaleString()}</p>
-                </div>
+      <div className="grid gap-8 lg:grid-cols-3">
+        <div className="lg:col-span-2 space-y-8">
+            {/* 4. Community Spotlight */}
+            <div className="eco-card">
+              <div className="eco-card-title">Community Spotlight</div>
+              <div className="eco-card-icon">
+                <Icons.community className="bg-gradient-to-r from-blue-400 to-purple-500" />
+              </div>
+              <div className="eco-card-content grid grid-cols-1 md:grid-cols-3 gap-4">
+                {recentCommunityPosts.map(post => (
+                  <Link href="/community" key={post.id} className="group relative rounded-lg overflow-hidden">
+                    <Image src={post.imageUrl || 'https://picsum.photos/seed/10/300/200'} alt={post.title} width={300} height={200} className="object-cover w-full h-full" />
+                    <div className="absolute inset-0 bg-black/50 flex items-end p-4">
+                      <p className="text-white font-bold text-sm leading-tight">{post.title}</p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="eco-card-footer">
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/community">Share Your Idea <Icons.chevronRight /></Link>
+                </Button>
+              </div>
             </div>
-             <div className="flex items-center gap-4 p-6 rounded-lg bg-background/50">
-                <Icons.droplets className="h-10 w-10 text-primary" />
-                <div>
-                    <p className="text-muted-foreground">Liters of Water Saved</p>
-                    <p className="text-2xl font-bold">{totalWaterSaved.toLocaleString()}</p>
+
+            {/* 6. Eco-Impact Stats */}
+            <div className="eco-card">
+              <div className="eco-card-title">Global Impact</div>
+              <div className="eco-card-icon">
+                <Icons.globe className="bg-gradient-to-r from-blue-400 to-purple-500" />
+              </div>
+              <div className="eco-card-content grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                <div className="p-4 rounded-lg bg-background/50">
+                  <Icons.treePine className="h-10 w-10 text-primary mx-auto" />
+                  <p className="text-2xl font-bold mt-2">{totalTreesPlanted.toLocaleString()}</p>
+                  <p className="text-muted-foreground text-sm">Trees Planted</p>
                 </div>
+                <div className="p-4 rounded-lg bg-background/50">
+                  <Icons.recycle className="h-10 w-10 text-primary mx-auto" />
+                  <p className="text-2xl font-bold mt-2">{totalWasteRecycled.toLocaleString()} kg</p>
+                  <p className="text-muted-foreground text-sm">Waste Recycled</p>
+                </div>
+                <div className="p-4 rounded-lg bg-background/50">
+                  <Icons.droplets className="h-10 w-10 text-primary mx-auto" />
+                  <p className="text-2xl font-bold mt-2">{totalWaterSaved.toLocaleString()} L</p>
+                  <p className="text-muted-foreground text-sm">Water Saved</p>
+                </div>
+              </div>
+            </div>
+        </div>
+
+        {/* 5. Mini Leaderboard & Achievements */}
+        <div className="space-y-8">
+            <div className="eco-card">
+              <div className="eco-card-title">Top Performers</div>
+              <div className="eco-card-icon">
+                <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+              </div>
+              <div className="eco-card-content space-y-4">
+                {topStudents.map(student => (
+                  <div key={student.rank} className="flex items-center gap-4">
+                    <Avatar>
+                      <AvatarImage src={student.avatarUrl} alt={student.team} />
+                      <AvatarFallback>{student.team.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1">
+                      <p className="font-semibold text-foreground">{student.team}</p>
+                      <p className="text-sm text-muted-foreground">{student.points.toLocaleString()} points</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="eco-card-footer">
+                <Button asChild variant="outline" className="w-full">
+                  <Link href="/leaderboard">View Full Leaderboard <Icons.chevronRight /></Link>
+                </Button>
+              </div>
+            </div>
+            <div className="eco-card">
+              <div className="eco-card-title">Latest Achievement</div>
+              <div className="eco-card-icon">
+                <Icons.star className="bg-gradient-to-r from-yellow-400 to-orange-500" />
+              </div>
+              <div className="eco-card-content text-center">
+                {latestBadge ? (
+                    <>
+                        <latestBadge.icon className="h-16 w-16 text-primary mx-auto mb-2" />
+                        <p className="font-bold">{latestBadge.name}</p>
+                        <p className="text-sm text-muted-foreground">{latestBadge.description}</p>
+                    </>
+                ) : (
+                    <p className="text-muted-foreground">Complete a lesson or challenge to earn your first badge!</p>
+                )}
+              </div>
             </div>
         </div>
       </div>
-
-      <DashboardClient />
-
     </div>
   );
 }

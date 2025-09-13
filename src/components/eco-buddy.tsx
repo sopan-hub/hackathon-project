@@ -98,9 +98,6 @@ export function EcoBuddy() {
   
   // Drag and Drop handlers
   const onMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).hasPointerCapture(e.pointerId)) {
-        (e.target as HTMLElement).releasePointerCapture(e.pointerId);
-    }
     setIsDragging(true);
     dragStartRef.current = {
       x: e.clientX - position.x,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, use } from "react";
+import { useState } from "react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -19,7 +19,7 @@ export default function ChallengeDetailsPage({
 }: {
   params: { id: string };
 }) {
-  const { id } = use(params);
+  const { id } = params;
   const { toast } = useToast();
   const { addEcoPoints, addBadge } = useUserProgress();
   const challenge = challenges.find((c) => c.id === id);

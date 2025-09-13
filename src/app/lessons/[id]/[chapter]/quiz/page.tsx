@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, use, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { lessons, userBadges } from '@/lib/data';
@@ -17,7 +17,7 @@ import { notFound } from 'next/navigation';
 export default function QuizPage({ params }: { params: { id: string; chapter: string } }) {
   const router = useRouter();
   const { toast } = useToast();
-  const { id, chapter: chapterParam } = use(params);
+  const { id, chapter: chapterParam } = params;
   
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);

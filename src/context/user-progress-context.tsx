@@ -33,6 +33,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      setLoading(true); // Set loading to true at the start of auth state change
       if (firebaseUser) {
         setUser(firebaseUser);
         const userDocRef = doc(db, 'users', firebaseUser.uid);
@@ -44,14 +45,25 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
             setEcoPoints(profileData.eco_points || 0);
             setCompletedLessons(profileData.completed_lessons || []);
             setBadges(profileData.badges || []);
+          } else {
+            // If user exists in auth but not in firestore (edge case)
+             setUserProfile(null);
+             setEcoPoints(0);
+             setCompletedLessons([]);
+             setBadges([]);
           }
         } catch (error) {
-           console.error("Error fetching user document:", error);
+           console.error("Error fetching user document (might be offline):", error);
+           // Reset state on error (e.g. offline)
+           setUserProfile(null);
+           setEcoPoints(0);
+           setCompletedLessons([]);
+           setBadges([]);
         } finally {
           setLoading(false);
         }
       } else {
-        // User is signed out
+        // User is signed out, reset all state
         setUser(null);
         setUserProfile(null);
         setEcoPoints(0);

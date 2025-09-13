@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -47,7 +48,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       {/* 1. Welcome & Mission Section */}
-      <div className="text-center p-8 bg-gradient-to-r from-green-100 to-blue-100 dark:from-green-900/50 dark:to-blue-900/50 rounded-xl">
+      <div className="text-center p-8 rounded-xl">
         <h1 className="text-3xl font-bold tracking-tight font-headline text-foreground">
           Hi {userProfile.full_name}, ready to make a difference?
         </h1>

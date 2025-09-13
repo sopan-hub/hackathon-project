@@ -1,5 +1,6 @@
 
 'use client';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -10,10 +11,28 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Image from 'next/image';
 
+const headlines = [
+    "Every drop counts: conserve water today.",
+    "Reduce your carbon footprint, one step at a time.",
+    "Plant a tree and help the Earth breathe.",
+    "The future is green: switch to renewable energy.",
+    "Recycle today for a better tomorrow.",
+];
+
 export const dynamic = 'force-dynamic';
 
 export default function Dashboard() {
   const { userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
+  const [currentHeadlineIndex, setCurrentHeadlineIndex] = useState(0);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentHeadlineIndex((prevIndex) => (prevIndex + 1) % headlines.length);
+    }, 5000); // Change headline every 5 seconds
+
+    return () => clearInterval(intervalId); // Clean up on component unmount
+  }, []);
+
 
   if (loading) {
     return (
@@ -53,7 +72,7 @@ export default function Dashboard() {
           Hi {userProfile.full_name}, ready to make a difference?
         </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
-          Learn. Act. Earn Eco-Points. Become a Sustainability Hero!
+          {headlines[currentHeadlineIndex]}
         </p>
       </div>
 

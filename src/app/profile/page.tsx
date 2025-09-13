@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useUserProgress } from '@/context/user-progress-context';
@@ -6,20 +5,30 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Icons } from '@/components/icons';
 import { cn } from '@/lib/utils';
 import { userBadges } from '@/lib/data';
+import { Skeleton } from '@/components/ui/skeleton';
+
 
 export const dynamic = 'force-dynamic';
 
 export default function ProfilePage() {
-  const { userProfile, ecoPoints, badges: earnedBadges } = useUserProgress();
+  const { userProfile, ecoPoints, badges: earnedBadges, loading } = useUserProgress();
 
-  if (!userProfile) {
+  if (loading) {
     return (
-      <div className="flex h-full items-center justify-center">
-        <p>Loading profile...</p>
-      </div>
-    );
+        <div className="space-y-8 max-w-4xl mx-auto">
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+                <Skeleton className="h-24 w-24 rounded-full" />
+                <div className="flex-1 space-y-2">
+                    <Skeleton className="h-10 w-1/2" />
+                    <Skeleton className="h-6 w-2/3" />
+                </div>
+            </div>
+             <Skeleton className="h-48 w-full" />
+             <Skeleton className="h-64 w-full" />
+        </div>
+    )
   }
-  
+
   const earnedBadgeIds = new Set(earnedBadges.map(b => b.id));
 
   return (

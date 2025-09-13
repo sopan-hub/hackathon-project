@@ -3,15 +3,15 @@ import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem
 import { Icons } from '@/components/icons';
 
 export const navItems: NavItem[] = [
-  { href: '/', label: 'Dashboard', icon: Icons.layoutDashboard, auth: true },
-  { href: '/lessons', label: 'Lessons', icon: Icons.bookOpen, auth: true },
-  { href: '/challenges', label: 'Challenges', icon: Icons.trophy, auth: true },
-  { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart, auth: true },
-  { href: '/community', label: 'Community', icon: Icons.community, auth: true },
-  { href: '/rewards', label: 'Rewards', icon: Icons.gift, auth: true },
-  { href: '/badges', label: 'Badges', icon: Icons.award, auth: true },
-  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage, auth: true },
-  { href: '/profile', label: 'Your Profile', icon: Icons.user, auth: true },
+  { href: '/', label: 'Dashboard', icon: Icons.layoutDashboard },
+  { href: '/lessons', label: 'Lessons', icon: Icons.bookOpen },
+  { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
+  { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
+  { href: '/community', label: 'Community', icon: Icons.community },
+  { href: '/rewards', label: 'Rewards', icon: Icons.gift },
+  { href: '/badges', label: 'Badges', icon: Icons.award },
+  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage },
+  { href: '/profile', label: 'Your Profile', icon: Icons.user },
 ];
 
 export const lessons: Lesson[] = [

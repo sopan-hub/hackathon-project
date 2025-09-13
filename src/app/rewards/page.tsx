@@ -1,4 +1,3 @@
-
 'use client';
 import { rewards } from "@/lib/data";
 import { Icons } from "@/components/icons";

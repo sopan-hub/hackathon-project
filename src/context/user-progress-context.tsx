@@ -1,16 +1,25 @@
-
 'use client';
 
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
-import { db, auth } from '@/lib/firebase';
 import type { Badge, UserProfile } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
+import { userBadges } from '@/lib/data';
+
+// Mock user profile data
+const mockUserProfile: UserProfile = {
+  id: 'mock-user-123',
+  full_name: 'Alex Doe',
+  email: 'alex.doe@example.com',
+  avatar_url: `https://api.dicebear.com/8.x/bottts/svg?seed=alex`,
+  role: 'Student',
+  eco_points: 125,
+  completed_lessons: ['1'],
+  badges: [userBadges[0], userBadges[4]],
+};
+
 
 interface UserProgressContextType {
-  user: User | null;
-  userProfile: UserProfile | null;
+  userProfile: UserProfile;
   ecoPoints: number;
   completedLessons: string[];
   badges: Badge[];
@@ -24,91 +33,20 @@ const UserProgressContext = createContext<UserProgressContextType | undefined>(u
 
 export function UserProgressProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
-  const [user, setUser] = useState<User | null>(null);
-  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
-  const [ecoPoints, setEcoPoints] = useState(0);
-  const [completedLessons, setCompletedLessons] = useState<string[]>([]);
-  const [badges, setBadges] = useState<Badge[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setLoading(true); // Set loading to true at the start of auth state change
-      if (firebaseUser) {
-        setUser(firebaseUser);
-        const userDocRef = doc(db, 'users', firebaseUser.uid);
-        try {
-          const userDoc = await getDoc(userDocRef);
-          if (userDoc.exists()) {
-            const profileData = userDoc.data() as UserProfile;
-            setUserProfile(profileData);
-            setEcoPoints(profileData.eco_points || 0);
-            setCompletedLessons(profileData.completed_lessons || []);
-            setBadges(profileData.badges || []);
-          } else {
-            // If user exists in auth but not in firestore (edge case)
-             setUserProfile(null);
-             setEcoPoints(0);
-             setCompletedLessons([]);
-             setBadges([]);
-          }
-        } catch (error) {
-           console.error("Error fetching user document (might be offline):", error);
-           // Reset state on error (e.g. offline)
-           setUserProfile(null);
-           setEcoPoints(0);
-           setCompletedLessons([]);
-           setBadges([]);
-        } finally {
-          setLoading(false);
-        }
-      } else {
-        // User is signed out, reset all state
-        setUser(null);
-        setUserProfile(null);
-        setEcoPoints(0);
-        setCompletedLessons([]);
-        setBadges([]);
-        setLoading(false);
-      }
-    });
-
-    // Cleanup subscription on unmount
-    return () => unsubscribe();
-  }, []);
-
-  const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
-    if (user) {
-      const userDocRef = doc(db, 'users', user.uid);
-      try {
-        await setDoc(userDocRef, updatedProfile, { merge: true });
-      } catch (error) {
-        console.error("Error updating user profile:", error);
-        toast({
-            variant: "destructive",
-            title: "Sync Error",
-            description: "Could not save your progress to the cloud."
-        });
-      }
-    }
-  };
+  const [userProfile, setUserProfile] = useState<UserProfile>(mockUserProfile);
+  const [ecoPoints, setEcoPoints] = useState(mockUserProfile.eco_points);
+  const [completedLessons, setCompletedLessons] = useState<string[]>(mockUserProfile.completed_lessons);
+  const [badges, setBadges] = useState<Badge[]>(mockUserProfile.badges);
+  const [loading, setLoading] = useState(false); // No real loading anymore
 
   const addEcoPoints = (points: number) => {
-    setEcoPoints((prevPoints) => {
-        const newPoints = prevPoints + points;
-        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
-        updateUserProfileInFirestore({ ...currentProfile, eco_points: newPoints, badges, completed_lessons: completedLessons });
-        return newPoints;
-    });
+    setEcoPoints((prevPoints) => prevPoints + points);
   };
 
   const completeLesson = (lessonId: string) => {
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
-        const newLessons = [...prevLessons, lessonId];
-         const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
-        updateUserProfileInFirestore({ ...currentProfile, completed_lessons: newLessons, eco_points: ecoPoints, badges });
-        return newLessons;
+        return [...prevLessons, lessonId];
       }
       return prevLessons;
     });
@@ -117,10 +55,11 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const addBadge = (badge: Badge) => {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
-        const newBadges = [...prevBadges, badge];
-        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
-        updateUserProfileInFirestore({ ...currentProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
-        return newBadges;
+        toast({
+            title: "Badge Unlocked!",
+            description: `You've earned the "${badge.name}" badge.`
+        })
+        return [...prevBadges, badge];
       }
       return prevBadges;
     });
@@ -128,7 +67,6 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
 
   const value: UserProgressContextType = {
-    user,
     userProfile,
     ecoPoints,
     completedLessons,

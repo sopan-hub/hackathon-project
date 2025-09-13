@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -17,7 +16,7 @@ import Image from 'next/image';
 
 export function EcoBuddy() {
   const { toast } = useToast();
-  const { userProfile, user } = useUserProgress();
+  const { userProfile } = useUserProgress();
 
   const [isOpen, setIsOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -137,9 +136,6 @@ export function EcoBuddy() {
       window.removeEventListener('mouseup', onMouseUp);
     };
   }, [isDragging]);
-
-
-  if (!user) return null;
 
 
   return (

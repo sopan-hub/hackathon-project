@@ -66,7 +66,6 @@ export type NavItem = {
   label: string;
   icon: LucideIcon;
   active?: boolean;
-  auth?: boolean;
 };
 
 export interface ChatMessage {

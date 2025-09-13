@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -14,8 +13,8 @@ export const dynamic = 'force-dynamic';
 
 export default function Dashboard() {
   const { userProfile, ecoPoints, completedLessons, badges, loading } = useUserProgress();
-  
-  if (loading || !userProfile) {
+
+  if (loading) {
     return (
       <div className="space-y-8">
         <div className="space-y-2">

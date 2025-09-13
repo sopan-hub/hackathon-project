@@ -18,7 +18,7 @@ import { useUserProgress } from "@/context/user-progress-context";
 export default function ChallengeDetailsPage({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
   const { id } = use(params);
   const { toast } = useToast();
@@ -68,12 +68,12 @@ export default function ChallengeDetailsPage({
   if (isSubmitted) {
     return (
       <div className="max-w-2xl mx-auto">
-        <div className="card">
-          <div className="card-title">Challenge Complete!</div>
-          <div className="card-icon">
+        <div className="eco-card">
+          <div className="eco-card-title">Challenge Complete!</div>
+          <div className="eco-card-icon">
             <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
           </div>
-          <div className="card-content text-center">
+          <div className="eco-card-content text-center">
             <p className="text-lg">
               Congratulations! You have successfully submitted your entry for the
               challenge: <strong>{challenge.title}</strong>.
@@ -85,8 +85,7 @@ export default function ChallengeDetailsPage({
               Your submission is under review. Thank you for your contribution!
             </p>
           </div>
-          <div className="card-bar" />
-          <div className="card-footer">
+          <div className="eco-card-footer">
             <Button asChild className="w-full">
               <Link href="/challenges">Back to Challenges</Link>
             </Button>
@@ -98,8 +97,8 @@ export default function ChallengeDetailsPage({
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="card">
-        <div className="card-title !normal-case !text-4xl">
+      <div className="eco-card">
+        <div className="eco-card-title !normal-case !text-4xl">
           <Link
             href="/challenges"
             className="text-sm text-primary hover:underline block mb-4"
@@ -108,10 +107,10 @@ export default function ChallengeDetailsPage({
           </Link>
           {challenge.title}
         </div>
-        <div className="card-icon">
+        <div className="eco-card-icon">
           <Icons.trophy className="bg-gradient-to-r from-yellow-400 to-orange-500" />
         </div>
-        <div className="card-content !p-0">
+        <div className="eco-card-content !p-0">
           <div className="p-6">
             <Badge variant="default" className="w-fit mb-2">
               {challenge.ecoPoints} Eco-Points
@@ -146,8 +145,7 @@ export default function ChallengeDetailsPage({
               )}
             </div>
           </div>
-          <div className="card-bar" />
-          <div className="card-footer p-6">
+          <div className="eco-card-footer p-6">
             <Button
               size="lg"
               onClick={handleSubmit}

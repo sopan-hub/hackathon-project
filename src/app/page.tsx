@@ -22,6 +22,7 @@ export default function Dashboard() {
   const router = useRouter();
 
   useEffect(() => {
+    // Only redirect if loading is finished and there's no user.
     if (!loading && !user) {
       router.push('/login');
     }

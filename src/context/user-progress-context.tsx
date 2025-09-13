@@ -33,24 +33,25 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      setLoading(true);
       if (firebaseUser) {
-        setUser(firebaseUser);
-        // Only fetch profile if it's not already loaded or if the user has changed
         if (!userProfile || userProfile.id !== firebaseUser.uid) {
-            const userDocRef = doc(db, 'users', firebaseUser.uid);
-            try {
-              const userDoc = await getDoc(userDocRef);
-              if (userDoc.exists()) {
-                const profileData = userDoc.data() as UserProfile;
-                setUserProfile(profileData);
-                setEcoPoints(profileData.eco_points || 0);
-                setCompletedLessons(profileData.completed_lessons || []);
-                setBadges(profileData.badges || []);
-              }
-            } catch (error) {
-               console.error("Error fetching user document:", error);
+          setLoading(true);
+          setUser(firebaseUser);
+          const userDocRef = doc(db, 'users', firebaseUser.uid);
+          try {
+            const userDoc = await getDoc(userDocRef);
+            if (userDoc.exists()) {
+              const profileData = userDoc.data() as UserProfile;
+              setUserProfile(profileData);
+              setEcoPoints(profileData.eco_points || 0);
+              setCompletedLessons(profileData.completed_lessons || []);
+              setBadges(profileData.badges || []);
             }
+          } catch (error) {
+             console.error("Error fetching user document:", error);
+          } finally {
+            setLoading(false);
+          }
         }
       } else {
         setUser(null);
@@ -58,8 +59,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
         setEcoPoints(0);
         setCompletedLessons([]);
         setBadges([]);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
@@ -84,7 +85,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const addEcoPoints = (points: number) => {
     setEcoPoints((prevPoints) => {
         const newPoints = prevPoints + points;
-        if(userProfile) updateUserProfileInFirestore({ ...userProfile, eco_points: newPoints, badges, completed_lessons: completedLessons });
+        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+        updateUserProfileInFirestore({ ...currentProfile, eco_points: newPoints, badges, completed_lessons: completedLessons });
         return newPoints;
     });
   };
@@ -93,7 +95,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
         const newLessons = [...prevLessons, lessonId];
-        if(userProfile) updateUserProfileInFirestore({ ...userProfile, completed_lessons: newLessons, eco_points: ecoPoints, badges });
+         const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+        updateUserProfileInFirestore({ ...currentProfile, completed_lessons: newLessons, eco_points: ecoPoints, badges });
         return newLessons;
       }
       return prevLessons;
@@ -104,7 +107,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         const newBadges = [...prevBadges, badge];
-        if(userProfile) updateUserProfileInFirestore({ ...userProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
+        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+        updateUserProfileInFirestore({ ...currentProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
         return newBadges;
       }
       return prevBadges;

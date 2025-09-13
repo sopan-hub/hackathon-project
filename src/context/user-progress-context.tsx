@@ -65,7 +65,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
 
     // Cleanup subscription on unmount
     return () => unsubscribe();
-  }, []); // Empty dependency array ensures this runs only once on mount
+  }, [userProfile]);
 
   const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
     if (user) {
@@ -86,7 +86,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const addEcoPoints = (points: number) => {
     setEcoPoints((prevPoints) => {
         const newPoints = prevPoints + points;
-        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
         updateUserProfileInFirestore({ ...currentProfile, eco_points: newPoints, badges, completed_lessons: completedLessons });
         return newPoints;
     });
@@ -96,7 +96,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setCompletedLessons((prevLessons) => {
       if (!prevLessons.includes(lessonId)) {
         const newLessons = [...prevLessons, lessonId];
-         const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+         const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
         updateUserProfileInFirestore({ ...currentProfile, completed_lessons: newLessons, eco_points: ecoPoints, badges });
         return newLessons;
       }
@@ -108,7 +108,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     setBadges((prevBadges) => {
       if (!prevBadges.some(b => b.id === badge.id)) {
         const newBadges = [...prevBadges, badge];
-        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email! };
+        const currentProfile = userProfile ?? { id: user!.uid, full_name: user!.displayName!, avatar_url: user!.photoURL!, email: user!.email!, role: 'Student' };
         updateUserProfileInFirestore({ ...currentProfile, badges: newBadges, eco_points: ecoPoints, completed_lessons: completedLessons });
         return newBadges;
       }

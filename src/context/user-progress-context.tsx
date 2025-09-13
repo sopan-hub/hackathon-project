@@ -36,15 +36,20 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
       setLoading(true);
       if (firebaseUser) {
         setUser(firebaseUser);
+        // Only fetch profile if it's not already loaded or if the user has changed
         if (!userProfile || userProfile.id !== firebaseUser.uid) {
             const userDocRef = doc(db, 'users', firebaseUser.uid);
-            const userDoc = await getDoc(userDocRef);
-            if (userDoc.exists()) {
-              const profileData = userDoc.data() as UserProfile;
-              setUserProfile(profileData);
-              setEcoPoints(profileData.eco_points || 0);
-              setCompletedLessons(profileData.completed_lessons || []);
-              setBadges(profileData.badges || []);
+            try {
+              const userDoc = await getDoc(userDocRef);
+              if (userDoc.exists()) {
+                const profileData = userDoc.data() as UserProfile;
+                setUserProfile(profileData);
+                setEcoPoints(profileData.eco_points || 0);
+                setCompletedLessons(profileData.completed_lessons || []);
+                setBadges(profileData.badges || []);
+              }
+            } catch (error) {
+               console.error("Error fetching user document:", error);
             }
         }
       } else {
@@ -58,7 +63,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [userProfile]);
 
   const updateUserProfileInFirestore = async (updatedProfile: Partial<UserProfile>) => {
     if (user) {

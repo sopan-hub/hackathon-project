@@ -57,24 +57,29 @@ export function DashboardClient() {
             </p>
             {loading && (
             <>
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-24 w-full" />
+                <Skeleton className="h-24 w-full" />
             </>
             )}
             {!loading && suggestions?.suggestedLessons.map((suggestion) => (
             <div
                 key={suggestion.id}
-                className="flex items-start gap-4 p-4 rounded-lg border bg-background/50"
+                className="eco-card p-6 grid-cols-[1fr_auto] !gap-x-4"
             >
-                <div className="flex-1">
-                <h3 className="font-semibold">{suggestion.title}</h3>
-                <p className="text-sm text-muted-foreground">
-                    {suggestion.reason}
-                </p>
+                <div className="eco-card-title !text-lg !normal-case !self-start">
+                    {suggestion.title}
                 </div>
-                <Button asChild variant="secondary" size="sm">
-                <Link href={`/lessons/${suggestion.id}`}>Start Lesson</Link>
-                </Button>
+                 <div className="eco-card-icon !text-3xl">
+                    <Icons.bookOpen className="bg-gradient-to-r from-green-400 to-blue-500" />
+                </div>
+                <div className="eco-card-content col-span-2 flex items-end justify-between gap-4">
+                    <p className="text-sm text-muted-foreground line-clamp-2">
+                        {suggestion.reason}
+                    </p>
+                    <Button asChild variant="secondary" size="sm" className="!w-auto flex-shrink-0">
+                        <Link href={`/lessons/${suggestion.id}`}>Start Lesson</Link>
+                    </Button>
+                </div>
             </div>
             ))}
             {!loading && (!suggestions || suggestions?.suggestedLessons.length === 0) && (
@@ -83,7 +88,7 @@ export function DashboardClient() {
         </div>
       </div>
        <div className="eco-card-bar" />
-        <div className="eco-card-footer">
+        <div className="card-footer p-6">
             <Button asChild className="w-full" variant="outline">
               <Link href="/eco-advisor">
                 <Icons.lightbulb className="mr-2 h-4 w-4" />

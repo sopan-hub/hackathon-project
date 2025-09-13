@@ -13,6 +13,7 @@ import { DashboardClient } from "./dashboard-client";
 import { useUserProgress } from "@/context/user-progress-context";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +29,21 @@ export default function Dashboard() {
 
 
   if (loading || !userProfile) {
-    return null;
+    return (
+        <div className="space-y-8">
+            <div className="space-y-2">
+                <Skeleton className="h-10 w-1/3" />
+                <Skeleton className="h-6 w-1/2" />
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+                <Skeleton className="h-24" />
+            </div>
+            <Skeleton className="h-48" />
+            <Skeleton className="h-64" />
+        </div>
+    );
   }
   
   const nextBadge = userBadges.find(b => !badges.some(userBadge => userBadge.id === b.id));

@@ -52,7 +52,6 @@ export type CommunityPost = {
   timestamp: string;
   likes?: number;
   imageUrl?: string;
-  dataAiHint?: string;
 };
 
 export type Badge = {
@@ -107,3 +106,5 @@ export type EcoVillageScenario = {
     };
   }[];
 };
+
+    

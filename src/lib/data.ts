@@ -300,5 +300,3 @@ export const ecoVillageScenarios: EcoVillageScenario[] = [
 ];
 
     
-
-    

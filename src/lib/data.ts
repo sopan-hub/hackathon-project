@@ -1,6 +1,6 @@
 
 
-import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward, EcoVillageScenario } from './types';
+import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward } from './types';
 import { Icons } from '@/components/icons';
 
 export const navItems: NavItem[] = [
@@ -224,7 +224,7 @@ export const communityPosts: CommunityPost[] = [
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
     likes: 31,
-    imageUrl: 'https://picsum.photos/seed/rainwater-harvesting/600/400',
+    imageUrl: 'https://picsum.photos/seed/water-tank/600/400',
     dataAiHint: 'rainwater harvesting',
   },
    {
@@ -297,3 +297,6 @@ export const ecoVillageScenarios: EcoVillageScenario[] = [
     ]
   }
 ];
+
+
+    

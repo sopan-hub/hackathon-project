@@ -27,6 +27,7 @@ export function SidebarNav() {
               <SidebarMenuItem key={item.href}>
                 <SidebarMenuButton
                   asChild
+                  size="lg"
                   isActive={pathname === item.href}
                   tooltip={{ children: item.label }}
                 >

@@ -9,7 +9,6 @@ export const navItems: NavItem[] = [
   { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.community },
-  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage },
   { href: '/rewards', label: 'Rewards', icon: Icons.gift },
   { href: '/badges', label: 'Badges', icon: Icons.award },
   { href: '/profile', label: 'Your Profile', icon: Icons.user },
@@ -298,5 +297,3 @@ export const ecoVillageScenarios: EcoVillageScenario[] = [
     ]
   }
 ];
-
-    

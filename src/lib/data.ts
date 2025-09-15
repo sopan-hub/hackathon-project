@@ -173,21 +173,24 @@ export const challenges: Challenge[] = [
     title: 'Plant a Sapling',
     description: 'Plant a native tree in your community or backyard. Submit a geo-tagged photo of you with the newly planted sapling.',
     ecoPoints: 150,
-    imageUrl: 'https://picsum.photos/400/250?random=5',
+    imageUrl: 'https://picsum.photos/seed/tree-sapling/400/250',
+    dataAiHint: 'tree sapling',
   },
   {
     id: '2',
     title: 'DIY Compost Bin',
     description: 'Create your own compost bin from recycled materials. Submit a photo of your bin and the first layer of compost.',
     ecoPoints: 120,
-    imageUrl: 'https://picsum.photos/400/250?random=6',
+    imageUrl: 'https://picsum.photos/seed/compost-bin/400/250',
+    dataAiHint: 'compost bin',
   },
   {
     id: '3',
     title: 'Zero-Waste Week',
     description: 'Try to produce as little waste as possible for one week. Submit a photo of your weekly trash (or lack thereof!).',
     ecoPoints: 200,
-    imageUrl: 'https://picsum.photos/400/250?random=7',
+    imageUrl: 'https://picsum.photos/seed/waste-reduction/400/250',
+    dataAiHint: 'waste reduction',
   },
 ];
 
@@ -209,7 +212,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'I think we should start a community garden in the unused plot behind the library. We can grow our own organic vegetables and share them. It would be a great way to learn about farming and also provide fresh produce for everyone. We can use compost from our own homes to fertilize the soil. This would reduce waste and promote healthy eating.',
     timestamp: '2 days ago',
     likes: 42,
-    imageUrl: 'https://picsum.photos/seed/1/600/400',
+    imageUrl: 'https://picsum.photos/seed/community-garden/600/400',
+    dataAiHint: 'community garden',
   },
   {
     id: '2',
@@ -219,7 +223,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
     likes: 31,
-    imageUrl: 'https://picsum.photos/seed/2/600/400',
+    imageUrl: 'https://picsum.photos/seed/rainwater-harvesting/600/400',
+    dataAiHint: 'rainwater harvesting',
   },
    {
     id: '3',
@@ -229,7 +234,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'Let\'s organize a drive to collect old clothes. Instead of throwing them away, we can teach students how to upcycle them into useful items like bags, rugs, or decorative pieces. We can hold workshops and even sell the finished products to raise funds for other eco-projects.',
     timestamp: '1 week ago',
     likes: 58,
-    imageUrl: 'https://picsum.photos/seed/3/600/400',
+    imageUrl: 'https://picsum.photos/seed/upcycled-clothes/600/400',
+    dataAiHint: 'upcycled clothes',
   },
 ];
 

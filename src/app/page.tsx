@@ -10,6 +10,7 @@ import { useUserProgress } from '@/context/user-progress-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Image from 'next/image';
+import SplitText from '@/components/ui/split-text';
 
 const headlines = [
     "Every drop counts: conserve water today.",
@@ -68,9 +69,13 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* 1. Welcome & Mission Section */}
       <div className="text-center p-8 rounded-xl">
-        <h1 className="text-3xl font-bold tracking-tight font-headline text-foreground">
-          Hi {userProfile.full_name}, ready to make a difference?
-        </h1>
+        <SplitText
+          tag="h1"
+          text={`Hi ${userProfile.full_name}, ready to make a difference?`}
+          className="text-3xl font-bold tracking-tight font-headline text-foreground"
+          splitType="chars"
+          delay={50}
+        />
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           {headlines[currentHeadlineIndex]}
         </p>

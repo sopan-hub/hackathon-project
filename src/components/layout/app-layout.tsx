@@ -1,12 +1,13 @@
 
 'use client';
 
-import { type ReactNode } from 'react';
-import { SidebarProvider, Sidebar, SidebarInset } from '@/components/ui/sidebar';
+import { type ReactNode, useState, useEffect } from 'react';
+import { SidebarProvider, Sidebar, SidebarInset, SidebarMenuSkeleton } from '@/components/ui/sidebar';
 import { SidebarNav } from '@/components/layout/sidebar-nav';
 import { Header } from '@/components/layout/header';
 
 export function AppLayout({ children }: { children: ReactNode }) {
+    
   return (
     <SidebarProvider>
       <Sidebar>

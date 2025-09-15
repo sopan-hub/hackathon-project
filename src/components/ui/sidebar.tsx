@@ -235,7 +235,7 @@ const Sidebar = React.forwardRef<
         />
         <div
           className={cn(
-            "duration-200 fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] ease-linear md:flex",
+            "duration-200 fixed inset-y-0 z-10 hidden h-svh transition-[left,right,width] ease-linear md:flex eco-sidebar",
             side === "left"
               ? "left-0 group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)]"
               : "right-0 group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)]",
@@ -249,7 +249,7 @@ const Sidebar = React.forwardRef<
         >
           <div
             data-sidebar="sidebar"
-            className="flex h-full w-full flex-col eco-sidebar"
+            className="flex h-full w-full flex-col"
           >
             {children}
           </div>
@@ -652,6 +652,7 @@ const SidebarMenuSkeleton = React.forwardRef<
     showIcon?: boolean
   }
 >(({ className, showIcon = false, ...props }, ref) => {
+  const width = Math.floor(Math.random() * (80 - 40 + 1)) + 40
   return (
     <div
       ref={ref}
@@ -666,7 +667,8 @@ const SidebarMenuSkeleton = React.forwardRef<
         />
       )}
       <Skeleton
-        className="h-4 flex-1"
+        className="h-4 flex-1 max-w-[--skeleton-width]"
+        style={{ '--skeleton-width': `${width}%` } as React.CSSProperties}
         data-sidebar="menu-skeleton-text"
       />
     </div>

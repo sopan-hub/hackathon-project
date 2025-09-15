@@ -4,7 +4,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  SidebarHeader,
   SidebarContent,
   SidebarMenu,
   SidebarMenuItem,
@@ -14,7 +13,6 @@ import {
 import { navItems } from '@/lib/data';
 import { Icons } from '@/components/icons';
 import { useUserProgress } from '@/context/user-progress-context';
-import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
 
 export function SidebarNav() {
   const pathname = usePathname();

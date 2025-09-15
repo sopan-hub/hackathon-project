@@ -10,7 +10,6 @@ import { useUserProgress } from '@/context/user-progress-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Image from 'next/image';
-import TextPressure from '@/components/ui/TextPressure';
 
 const headlines = [
     "Every drop counts: conserve water today.",
@@ -69,20 +68,9 @@ export default function Dashboard() {
     <div className="space-y-8">
       {/* 1. Welcome & Mission Section */}
       <div className="text-center p-8 rounded-xl">
-        <div style={{position: 'relative', height: '100px'}}>
-            <TextPressure
-                text={`Hi ${userProfile.full_name}, ready to make a difference?`}
-                flex={true}
-                alpha={false}
-                stroke={false}
-                width={true}
-                weight={true}
-                italic={true}
-                textColor="hsl(var(--foreground))"
-                strokeColor="#ff0000"
-                minFontSize={24}
-            />
-        </div>
+        <h1 className="text-3xl font-bold font-headline text-foreground">
+          Hi {userProfile.full_name}, ready to make a difference?
+        </h1>
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
           {headlines[currentHeadlineIndex]}
         </p>

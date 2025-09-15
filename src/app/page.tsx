@@ -11,7 +11,6 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Image from 'next/image';
 import { LeavesAnimation } from '@/components/leaves-animation';
-import CurvedLoop from '@/components/ui/CurvedLoop';
 
 const headlines = [
     "Every drop counts: conserve water today.",
@@ -70,19 +69,14 @@ export default function Dashboard() {
     <div className="space-y-8">
       <LeavesAnimation />
       {/* 1. Welcome & Mission Section */}
-      <div className="relative h-24">
-        <div className="absolute inset-0 -top-8">
-            <CurvedLoop 
-                marqueeText={`Hi ${userProfile.full_name}, ready to make a difference? ✦ `}
-                speed={1}
-                curveAmount={200}
-                className="font-headline"
-            />
-        </div>
-      </div>
-      <p className="text-center text-muted-foreground -mt-8 max-w-2xl mx-auto">
-          {headlines[currentHeadlineIndex]}
+      <div className="text-center py-8">
+        <h1 className="text-4xl font-bold tracking-tight font-headline">
+            Hi {userProfile.full_name}, ready to make a difference?
+        </h1>
+        <p className="text-muted-foreground mt-4 max-w-2xl mx-auto">
+            {headlines[currentHeadlineIndex]}
         </p>
+      </div>
 
 
       {/* 2. User Progress Snapshot */}

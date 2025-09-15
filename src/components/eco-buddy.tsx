@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -16,9 +17,10 @@ import Image from 'next/image';
 
 export function EcoBuddy() {
   const { toast } = useToast();
-  const { userProfile } = useUserProgress();
+  const { userProfile, chatOpen, setChatOpen } = useUserProgress();
+  const isOpen = chatOpen;
+  const setIsOpen = setChatOpen;
 
-  const [isOpen, setIsOpen] = useState(false);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [chatLoading, setChatLoading] = useState(false);

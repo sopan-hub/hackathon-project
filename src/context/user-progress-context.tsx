@@ -1,6 +1,7 @@
+
 'use client';
 
-import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import type { Badge, UserProfile } from '@/lib/types';
 import { useToast } from '@/hooks/use-toast';
 import { userBadges } from '@/lib/data';
@@ -27,6 +28,8 @@ interface UserProgressContextType {
   addEcoPoints: (points: number) => void;
   completeLesson: (lessonId: string) => void;
   addBadge: (badge: Badge) => void;
+  chatOpen: boolean;
+  setChatOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const UserProgressContext = createContext<UserProgressContextType | undefined>(undefined);
@@ -38,6 +41,7 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
   const [completedLessons, setCompletedLessons] = useState<string[]>(mockUserProfile.completed_lessons);
   const [badges, setBadges] = useState<Badge[]>(mockUserProfile.badges);
   const [loading, setLoading] = useState(false); // No real loading anymore
+  const [chatOpen, setChatOpen] = useState(false);
 
   const addEcoPoints = (points: number) => {
     setEcoPoints((prevPoints) => prevPoints + points);
@@ -75,6 +79,8 @@ export function UserProgressProvider({ children }: { children: ReactNode }) {
     addEcoPoints,
     completeLesson,
     addBadge,
+    chatOpen,
+    setChatOpen
   };
   
   return (

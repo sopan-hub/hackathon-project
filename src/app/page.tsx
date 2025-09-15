@@ -10,6 +10,7 @@ import { useUserProgress } from '@/context/user-progress-context';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import Image from 'next/image';
+import { LeavesAnimation } from '@/components/leaves-animation';
 
 const headlines = [
     "Every drop counts: conserve water today.",
@@ -66,6 +67,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-8">
+      <LeavesAnimation />
       {/* 1. Welcome & Mission Section */}
       <div className="text-center p-8 rounded-xl">
         <h1 className="text-3xl font-bold font-headline text-foreground">

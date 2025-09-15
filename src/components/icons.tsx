@@ -50,6 +50,7 @@ import {
   X,
   Send,
   Move,
+  Trees,
 } from 'lucide-react';
 
 export const Icons = {
@@ -104,4 +105,7 @@ export const Icons = {
   x: X,
   send: Send,
   move: Move,
+  ecoVillage: Trees
 };
+
+    

@@ -69,7 +69,7 @@ body {
 
 @layer components {
   .eco-surface {
-     @apply bg-background/50 backdrop-blur-xl border-b;
+     @apply bg-background/70 backdrop-blur-lg border-b;
   }
 
   .eco-card {
@@ -137,3 +137,5 @@ body {
     border-image-source: linear-gradient(to right, theme('colors.green.400'), theme('colors.blue.500'));
   }
 }
+
+    

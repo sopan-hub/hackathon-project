@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -21,8 +22,8 @@ export function SidebarNav() {
 
   return (
     <>
-      <SidebarHeader>
-        <Link href="/" className="flex items-center gap-2">
+      <SidebarHeader className="p-2">
+        <Link href="/" className="flex items-center gap-2 p-2">
           <Icons.leaf className="h-8 w-8 text-primary" />
           <span className="text-xl font-bold tracking-tight font-headline text-foreground">
             EcoChallenge

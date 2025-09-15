@@ -21,7 +21,7 @@ export function SidebarNav() {
   return (
     <>
       
-      <SidebarContent className="p-2">
+      <SidebarContent className="p-2 pt-8">
         <SidebarMenu>
           {navItems.map((item) => (
               <SidebarMenuItem key={item.href}>

@@ -90,7 +90,7 @@ function PostCard({ post }: { post: CommunityPost }) {
         </div>
         {post.imageUrl && (
             <div className="relative w-full aspect-video rounded-lg overflow-hidden">
-                <Image src={post.imageUrl} alt={post.title} layout="fill" className="object-cover" />
+                <Image src={post.imageUrl} alt={post.title} layout="fill" className="object-cover" data-ai-hint={post.dataAiHint} />
             </div>
         )}
       </div>

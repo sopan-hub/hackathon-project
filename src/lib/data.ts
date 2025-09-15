@@ -1,5 +1,5 @@
 
-import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward } from './types';
+import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward, EcoVillageScenario } from './types';
 import { Icons } from '@/components/icons';
 
 export const navItems: NavItem[] = [
@@ -8,8 +8,10 @@ export const navItems: NavItem[] = [
   { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.community },
+  { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
   { href: '/rewards', label: 'Rewards', icon: Icons.gift },
   { href: '/badges', label: 'Badges', icon: Icons.award },
+  { href: '/teacher-assistant', label: 'Teacher Assistant', icon: Icons.teacherAssistant },
   { href: '/profile', label: 'Your Profile', icon: Icons.user },
 ];
 
@@ -212,7 +214,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'I think we should start a community garden in the unused plot behind the library. We can grow our own organic vegetables and share them. It would be a great way to learn about farming and also provide fresh produce for everyone. We can use compost from our own homes to fertilize the soil. This would reduce waste and promote healthy eating.',
     timestamp: '2 days ago',
     likes: 42,
-    imageUrl: 'https://picsum.photos/seed/1/600/400',
+    imageUrl: 'https://picsum.photos/seed/garden/600/400',
+    dataAiHint: 'community garden',
   },
   {
     id: '2',
@@ -222,7 +225,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
     likes: 31,
-    imageUrl: 'https://picsum.photos/seed/2/600/400',
+    imageUrl: 'https://picsum.photos/seed/rain/600/400',
+    dataAiHint: 'rainwater harvesting',
   },
    {
     id: '3',
@@ -232,7 +236,8 @@ export const communityPosts: CommunityPost[] = [
     content: 'Let\'s organize a drive to collect old clothes. Instead of throwing them away, we can teach students how to upcycle them into useful items like bags, rugs, or decorative pieces. We can hold workshops and even sell the finished products to raise funds for other eco-projects.',
     timestamp: '1 week ago',
     likes: 58,
-    imageUrl: 'https://picsum.photos/seed/3/600/400',
+    imageUrl: 'https://picsum.photos/seed/clothing/600/400',
+    dataAiHint: 'upcycled clothes',
   },
 ];
 
@@ -256,4 +261,40 @@ export const rewards: Reward[] = [
     { id: '2', name: 'NGO Shout-out', description: 'Get featured on our partner NGO\'s social media page.', cost: 1500, icon: Icons.heart },
     { id: '3', name: 'Bookstore Discount', description: 'Get a 15% discount on your next purchase from our partner bookstore.', cost: 1000, icon: Icons.book },
     { id: '4', name: 'Stationery Set', description: 'An eco-friendly stationery set with recycled paper notebooks and pens.', cost: 800, icon: Icons.briefcase },
+];
+
+
+export const ecoVillageScenarios: EcoVillageScenario[] = [
+  {
+    title: "The Town's Energy Source",
+    description: "The village's old power plant is failing. You need to choose a new primary energy source for the next decade.",
+    choices: [
+      { text: "Build a Solar Farm", consequence: "High initial cost, but clean energy for years.", effects: { environment: 20, community: 5, economy: -15 } },
+      { text: "Upgrade the Coal Plant", consequence: "Cheaper and provides jobs, but pollutes the environment.", effects: { environment: -20, community: 5, economy: 10 } }
+    ]
+  },
+  {
+    title: "Water Management Crisis",
+    description: "A recent drought has put a strain on the village's water supply. How do you respond?",
+    choices: [
+      { text: "Implement Water Rationing", consequence: "Unpopular, but immediately conserves water.", effects: { environment: 15, community: -10, economy: 0 } },
+      { text: "Build a New Reservoir", consequence: "Very expensive and may harm local ecosystems, but secures future water supply.", effects: { environment: -15, community: 10, economy: -20 } }
+    ]
+  },
+  {
+    title: "Waste Disposal Problem",
+    description: "The local landfill is almost full. You need a new strategy for waste management.",
+    choices: [
+      { text: "Invest in a Recycling Plant", consequence: "Reduces landfill waste and creates green jobs.", effects: { environment: 25, community: 10, economy: -10 } },
+      { text: "Expand the Landfill", consequence: "The quickest and cheapest solution, but environmentally damaging.", effects: { environment: -25, community: -5, economy: 5 } }
+    ]
+  },
+   {
+    title: "Transportation Needs",
+    description: "More and more villagers are complaining about the lack of public transportation.",
+    choices: [
+      { text: "Launch an Electric Bus System", consequence: "Reduces traffic and pollution, but is a major investment.", effects: { environment: 15, community: 20, economy: -15 } },
+      { text: "Widen the Roads for More Cars", consequence: "Appeases drivers, but increases pollution and traffic in the long run.", effects: { environment: -15, community: -10, economy: 5 } }
+    ]
+  }
 ];

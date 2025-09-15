@@ -8,10 +8,8 @@ export const navItems: NavItem[] = [
   { href: '/challenges', label: 'Challenges', icon: Icons.trophy },
   { href: '/leaderboard', label: 'Leaderboard', icon: Icons.barChart },
   { href: '/community', label: 'Community', icon: Icons.community },
-  { href: '/eco-advisor', label: 'Eco Advisor', icon: Icons.lightbulb },
   { href: '/rewards', label: 'Rewards', icon: Icons.gift },
   { href: '/badges', label: 'Badges', icon: Icons.award },
-  { href: '/teacher-assistant', label: 'Teacher Assistant', icon: Icons.teacherAssistant },
   { href: '/profile', label: 'Your Profile', icon: Icons.user },
 ];
 
@@ -176,7 +174,6 @@ export const challenges: Challenge[] = [
     description: 'Plant a native tree in your community or backyard. Submit a geo-tagged photo of you with the newly planted sapling.',
     ecoPoints: 150,
     imageUrl: 'https://picsum.photos/400/250?random=5',
-    dataAiHint: 'tree sapling',
   },
   {
     id: '2',
@@ -184,7 +181,6 @@ export const challenges: Challenge[] = [
     description: 'Create your own compost bin from recycled materials. Submit a photo of your bin and the first layer of compost.',
     ecoPoints: 120,
     imageUrl: 'https://picsum.photos/400/250?random=6',
-    dataAiHint: 'compost bin',
   },
   {
     id: '3',
@@ -192,7 +188,6 @@ export const challenges: Challenge[] = [
     description: 'Try to produce as little waste as possible for one week. Submit a photo of your weekly trash (or lack thereof!).',
     ecoPoints: 200,
     imageUrl: 'https://picsum.photos/400/250?random=7',
-    dataAiHint: 'waste reduction',
   },
 ];
 

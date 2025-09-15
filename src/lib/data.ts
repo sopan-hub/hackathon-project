@@ -1,4 +1,5 @@
 
+
 import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward, EcoVillageScenario } from './types';
 import { Icons } from '@/components/icons';
 

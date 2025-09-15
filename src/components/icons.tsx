@@ -96,7 +96,6 @@ export const Icons = {
   briefcase: Briefcase,
   home: Home,
   mountain: Mountain,
-  ecoVillage: Home, // Alias for home
   teacherAssistant: HardHat,
   community: Users,
   economy: DollarSign,

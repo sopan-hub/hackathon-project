@@ -92,17 +92,3 @@ export type Reward = {
   cost: number;
   icon: LucideIcon;
 }
-
-export type EcoVillageScenario = {
-  title: string;
-  description: string;
-  choices: {
-    text: string;
-    consequence: string;
-    effects: {
-      environment: number;
-      community: number;
-      economy: number;
-    }
-  }[];
-}

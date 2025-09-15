@@ -1,5 +1,5 @@
 
-import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward, EcoVillageScenario } from './types';
+import type { Lesson, Challenge, LeaderboardEntry, CommunityPost, Badge, NavItem, Reward } from './types';
 import { Icons } from '@/components/icons';
 
 export const navItems: NavItem[] = [
@@ -10,7 +10,6 @@ export const navItems: NavItem[] = [
   { href: '/community', label: 'Community', icon: Icons.community },
   { href: '/rewards', label: 'Rewards', icon: Icons.gift },
   { href: '/badges', label: 'Badges', icon: Icons.award },
-  { href: '/eco-village', label: 'Eco-Village', icon: Icons.ecoVillage },
   { href: '/profile', label: 'Your Profile', icon: Icons.user },
 ];
 
@@ -174,7 +173,7 @@ export const challenges: Challenge[] = [
     title: 'Plant a Sapling',
     description: 'Plant a native tree in your community or backyard. Submit a geo-tagged photo of you with the newly planted sapling.',
     ecoPoints: 150,
-    imageUrl: 'https://picsum.photos/seed/5/400/250',
+    imageUrl: 'https://picsum.photos/400/250?random=5',
     dataAiHint: 'tree sapling',
   },
   {
@@ -182,7 +181,7 @@ export const challenges: Challenge[] = [
     title: 'DIY Compost Bin',
     description: 'Create your own compost bin from recycled materials. Submit a photo of your bin and the first layer of compost.',
     ecoPoints: 120,
-    imageUrl: 'https://picsum.photos/seed/6/400/250',
+    imageUrl: 'https://picsum.photos/400/250?random=6',
     dataAiHint: 'compost bin',
   },
   {
@@ -190,25 +189,25 @@ export const challenges: Challenge[] = [
     title: 'Zero-Waste Week',
     description: 'Try to produce as little waste as possible for one week. Submit a photo of your weekly trash (or lack thereof!).',
     ecoPoints: 200,
-    imageUrl: 'https://picsum.photos/seed/7/400/250',
+    imageUrl: 'https://picsum.photos/400/250?random=7',
     dataAiHint: 'waste reduction',
   },
 ];
 
 export const leaderboardData: LeaderboardEntry[] = [
-  { rank: 1, team: 'Green Warriors', school: 'Oakridge International', points: 12500, avatarUrl: 'https://picsum.photos/seed/1/40/40' },
-  { rank: 2, team: 'Eco Avengers', school: 'Maplewood High', points: 11800, avatarUrl: 'https://picsum.photos/seed/2/40/40' },
-  { rank: 3, team: 'Planet Protectors', school: 'Riverdale School', points: 11250, avatarUrl: 'https://picsum.photos/seed/3/40/40' },
-  { rank: 4, team: 'Nature Ninjas', school: 'Hilltop Academy', points: 10500, avatarUrl: 'https://picsum.photos/seed/4/40/40' },
-  { rank: 5, team: 'Earth Heroes', school: 'Sunshine Public School', points: 9800, avatarUrl: 'https://picsum.photos/seed/5/40/40' },
-  { rank: 6, team: 'Recycle Rangers', school: 'Banyan Tree School', points: 9200, avatarUrl: 'https://picsum.photos/seed/6/40/40' },
+  { rank: 1, team: 'Green Warriors', school: 'Oakridge International', points: 12500, avatarUrl: 'https://picsum.photos/40/40?random=1' },
+  { rank: 2, team: 'Eco Avengers', school: 'Maplewood High', points: 11800, avatarUrl: 'https://picsum.photos/40/40?random=2' },
+  { rank: 3, team: 'Planet Protectors', school: 'Riverdale School', points: 11250, avatarUrl: 'https://picsum.photos/40/40?random=3' },
+  { rank: 4, team: 'Nature Ninjas', school: 'Hilltop Academy', points: 10500, avatarUrl: 'https://picsum.photos/40/40?random=4' },
+  { rank: 5, team: 'Earth Heroes', school: 'Sunshine Public School', points: 9800, avatarUrl: 'https://picsum.photos/40/40?random=5' },
+  { rank: 6, team: 'Recycle Rangers', school: 'Banyan Tree School', points: 9200, avatarUrl: 'https://picsum.photos/40/40?random=6' },
 ];
 
 export const communityPosts: CommunityPost[] = [
   {
     id: '1',
     author: 'Priya Sharma',
-    authorAvatarUrl: 'https://picsum.photos/seed/7/40/40',
+    authorAvatarUrl: 'https://picsum.photos/40/40?random=7',
     title: 'Idea: Community Garden Project',
     content: 'I think we should start a community garden in the unused plot behind the library. We can grow our own organic vegetables and share them. It would be a great way to learn about farming and also provide fresh produce for everyone. We can use compost from our own homes to fertilize the soil. This would reduce waste and promote healthy eating.',
     timestamp: '2 days ago',
@@ -218,7 +217,7 @@ export const communityPosts: CommunityPost[] = [
   {
     id: '2',
     author: 'Rohan Verma',
-    authorAvatarUrl: 'https://picsum.photos/seed/8/40/40',
+    authorAvatarUrl: 'https://picsum.photos/40/40?random=8',
     title: 'Rainwater Harvesting in our School',
     content: 'Our school has a huge rooftop. We could install a rainwater harvesting system to collect all the water during the monsoon. This water can be used for cleaning, watering the school garden, and flushing toilets. It would save a lot of freshwater and reduce our water bills. I have researched some simple systems that are not too expensive to set up.',
     timestamp: '5 days ago',
@@ -228,7 +227,7 @@ export const communityPosts: CommunityPost[] = [
    {
     id: '3',
     author: 'Anika Reddy',
-    authorAvatarUrl: 'https://picsum.photos/seed/9/40/40',
+    authorAvatarUrl: 'https://picsum.photos/40/40?random=9',
     title: 'Upcycling old clothes drive',
     content: 'Let\'s organize a drive to collect old clothes. Instead of throwing them away, we can teach students how to upcycle them into useful items like bags, rugs, or decorative pieces. We can hold workshops and even sell the finished products to raise funds for other eco-projects.',
     timestamp: '1 week ago',
@@ -258,41 +257,3 @@ export const rewards: Reward[] = [
     { id: '3', name: 'Bookstore Discount', description: 'Get a 15% discount on your next purchase from our partner bookstore.', cost: 1000, icon: Icons.book },
     { id: '4', name: 'Stationery Set', description: 'An eco-friendly stationery set with recycled paper notebooks and pens.', cost: 800, icon: Icons.briefcase },
 ];
-
-
-export const ecoVillageScenarios: EcoVillageScenario[] = [
-  {
-    title: "The Town's Energy Source",
-    description: "The village's old power plant is failing. You need to choose a new primary energy source for the next decade.",
-    choices: [
-      { text: "Build a Solar Farm", consequence: "High initial cost, but clean energy for years.", effects: { environment: 20, community: 5, economy: -15 } },
-      { text: "Upgrade the Coal Plant", consequence: "Cheaper and provides jobs, but pollutes the environment.", effects: { environment: -20, community: 5, economy: 10 } }
-    ]
-  },
-  {
-    title: "Water Management Crisis",
-    description: "A recent drought has put a strain on the village's water supply. How do you respond?",
-    choices: [
-      { text: "Implement Water Rationing", consequence: "Unpopular, but immediately conserves water.", effects: { environment: 15, community: -10, economy: 0 } },
-      { text: "Build a New Reservoir", consequence: "Very expensive and may harm local ecosystems, but secures future water supply.", effects: { environment: -15, community: 10, economy: -20 } }
-    ]
-  },
-  {
-    title: "Waste Disposal Problem",
-    description: "The local landfill is almost full. You need a new strategy for waste management.",
-    choices: [
-      { text: "Invest in a Recycling Plant", consequence: "Reduces landfill waste and creates green jobs.", effects: { environment: 25, community: 10, economy: -10 } },
-      { text: "Expand the Landfill", consequence: "The quickest and cheapest solution, but environmentally damaging.", effects: { environment: -25, community: -5, economy: 5 } }
-    ]
-  },
-   {
-    title: "Transportation Needs",
-    description: "More and more villagers are complaining about the lack of public transportation.",
-    choices: [
-      { text: "Launch an Electric Bus System", consequence: "Reduces traffic and pollution, but is a major investment.", effects: { environment: 15, community: 20, economy: -15 } },
-      { text: "Widen the Roads for More Cars", consequence: "Appeases drivers, but increases pollution and traffic in the long run.", effects: { environment: -15, community: -10, economy: 5 } }
-    ]
-  }
-];
-
-    

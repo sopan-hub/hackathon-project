@@ -74,7 +74,7 @@ export default function Dashboard() {
         <CurvedLoop 
             marqueeText={`Hi ${userProfile.full_name}, ready to make a difference? ✦ `}
             speed={1}
-            curveAmount={100}
+            curveAmount={200}
             className="font-headline"
         />
         <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
@@ -145,7 +145,7 @@ export default function Dashboard() {
               <div className="eco-card-content grid grid-cols-1 md:grid-cols-3 gap-4">
                 {recentCommunityPosts.map(post => (
                   <Link href="/community" key={post.id} className="group relative rounded-lg overflow-hidden">
-                    <Image src={post.imageUrl || 'https://picsum.photos/seed/10/300/200'} alt={post.title} width={300} height={200} className="object-cover w-full h-full" data-ai-hint={post.dataAiHint} />
+                    <Image src={post.imageUrl || 'https://picsum.photos/seed/10/300/200'} alt={post.title} width={300} height={200} className="object-cover w-full h-full" />
                     <div className="absolute inset-0 bg-black/50 flex items-end p-4">
                       <p className="text-white font-bold text-sm leading-tight">{post.title}</p>
                     </div>

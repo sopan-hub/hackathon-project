@@ -12,9 +12,9 @@ export function AppLayout({ children }: { children: ReactNode }) {
     <SidebarProvider>
       <Sidebar>
         <SidebarNav />
-        <Header />
       </Sidebar>
       <SidebarInset>
+        <Header />
         <main className="p-4 sm:p-6 lg:p-8">
           {children}
         </main>

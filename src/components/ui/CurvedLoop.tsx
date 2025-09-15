@@ -21,7 +21,7 @@ const CurvedLoop = ({
   const [offset, setOffset] = useState(0);
   const uid = useId();
   const pathId = `curve-${uid}`;
-  const pathD = `M-100,40 Q500,${40 + curveAmount} 1540,40`;
+  const pathD = `M1440,50 Q720,${50 + curveAmount} 0,50`;
 
   const dragRef = useRef(false);
   const lastXRef = useRef(0);

@@ -70,17 +70,20 @@ export default function Dashboard() {
     <div className="space-y-8">
       <LeavesAnimation />
       {/* 1. Welcome & Mission Section */}
-      <div className="text-center p-8 rounded-xl">
-        <CurvedLoop 
-            marqueeText={`Hi ${userProfile.full_name}, ready to make a difference? ✦ `}
-            speed={1}
-            curveAmount={200}
-            className="font-headline"
-        />
-        <p className="text-muted-foreground mt-2 max-w-2xl mx-auto">
+      <div className="relative h-24">
+        <div className="absolute inset-0 -top-8">
+            <CurvedLoop 
+                marqueeText={`Hi ${userProfile.full_name}, ready to make a difference? ✦ `}
+                speed={1}
+                curveAmount={200}
+                className="font-headline"
+            />
+        </div>
+      </div>
+      <p className="text-center text-muted-foreground -mt-8 max-w-2xl mx-auto">
           {headlines[currentHeadlineIndex]}
         </p>
-      </div>
+
 
       {/* 2. User Progress Snapshot */}
       <div className="grid gap-6 md:grid-cols-3">

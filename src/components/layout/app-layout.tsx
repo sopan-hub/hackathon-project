@@ -12,7 +12,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
       <Sidebar>
         <SidebarNav />
       </Sidebar>
-      <SidebarInset>
+      <SidebarInset className="eco-sidebar m-0 md:m-2 !rounded-3xl">
         <Header />
         <main className="p-4 sm:p-6 lg:p-8 pt-0">
           {children}
